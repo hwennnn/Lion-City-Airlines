@@ -60,7 +60,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             {
                 // redirect to admin homepage
                 // store session data as admin
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Admin");
             }
 
             // Store an error message in TempData for display at the index view
