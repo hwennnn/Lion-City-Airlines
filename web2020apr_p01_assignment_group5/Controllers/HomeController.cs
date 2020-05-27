@@ -56,9 +56,9 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 return RedirectToAction("Index");
             }
 
-            else if (loginID == "s1234567@lca.com" && password == "p@55Staff")
+            else if (loginID == "s1234567@lca.com" && password == "123")
             {
-                // redirect to admin homepage
+                //password == "p@55Staff" to be changed after debuuging
                 // store session data as admin
                 return RedirectToAction("Index","Admin");
             }
