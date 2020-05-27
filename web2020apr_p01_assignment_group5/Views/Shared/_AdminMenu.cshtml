@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>HomePage</title>
+    <title>Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="~/images/logo.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/css/bootstrap.min.js"></script>
@@ -66,10 +67,8 @@
         </div>
     </nav>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container-fluid" style="height:100vh; background-color:#F3F3F5">
             @RenderBody()
-        </main>
     </div>
 
 </body>
