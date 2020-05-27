@@ -59,7 +59,14 @@ namespace web2020apr_p01_assignment_group5.Controllers
             else if (loginID == "s1234567@lca.com" && password == "123")
             {
                 //password == "p@55Staff" to be changed after debuuging
-                // store session data as admin
+
+                // Store Login ID in session with the key “LoginID”
+                HttpContext.Session.SetString("LoginID", loginID);
+                // Store user role “Staff” as a string in session with the key “Role”
+                HttpContext.Session.SetString("Role", "Admin");
+                // Redirect user to the "StaffMain" view through an action
+                HttpContext.Session.SetString("LoginDT", DateTime.Now.ToString("dd-MMMM-y h:mm:ss tt"));
+
                 return RedirectToAction("Index","Admin");
             }
 
@@ -67,6 +74,14 @@ namespace web2020apr_p01_assignment_group5.Controllers
             TempData["Message"] = "Invalid Login Credentials!";
             // if wrong credetials found, attempt again
             return RedirectToAction("Login");
+        }
+
+        public ActionResult LogOut()
+        {
+            // Clear all key-values pairs stored in session state
+            HttpContext.Session.Clear();
+            // Call the Index action of Home controller
+            return RedirectToAction("Index");
         }
     }
 }

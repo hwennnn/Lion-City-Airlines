@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using web2020apr_p01_assignment_group5.DAL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using web2020apr_p01_assignment_group5.DAL;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
@@ -14,6 +16,12 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public IActionResult Index()
         {
+            if ((HttpContext.Session.GetString("Role") == null) ||(HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+                // return to homepage if the user does not login as admin
+            }
+
             adminContext.getAllStaff();
             return View();
         }

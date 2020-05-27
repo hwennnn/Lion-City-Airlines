@@ -20,12 +20,34 @@
 
 <body>
 
+
     <div class="container text-center">    
         <div class="row content">
 
             <div class="col-sm-6 text-centre welcome">
-                <h1>Welcome, Admin0!</h1>
-                <p>You have logged in since time</p>
+                @{
+                    string userId = "Anonymous";
+                    string userRole = "Unknown";
+                    string loginDT = "just now";
+                    if (Context.Session.GetString("LoginID") != null)
+                    {
+                        userId = Context.Session.GetString("LoginID");
+                    }
+                    if (Context.Session.GetString("Role") != null)
+                    {
+                        userRole = Context.Session.GetString("Role");
+                    }
+                    if (Context.Session.GetString("LoginDT") != null)
+                    {
+                        loginDT = Context.Session.GetString("LoginDT");
+                    }
+                }
+                <h1>
+                    Welcome,
+                    <br />@userId
+                    <br />(Role: @userRole)!
+                </h1>
+                <p>You have logged in since @loginDT</p>
             </div>
 
             <div class="col-sm-6 text-centre">
