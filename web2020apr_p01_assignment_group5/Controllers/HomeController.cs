@@ -48,12 +48,12 @@ namespace web2020apr_p01_assignment_group5.Controllers
             Console.WriteLine(loginID);
             Console.WriteLine(password);
 
-            if (loginID == "Peter_Ghim@gmail.com" && password == "p@55PG")
+            if (loginID == "Peter_Ghim@gmail.com" && password == "123")
             {
                 // to be added to check with the customer database for login credentials
                 // redirect to customer homepage
                 // store session data as customer
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Customers");
             }
 
             else if (loginID == "s1234567@lca.com" && password == "123")
