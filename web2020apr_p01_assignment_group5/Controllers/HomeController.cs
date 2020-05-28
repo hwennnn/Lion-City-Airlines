@@ -43,7 +43,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [HttpPost]
         public ActionResult Login(IFormCollection formData)
         {
-            string loginID = formData["txtLoginEmail"].ToString().ToLower();
+            string loginID = formData["txtLoginEmail"].ToString();
             string password = formData["txtPassword"].ToString();
             Console.WriteLine(loginID);
             Console.WriteLine(password);
