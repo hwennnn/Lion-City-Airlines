@@ -1,0 +1,52 @@
+﻿#customer-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.option {
+    height: 80px;
+    background: #000000;
+    padding: 20px;
+}
+
+.option > a {
+    padding: 80px;
+    font-size: larger;
+}
+
+#welcome_title {
+    text-align: left;
+    padding-top: 20px;
+}
+
+#location-datetime {
+    padding-bottom: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.button {
+    width: 200px;
+    height: 38px;
+    background-color: black;
+    border-color: black;
+    border-radius: 5px;
+    color: white;
+}
+
+.countrylist {
+    width: 200px;
+    height: 38px;
+    border-radius: 5px;
+    border-color: black;
+}
+
+.form-control {
+    width: 200px;
+    height: 38px;
+    border-radius: 5px;
+    border-color: black;
+}

@@ -27,16 +27,3 @@ hr {
 .container {
     padding: 20px;
 }
-
-#customer-image {
-    position: absolute;
-    width: 1440px;
-    height: 546px;
-}
-
-.option {
-    position: absolute;
-    width: 1440px;
-    height: 94px;
-    background: #000000;
-}
