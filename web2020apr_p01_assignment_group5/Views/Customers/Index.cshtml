@@ -14,31 +14,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="~/css/navbar.css">
     <link rel="stylesheet" href="~/css/CustomerHomepage.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 
 <body>
+
     <div class="container text-center">
         <div class="row content">
             <div class="col-sm-12 text-centre">
                 <div>
                     <img id="customer-image" src="@Url.Content("~/images/customer-home-image.jpg")">
-                    <div class="option">
-                        <a href="#" style="color:white">Book Air Ticket</a>
-                        <a href="#" style="color:white">View Air Tickets Booked</a>
-                        <a href="#" style="color:white">Change Password</a>
-                    </div>
                 </div>
                 <h3 id="welcome_title">Hi, Where would you like to go?</h3>
                 <hr><br>
             </div>
+            <div class="col-sm-4">
+                <h3 class="task-title text-centre"> <a href="#" style="color:white">Book Air Ticket</a></h3>
+            </div>
+
+            <div class="col-sm-4">
+                <h3 class="task-title"><a href="#" style="color:white">View Air Tickets Booked</a></h3>
+            </div>
+
+            <div class="col-sm-4">
+                <h3 class="task-title"><a href="#" style="color:white">Change Password</a></h3>
+            </div>
         </div>
     </div>
-
+    <br>
     <div class="container text-center">
-        <div class="row content" id="location-datetime">
-            <div class="col">
+        <div class="row" style="padding:10px">
+            <div class="col-sm-3">
                 <select class="countrylist" name="country">
                     <option value="Afganistan">Afghanistan</option>
                     <option value="Albania">Albania</option>
@@ -288,7 +296,7 @@
                     <option value="Zimbabwe">Zimbabwe</option>
                 </select>
             </div>
-            <div class="col">
+            <div class="col-sm-3">
                 <select class="countrylist" name="country">
                     <option value="To Country/Region" disabled selected>To Country/Region</option>
                     <option value="Afganistan">Afghanistan</option>
@@ -539,18 +547,19 @@
                     <option value="Zimbabwe">Zimbabwe</option>
                 </select>
             </div>
-            <div class="col">
-                <input placeholder="Departure Date" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="Departure date">
+            <div class="col-sm-3">
+                <input placeholder="Departure Date" class="countrylist" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="Departure date">
             </div>
-            <div class="col">
-                <input placeholder="Arrival Date" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="Arrival date">
+            <div class="col-sm-3">
+                <input placeholder="Arrival Date" class="countrylist" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="Arrival date">
             </div>
+        </div>
+        <div class="row">
             <div class="col">
                 <button class="button">Search</button>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
