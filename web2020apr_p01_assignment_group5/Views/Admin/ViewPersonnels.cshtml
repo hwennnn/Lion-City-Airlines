@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "_AdminMenu";
+}
+@model IEnumerable<web2020apr_p01_assignment_group5.Models.Staff>
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/viewpersonnels.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container text-center">
+
+        <div class="row content">
+
+            <h1 class="title">View all Personnels and Flights Assigned <hr /></h1>
+            <hr>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div class="row content holder">
+
+                <span class="staffid">StaffID : @item.StaffId</span>
+                <span class="staffname">StaffName: @item.StaffName</span>
+                <span class="vocation">Vocation: @item.Vocation</span>
+                <span onclick="toggle()" class="arrow-down"></span>
+
+            </div>
+        }
+    </div>
+
+</body>
+
+</html>
