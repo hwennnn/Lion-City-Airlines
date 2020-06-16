@@ -28,8 +28,47 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult ViewPersonnels()
         {
+            List<PersonnelViewModel> personnelModel = mapPersonneltoSchedule();
+            return View(personnelModel);
+        }
+
+        public List<PersonnelViewModel> mapPersonneltoSchedule()
+        {
+            List<PersonnelViewModel> personnelsModelList = new List<PersonnelViewModel>();
             List<Staff> staffList = adminContext.getAllStaff();
-            return View(staffList);
+
+            foreach (Staff staff in staffList)
+            {
+                PersonnelViewModel personnelsModel = new PersonnelViewModel();
+                personnelsModel.StaffId = staff.StaffId;
+                personnelsModel.StaffName = staff.StaffName;
+                personnelsModel.Vocation = staff.Vocation;
+
+                List<FlightCrew> flightCrewList = adminContext.getSpecificFlightCrew(staff.StaffId);
+                List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+                foreach (FlightCrew crew in flightCrewList)
+                {
+                    FlightSchedule schedule = adminContext.getSpecificSchedule(crew.ScheduleID);
+                    scheduleList.Add(
+                         new FlightSchedule
+                         {
+                             ScheduleId = schedule.ScheduleId,
+                             FlightNumber = schedule.FlightNumber,
+                             RouteID = schedule.RouteID,
+                             DepartureDateTime = schedule.DepartureDateTime,
+                             ArrivalDateTime = schedule.ArrivalDateTime,
+                             Status = schedule.Status,
+                             Role = crew.Role
+
+                         }) ;
+                }
+                personnelsModel.flightScheduleList = scheduleList;
+
+                personnelsModelList.Add(personnelsModel);
+
+            }
+
+            return personnelsModelList;
         }
     }
 }

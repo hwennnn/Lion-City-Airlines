@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_AdminMenu";
 }
-@model IEnumerable<web2020apr_p01_assignment_group5.Models.Staff>
+@model IEnumerable<web2020apr_p01_assignment_group5.Models.PersonnelViewModel>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +40,40 @@
                 <span onclick="toggle()" class="arrow-down"></span>
 
             </div>
+            
+            if (item.flightScheduleList.Count > 0)
+            {
+                <div id="flights_table@(i)" class="row content">
+
+                    <table>
+                        <tr>
+                            <th>ScheduleID</th>
+                            <th>FlightNumber</th>
+                            <th>RouteID</th>
+                            <th>DepartureDateTime</th>
+                            <th>ArrivalDateTime</th>
+                            <th>Status</th>
+                            <th>Role</th>
+                        </tr>
+                        @foreach (var schedule in item.flightScheduleList)
+                        {
+                            <tr>
+                                <td>@schedule.ScheduleId</td>
+                                <td>@schedule.FlightNumber</td>
+                                <td>@schedule.RouteID</td>
+                                <td>@schedule.DepartureDateTime</td>
+                                <td>@schedule.ArrivalDateTime</td>
+                                <td>@schedule.Status</td>
+                                <td>@schedule.Role</td>
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+            }
             i++;
+
         }
     </div>
 
