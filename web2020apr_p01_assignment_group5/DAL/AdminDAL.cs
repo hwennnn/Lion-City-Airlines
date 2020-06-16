@@ -77,7 +77,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                 {
                     schedule.ScheduleId = reader.GetInt32(0);
                     schedule.FlightNumber = reader.GetString(1);
-                    schedule.RouteID = reader.GetInt32(2);
+                    schedule.RouteId = reader.GetInt32(2);
                     schedule.DepartureDateTime = reader.GetDateTime(4);
                     schedule.ArrivalDateTime = reader.GetDateTime(5);
                     schedule.Status = reader.GetString(8);
@@ -90,6 +90,72 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
 
             return schedule;
+        }
+
+        public List<FlightSchedule> getAllFlightSchedule()
+        {
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM FlightSchedule ORDER BY ScheduleID";
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                scheduleList.Add(
+                new FlightSchedule
+                {
+                    ScheduleId = reader.GetInt32(0),
+                    FlightNumber = reader.GetString(1),
+                    RouteId = reader.GetInt32(2),
+                    DepartureDateTime = reader.GetDateTime(4),
+                    ArrivalDateTime = reader.GetDateTime(5),
+                    Status = reader.GetString(8),
+
+            });
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return scheduleList;
+        }
+        public FlightRoute getSpecificRoute (int routeID)
+        {
+            FlightRoute route = new FlightRoute();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM FlightRoute WHERE RouteID = @RouteID";
+            cmd.Parameters.AddWithValue("@RouteID", routeID);
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    route.RouteId = reader.GetInt32(0);
+                    route.DepartureCity = reader.GetString(1);
+                    route.DepartureCountry = reader.GetString(2);
+                    route.ArrivalCity = reader.GetString(3);
+                    route.ArrivalCountry = reader.GetString(4);
+                    route.FlightDuration = reader.GetInt32(5);
+                }
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return route;
         }
 
         public List<FlightCrew> getSpecificFlightCrew(int staffID)

@@ -26,9 +26,9 @@
 
         <div class="row content">
 
-            <h1 class="title">View all Personnels and Flights Assigned <hr /></h1>
-            <hr>
+            <h1 class="title">View all Personnels and Flights Assigned</h1>
         </div>
+        <hr />
 
         @{int i = 1;}
         @foreach (var item in Model)
@@ -44,7 +44,7 @@
             
             if (item.flightScheduleList.Count > 0)
             {
-                <div id="flights_table@(i)" class="row content" style="display:none;">
+                <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto;">
 
                     <table>
                         <tr>
@@ -61,7 +61,7 @@
                             <tr>
                                 <td>@schedule.ScheduleId</td>
                                 <td>@schedule.FlightNumber</td>
-                                <td>@schedule.RouteID</td>
+                                <td>@schedule.RouteId</td>
                                 <td>@schedule.DepartureDateTime</td>
                                 <td>@schedule.ArrivalDateTime</td>
                                 <td>@schedule.Status</td>

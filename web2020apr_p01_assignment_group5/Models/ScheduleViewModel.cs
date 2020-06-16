@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace web2020apr_p01_assignment_group5.Models
 {
-    public class FlightSchedule
+    public class ScheduleViewModel
     {
         public int ScheduleId { get; set; }
 
@@ -22,7 +25,6 @@ namespace web2020apr_p01_assignment_group5.Models
 
         [StringLength(20)]
         public string Status { get; set; }
-
-        public string Role { get; set; }
+        public FlightRoute Route { get; set; }
     }
 }

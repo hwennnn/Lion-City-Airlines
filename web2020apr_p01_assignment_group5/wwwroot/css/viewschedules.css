@@ -6,9 +6,9 @@ body {
     margin-top: 50px;
 }
 
-.staffid,
-.staffname,
-.vocation,
+.scheduleid,
+.departdate,
+.arrivaldate,
 .arrow-down {
     display: inline-block;
     font-size: 20px;
@@ -19,12 +19,12 @@ hr {
     background-color: black;
 }
 
-.staffid {
+.scheduleid {
     text-align: left;
     width: 150px;
 }
 
-.staffname {
+.departdate {
     text-align: left;
     width: 320px;
 }

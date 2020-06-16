@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "_AdminMenu";
+    ViewData["Title"] = "View Flight Routes and Flight Schedules";
+}
+@model IEnumerable<web2020apr_p01_assignment_group5.Models.ScheduleViewModel>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/viewschedules.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="~/js/admin.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="container text-center">
+
+        <div class="row content">
+
+            <h1 class="title">View all Personnels and Flights Assigned</h1>
+        </div>
+        <hr />
+
+        @{int i = 1;}
+        @foreach (var item in Model)
+        {
+            <div id="holder@(i)" class="row content holder">
+
+                <span class="scheduleid">ScheduleID: @item.ScheduleId</span>
+                <span class="departdate">Departure Date: @item.DepartureDateTime</span>
+                <span class="arrivaldate">Arrival Date: @item.ArrivalDateTime</span>
+                <span onclick="toggle(@(i))" id="arrow@(i)" class="arrow-down"></span>
+
+            </div>
+
+            <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto;">
+
+                <table>
+                    <tr>
+                        <th>FlightNumber</th>
+                        <th>RouteID</th>
+                        <th>DepartureCity</th>
+                        <th>DepartureCountry</th>
+                        <th>ArrivalCity</th>
+                        <th>ArrivalCountry</th>
+                        <th>FlightDuration</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>@item.FlightNumber</td>
+                        <td>@item.RouteId</td>
+                        <td>@item.Route.DepartureCity</td>
+                        <td>@item.Route.DepartureCountry</td>
+                        <td>@item.Route.ArrivalCity</td>
+                        <td>@item.Route.ArrivalCountry</td>
+                        <td>@item.Route.FlightDuration</td>
+                        <td>@item.Status</td>
+                    </tr>
+
+                </table>
+
+            </div>
+             i++;
+        }
+    </div>
+
+</body>
+
+</html>

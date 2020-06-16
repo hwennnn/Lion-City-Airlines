@@ -32,6 +32,12 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return View(personnelModel);
         }
 
+        public ActionResult ViewFlightSchedules()
+        {
+            List<ScheduleViewModel> flightSchedule = mapScheduletoRoute();
+            return View(flightSchedule);
+        }
+
         public List<PersonnelViewModel> mapPersonneltoSchedule()
         {
             List<PersonnelViewModel> personnelsModelList = new List<PersonnelViewModel>();
@@ -54,7 +60,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                          {
                              ScheduleId = schedule.ScheduleId,
                              FlightNumber = schedule.FlightNumber,
-                             RouteID = schedule.RouteID,
+                             RouteId = schedule.RouteId,
                              DepartureDateTime = schedule.DepartureDateTime,
                              ArrivalDateTime = schedule.ArrivalDateTime,
                              Status = schedule.Status,
@@ -69,6 +75,30 @@ namespace web2020apr_p01_assignment_group5.Controllers
             }
 
             return personnelsModelList;
+        }
+
+        public List<ScheduleViewModel> mapScheduletoRoute()
+        {
+            List<ScheduleViewModel> scheduleModelList = new List<ScheduleViewModel>();
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+            scheduleList = adminContext.getAllFlightSchedule();
+
+            foreach (FlightSchedule schedule in scheduleList)
+            {
+                ScheduleViewModel scheduleModel = new ScheduleViewModel();
+                scheduleModel.ScheduleId = schedule.ScheduleId;
+                scheduleModel.FlightNumber = schedule.FlightNumber;
+                scheduleModel.RouteId = schedule.RouteId;
+                scheduleModel.DepartureDateTime = schedule.DepartureDateTime;
+                scheduleModel.ArrivalDateTime = schedule.ArrivalDateTime;
+                scheduleModel.EconomyClassPrice = schedule.EconomyClassPrice;
+                scheduleModel.BusinessClassPrice = schedule.BusinessClassPrice;
+                scheduleModel.Status = schedule.Status;
+                scheduleModel.Route = adminContext.getSpecificRoute(schedule.RouteId);
+                scheduleModelList.Add(scheduleModel);
+            }
+
+            return scheduleModelList;
         }
     }
 }
