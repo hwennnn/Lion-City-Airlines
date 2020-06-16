@@ -51,6 +51,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             if (loginID == "Peter_Ghim@gmail.com" && password == "123")
             {
                 // to be added to check with the customer database for login credentials
+                HttpContext.Session.SetString("Role", "Customer");
                 // redirect to customer homepage
                 // store session data as customer
                 return RedirectToAction("Index", "Customers");

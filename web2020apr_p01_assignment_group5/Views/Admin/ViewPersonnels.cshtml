@@ -29,9 +29,10 @@
             <hr>
         </div>
 
+        @{int i = 1;}
         @foreach (var item in Model)
         {
-            <div class="row content holder">
+            <div id="holder@(i)" class="row content holder">
 
                 <span class="staffid">StaffID : @item.StaffId</span>
                 <span class="staffname">StaffName: @item.StaffName</span>
@@ -39,6 +40,7 @@
                 <span onclick="toggle()" class="arrow-down"></span>
 
             </div>
+            i++;
         }
     </div>
 
