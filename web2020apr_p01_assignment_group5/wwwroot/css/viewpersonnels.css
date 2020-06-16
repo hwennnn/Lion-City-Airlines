@@ -37,9 +37,9 @@ body {
     position: absolute;
     right: 0;
     margin-right: 10px;
-    border-color: black transparent;
-    border-style: solid;
-    border-width: 16px 16px 0px 16px;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 16px solid black;
     height: 0px;
     width: 0px;
 }
