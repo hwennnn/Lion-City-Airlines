@@ -22,5 +22,7 @@ namespace web2020apr_p01_assignment_group5.Models
 
         [StringLength(20)]
         public string Status { get; set; }
+
+        public string Role { get; set; }
     }
 }
