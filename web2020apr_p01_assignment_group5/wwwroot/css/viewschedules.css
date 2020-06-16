@@ -11,12 +11,13 @@ body {
 .arrivaldate,
 .arrow-down {
     display: inline-block;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 hr {
     height: 2px;
     background-color: black;
+    width: 100%;
 }
 
 .scheduleid {

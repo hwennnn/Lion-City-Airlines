@@ -27,8 +27,9 @@
         <div class="row content">
 
             <h1 class="title">View all Personnels and Flights Assigned</h1>
+            <hr />
         </div>
-        <hr />
+        
 
         @{int i = 1;}
         @foreach (var item in Model)
@@ -44,7 +45,7 @@
             
             if (item.flightScheduleList.Count > 0)
             {
-                <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto;">
+                <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto; margin-top:10px;">
 
                     <table>
                         <tr>
