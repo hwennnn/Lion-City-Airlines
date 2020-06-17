@@ -104,7 +104,7 @@
                     var arrowname = "arrow" + i;
 
                     var holder = document.getElementById(holdername);
-                    var table = document.getElementById(tablename)
+                    var table = document.getElementById(tablename);
                     var arrow = document.getElementById(arrowname);
 
                     if (word == "") {
@@ -116,8 +116,11 @@
                         holder.style.display = "none";
                         if (table != null) {
                             table.style.display = "none";
-                            arrow.style["border-bottom"] = "0px";
-                            arrow.style["border-top"] = "16px solid black";
+                            if (arrow != null) {
+                                arrow.style["border-bottom"] = "0px";
+                                arrow.style["border-top"] = "16px solid black";
+                            }
+                           
                         }
                     }
                 })
@@ -142,8 +145,11 @@
 
                 if (table != null) {
                     table.style.display = "none";
-                    arrow.style["border-bottom"] = "0px";
-                    arrow.style["border-top"] = "16px solid black";
+                    if (arrow != null) {
+                        arrow.style["border-bottom"] = "0px";
+                        arrow.style["border-top"] = "16px solid black";
+                    }
+                   
                 }
                 
             }
