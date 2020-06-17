@@ -128,3 +128,7 @@ table#t01 th {
     border-radius: 0;
     background-position: 100% center;
 }
+
+.titleholder{
+    margin-bottom:40px;
+}
