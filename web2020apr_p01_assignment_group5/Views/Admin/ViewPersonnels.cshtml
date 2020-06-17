@@ -47,10 +47,9 @@
 
                 </div>
 
-                if (item.flightScheduleList.Count > 0)
-                {
-                    <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto; margin-top:10px;">
-
+                <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto; margin-top:10px;">
+                    @if (item.flightScheduleList.Count > 0)
+                    {
                         <table>
                             <tr>
                                 <th>ScheduleID</th>
@@ -76,12 +75,16 @@
 
                         </table>
 
-                    </div>
-                }
+                    }
+                    else
+                    {
+                        <p>No record found!</p>
+                    }   
+            </div>
                 i++;
-
             }
         </div>
+
     </div>
 
     <script type="text/javascript">
