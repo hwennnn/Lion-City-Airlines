@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <Folder Include="DAL\" />
+=======
+    <Folder Include="Views\Admin\" />
+>>>>>>> Create Customer Profile
   </ItemGroup>
 </Project>
