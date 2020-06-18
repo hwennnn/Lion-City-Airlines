@@ -20,7 +20,7 @@
         }</script>
     <!-- //Meta-Tags -->
     <!-- css files -->
-    <link href="~/css/login.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/common_login.css" rel="stylesheet"/>
     <!-- //css files -->
     <!-- google fonts -->
     <link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -29,56 +29,26 @@
 </head>
 
 <body>
-
-    <div class="signupform">
-        <div class="container">
-            <!-- main content -->
-            <div class="agile_info">
-
-                <div class="w3l_form">
-                    <div class="left_grid_info">
-                        <h1>Fly Your Dreams</h1>
-                        <p>New face, same functionality. It's time for Lion City Airlines to say hello.</p>
-                        <img class="plane" src="~/images/image2.png" alt="" />
-                        <p class="account2"><a href="~/Home/Index">Learn more -></a></p>
-                    </div>
-                </div>
-
-                <div class="w3_info">
-                    <img src="~/images/snap.png" alt="" />
-                    <p></p>
-                    <p></p>
-                    <h2>Welcome back!</h2>
-                    <p>Enter your details to login.</p>
-
-                    <form action="~/Home/Login" method="post">
-                        <fieldset class="loginFieldset">
-                            <label>Email Address</label>
-                            <div class="input-group">
-                                <input type="email" name="txtLoginEmail"
-                                       id="txtLoginEmail" required placeholder="Enter Your Email">
-                            </div>
-
-                            <label>Password</label>
-                            <div class="input-group">
-                                <input type="Password" name="txtPassword"
-                                       id="txtPassword" placeholder="Enter Password">
-                            </div>
-
-                            <br />
-                            <span style="color:red;">@TempData["Message"]</span>
-
-                            <p class="account3"><a href="#">I forgot my password</a></p>
-                            <button class="btn btn-danger btn-block" type="submit">Login</button>
-                        </fieldset>
-                    </form>
-                    <p class="account1">Dont have an account? <a href="#">Sign up here</a></p>
-                </div>
-            </div>
-            <!-- //main content -->
-        </div>
-
+ <div class="container">
+     <div class="left">
+         <div class="header">
+             <img class="animation a1" src="~/images/snap.png" alt="" />
+             <h2 class="animation a1">Welcome Back</h2>
+             <h4 class="animation a2">Enter your details to login.</h4>
+         </div>
+         <form id="loginform" action="~/Home/Login" method="post" class="form">
+             <input type="email" name="txtLoginEmail" id="txtLoginEmail" required class="form-field animation a3" placeholder="Email Address">
+             <input type="password" name="txtPassword" id="txtPassword" required class="form-field animation a4" placeholder="Password">
+             <p class="animation a5"><a href="#">Forgot Password</a></p>
+             <span style="color:red;">@TempData["Message"]</span>
+             <button class="animation a6" type="submit">LOGIN</button>
+         </form>
+        <p class="animation a6">Dont have an account? <a href="#">Sign up here</a></p> 
+     </div>
+        
+        <div class="right"></div>
     </div>
+
 
 </body>
 </html>
