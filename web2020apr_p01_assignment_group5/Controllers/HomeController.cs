@@ -73,6 +73,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
             // Store an error message in TempData for display at the index view
             TempData["Message"] = "Invalid Login Credentials!";
+            TempData["Action"] = "FAIL";
             // if wrong credetials found, attempt again
             return RedirectToAction("Login");
         }
