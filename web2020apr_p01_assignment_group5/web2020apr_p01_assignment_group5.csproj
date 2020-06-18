@@ -18,6 +18,5 @@
 
   <ItemGroup>
     <Folder Include="Views\Admin\" />
-    <Folder Include="DAL\" />
   </ItemGroup>
 </Project>

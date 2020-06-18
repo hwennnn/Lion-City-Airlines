@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.Models;
+using web2020apr_p01_assignment_group5.DAL;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
     public class HomeController : Controller
     {
+        private CustomerDAL customerContext = new CustomerDAL();
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
