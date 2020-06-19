@@ -8,13 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
     public class CustomersController : Controller
     {
         private CustomerDAL customerContext = new CustomerDAL();
+
         public IActionResult Index()
         {
             return View();
@@ -45,6 +48,31 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 //to display error message
                 return View(customer);
             }
+        }
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePassword changePassword)
+        {
+            if (ModelState.IsValid)
+            {
+                Customer customer = customerContext.GetDetails(HttpContext.Session.GetString("LoginID"));
+                if (customer.Password == changePassword.CurrentPassword && changePassword.NewPassword == changePassword.ConfirmPassword)
+                {
+                    customerContext.ChangePassword (customer, changePassword);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("CurrentPassword", "CurrentPassword is not correct.");
+                }
+            }
+            return View();
         }
     }
 }

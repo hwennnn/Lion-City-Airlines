@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.Models;
 using web2020apr_p01_assignment_group5.DAL;
+using Microsoft.AspNetCore.Identity;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
     public class HomeController : Controller
-    {
+    {       
         private CustomerDAL customerContext = new CustomerDAL();
         private readonly ILogger<HomeController> _logger;
 
@@ -50,10 +51,12 @@ namespace web2020apr_p01_assignment_group5.Controllers
             Console.WriteLine(loginID);
             Console.WriteLine(password);
 
-            if (loginID == "Peter_Ghim@gmail.com" && password == "123")
+            if (loginID == "weijie@gmail.com" && password == "123")
             {
                 // to be added to check with the customer database for login credentials
                 HttpContext.Session.SetString("Role", "Customer");
+                // Store Login ID in session with the key “LoginID”
+                HttpContext.Session.SetString("LoginID", loginID);
                 // redirect to customer homepage
                 // store session data as customer
                 return RedirectToAction("Index", "Customers");

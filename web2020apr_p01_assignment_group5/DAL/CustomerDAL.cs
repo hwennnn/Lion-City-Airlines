@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using System.IO;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Data.SqlClient;
+using System.IO;
 using web2020apr_p01_assignment_group5.Models;
 
 namespace web2020apr_p01_assignment_group5.DAL
@@ -91,6 +88,73 @@ namespace web2020apr_p01_assignment_group5.DAL
             reader.Close();
             conn.Close();
             return emailFound;
+        }
+
+        public Customer GetDetails(string EmailAddr)
+        {
+            Customer customer = new Customer();
+            //Create a SqlCommand object from connection object 
+            SqlCommand cmd = conn.CreateCommand();
+
+            //Specify the SELECT SQL statement that 
+            //retrieves all attributes of a staff record. 
+            cmd.CommandText = @"SELECT * FROM Customer 
+                                WHERE EmailAddr = @selectedCustomerID";
+            //Define the parameter used in SQL statement, value for the 
+            //parameter is retrieved from the method parameter “customerID”. 
+            cmd.Parameters.AddWithValue("@selectedCustomerID", EmailAddr);
+
+            //Open a database connection 
+            conn.Open();
+            //Execute SELCT SQL through a DataReader 
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                //Read the record from database 
+                while (reader.Read())
+                {
+                    // Fill staff object with values from the data reader 
+                    customer.CustomerId = reader.GetInt32(0);
+                    customer.CustomerName = reader.GetString(1);
+                    // (char) 0 - ASCII Code 0 - null value 
+                    customer.Nationality = !reader.IsDBNull(2) ?
+                                    reader.GetString(2) : null;
+                    customer.BirthDate = !reader.IsDBNull(3) ?
+                                    reader.GetDateTime(3) : (DateTime?)null;
+                    customer.TelNo = !reader.IsDBNull(4) ?
+                                    reader.GetString(4) : null;
+                    customer.EmailAddr = reader.GetString(5);
+                    customer.Password = reader.GetString(6);
+                }
+            }
+            //Close data reader 
+            reader.Close();
+            //Close database connection
+            conn.Close();
+
+            return customer;
+        }
+
+        public int ChangePassword(Customer customer, ChangePassword changePassword)
+        {
+            //Create a SqlCommand object from connection object 
+            SqlCommand cmd = conn.CreateCommand();
+
+            //Specify an UPDATE SQL statement 
+            cmd.CommandText = @"UPDATE Customer SET Password=@password
+                                WHERE CustomerID = @selectedCustomerID";
+            //Define the parameters used in SQL statement, value for each parameter
+            //is retrieved from respective class's property.
+            cmd.Parameters.AddWithValue("@selectedCustomerID", customer.CustomerId);
+            cmd.Parameters.AddWithValue("@password", changePassword.NewPassword);
+
+            //Open a database connection
+            conn.Open();
+            //ExecuteNonQuery is used for UPDATE and DELETE
+            int count = cmd.ExecuteNonQuery();
+            //Close the database connection
+            conn.Close();
+            return count;
         }
     }
 }
