@@ -12,6 +12,7 @@ namespace web2020apr_p01_assignment_group5.Models
 
         public char Gender { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DateEmployed { get; set; }
 
         [StringLength(50)]
