@@ -226,5 +226,36 @@ namespace web2020apr_p01_assignment_group5.DAL
             return flightCrewList;
         }
 
+        public int CreatePersonnel(Staff staff)
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an INSERT SQL statement which will
+            //return the auto-generated StaffID after insertion
+            cmd.CommandText = @"INSERT INTO Staff (StaffName, Gender, DateEmployed, Vocation,
+                                EmailAddr, Password, Status)
+                                OUTPUT INSERTED.StaffID
+                                VALUES(@name, @gender, @dateEmployed, @vocation,
+                                @email, @password, @status)";
+            //Define the parameters used in SQL statement, value for each parameter
+            //is retrieved from respective class's property.
+            cmd.Parameters.AddWithValue("@name", staff.StaffName);
+            cmd.Parameters.AddWithValue("@gender", staff.Gender);
+            cmd.Parameters.AddWithValue("@dateEmployed", staff.DateEmployed);
+            cmd.Parameters.AddWithValue("@vocation", staff.Vocation);
+            cmd.Parameters.AddWithValue("@email", staff.Email);
+            cmd.Parameters.AddWithValue("@password", "p@55Staff");
+            cmd.Parameters.AddWithValue("@status", "Active");
+            //A connection to database must be opened before any operations made.
+            conn.Open();
+            //ExecuteScalar is used to retrieve the auto-generated
+            //StaffID after executing the INSERT SQL statement
+            staff.StaffId = (int)cmd.ExecuteScalar();
+            //A connection should be closed after operations.
+            conn.Close();
+            //Return id when no error occurs.
+            return staff.StaffId;
+        }
+
     }
 }
