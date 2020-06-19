@@ -14,13 +14,9 @@ namespace web2020apr_p01_assignment_group5.Controllers
 {
     public class HomeController : Controller
     {
-<<<<<<< HEAD
         private LoginDAL loginDAL = new LoginDAL();
         private AdminDAL adminDAL = new AdminDAL();
 
-=======
-        private CustomerDAL customerContext = new CustomerDAL();
->>>>>>> Create Customer Profile
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)

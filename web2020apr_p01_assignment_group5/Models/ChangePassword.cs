@@ -1,23 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.VisualBasic.CompilerServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using web2020apr_p01_assignment_group5.DAL;
 
 namespace web2020apr_p01_assignment_group5.Models
 {
     public class ChangePassword
     {
-        [Display(Name = "CurrentPassword")]
-        public string Password { get; set; }
+        [Required(ErrorMessage ="Current password is required.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Current password")]
+        public string CurrentPassword { get; set; }
 
-        [Display(Name = "NewPassword")]
+        [Required(ErrorMessage = "New password is required.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
-        [Display(Name = "ConfirmPassword")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword",ErrorMessage =
+            "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
     }
 }
