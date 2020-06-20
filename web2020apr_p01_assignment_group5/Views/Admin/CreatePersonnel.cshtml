@@ -19,6 +19,8 @@
             <div class="row formcontent justify-content-center">
                 <label class="indicate" asp-for="StaffName"></label>
                 <input class="formfield" type="text" asp-for="StaffName">
+                <span asp-validation-for="StaffName"
+                      class="text-danger"></span>
             </div>
 
             <div class="row formcontent justify-content-center">

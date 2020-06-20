@@ -6,7 +6,8 @@ namespace web2020apr_p01_assignment_group5.Models
     public class Staff
     {
         public int StaffId { get; set; }
-        
+
+        [Required]
         [StringLength(50)]
         public string StaffName { get; set; }
 
