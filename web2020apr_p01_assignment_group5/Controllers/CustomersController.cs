@@ -64,7 +64,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 Customer customer = customerContext.GetDetails(HttpContext.Session.GetString("LoginID"));
                 if (customer.Password == changePassword.CurrentPassword && changePassword.NewPassword == changePassword.ConfirmPassword)
                 {
-                    customerContext.ChangePassword (customer, changePassword);
+                    customerContext.ChangePassword(customer, changePassword);
                     return RedirectToAction("Index");
                 }
                 else

@@ -24,7 +24,7 @@
     <div class="container">
         <div class="column">
             <h2><b>Create Customer Profile</b></h2>
-            <form asp-action="CreateCustomerProfile" onsubmit="acknowledge()" id="Form">
+            <form asp-action="CreateCustomerProfile" id="Form">
                 <fieldset class="FormContent">
                     <div class="form-group row">
                         <label asp-for="CustomerName"
@@ -74,7 +74,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-9 offset-sm-3">
-                            <input type="submit" value="Submit" id="date" class="btn btn-primary" />
+                            <input type="submit" value="Submit" onclick="acknowledge()" id="date" class="btn btn-primary" />
                             <input type="reset" value="Reset" onclick="myFunction()" class="btn btn-primary" />
                         </div>
                     </div>
