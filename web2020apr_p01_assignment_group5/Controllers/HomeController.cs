@@ -8,19 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
-using web2020apr_p01_assignment_group5.DAL;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
     public class HomeController : Controller
     {
-<<<<<<< HEAD
         private LoginDAL loginDAL = new LoginDAL();
         private AdminDAL adminDAL = new AdminDAL();
-
-=======
-        private CustomerDAL customerContext = new CustomerDAL();
->>>>>>> Show Username
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
