@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
+using web2020apr_p01_assignment_group5.DAL;
+using Microsoft.AspNetCore.Identity;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
