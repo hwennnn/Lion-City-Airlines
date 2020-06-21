@@ -59,9 +59,15 @@
                     </div>
                 </li>
             </ul>
-
+            @{
+                String staffName = "Nobody";
+                if (Context.Session.GetString("LoginID") != null)
+                {
+                    staffName = Context.Session.GetString("StaffName");
+                }
+            }
             <ul class="nav navbar-nav ml-auto">
-                <li><span style="color:#5F6169">Admin0</span></li>
+                <li><span style="color:#5F6169">@staffName</span></li>
                 <li><a href="~/Home/Logout" style="color:#5F6169">Sign Out</a></li>
             </ul>
 

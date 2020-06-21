@@ -14,6 +14,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
     public class HomeController : Controller
     {
         private LoginDAL loginDAL = new LoginDAL();
+        private AdminDAL adminDAL = new AdminDAL();
 
         private readonly ILogger<HomeController> _logger;
 
@@ -53,7 +54,6 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
             if (loginDAL.checkCustomer(email, password))
             {
-                // to be added to check with the customer database for login credentials
                 HttpContext.Session.SetString("Role", "Customer");
                 // redirect to customer homepage
                 // store session data as customer
@@ -62,8 +62,9 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
             else if (loginDAL.checkStaff(email, password))
             {
-                //password == "p@55Staff" to be changed after debuuging
+                Staff staff = adminDAL.GetSpecificStaffByEmail(email);
 
+                HttpContext.Session.SetString("StaffName", staff.StaffName);
                 // Store Login ID in session with the key “LoginID”
                 HttpContext.Session.SetString("LoginID", email);
                 // Store user role “Staff” as a string in session with the key “Role”

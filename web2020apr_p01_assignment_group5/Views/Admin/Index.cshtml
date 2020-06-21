@@ -12,12 +12,12 @@
 
             <div class="col-sm-6 text-centre welcome">
                 @{
-                    string userId = "Anonymous";
+                    string StaffName = "Anonymous";
                     string userRole = "Unknown";
                     string loginDT = "just now";
                     if (Context.Session.GetString("LoginID") != null)
                     {
-                        userId = Context.Session.GetString("LoginID");
+                        StaffName = Context.Session.GetString("StaffName");
                     }
                     if (Context.Session.GetString("Role") != null)
                     {
@@ -30,7 +30,7 @@
                 }
                 <h1>
                     Welcome,
-                    <br />@userId
+                    <br />@StaffName
                     <br />(Role: @userRole)!
                 </h1>
                 <p>You have logged in since @loginDT</p>
