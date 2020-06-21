@@ -9,6 +9,7 @@
     <Content Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="Views\NewFolder\**" />
     <None Remove="Views\NewFolder\**" />
+    <Content Remove="wwwroot\css\switch.css" />
   </ItemGroup>
 
   <ItemGroup>
