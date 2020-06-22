@@ -13,7 +13,6 @@
             <h1 class="title">Create Flight Personnel Record</h1>
             <hr />
         </div>
-
         <form asp-action="CreatePersonnel">
 
             <div class="row formcontent justify-content-center">
@@ -25,8 +24,8 @@
 
             <div class="row formcontent justify-content-center">
                 <label class="indicate" asp-for="Gender"></label>
-                <select class="formfield" asp-for="Gender" 
-                       asp-items="@ViewData["GenderList"] as List<SelectListItem>">
+                <select class="formfield" asp-for="Gender"
+                        asp-items="@ViewData["GenderList"] as List<SelectListItem>">
                 </select>
             </div>
 
@@ -38,7 +37,7 @@
             <div class="row formcontent justify-content-center">
                 <label class="indicate" asp-for="Vocation"></label>
                 <select class="formfield" type="text" asp-for="Vocation"
-                       asp-items="@ViewData["VocationList"] as List<SelectListItem>">
+                        asp-items="@ViewData["VocationList"] as List<SelectListItem>">
                 </select>
             </div>
 
@@ -50,8 +49,8 @@
             <div class="row content justify-content-center">
                 <input type="submit" value="Create">
             </div>
-            
 
-        </form>
+
+        </form>    
     </div>
 </body>
