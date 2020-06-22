@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
     public class HomeController : Controller
     {
+        private LoginDAL loginDAL = new LoginDAL();
+        private AdminDAL adminDAL = new AdminDAL();
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -43,26 +47,26 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [HttpPost]
         public ActionResult Login(IFormCollection formData)
         {
-            string loginID = formData["txtLoginEmail"].ToString();
+            string email = formData["txtLoginEmail"].ToString();
             string password = formData["txtPassword"].ToString();
-            Console.WriteLine(loginID);
+            Console.WriteLine(email);
             Console.WriteLine(password);
 
-            if (loginID == "Peter_Ghim@gmail.com" && password == "123")
+            if (loginDAL.checkCustomer(email, password))
             {
-                // to be added to check with the customer database for login credentials
                 HttpContext.Session.SetString("Role", "Customer");
                 // redirect to customer homepage
                 // store session data as customer
                 return RedirectToAction("Index", "Customers");
             }
 
-            else if (loginID == "s1234567@lca.com" && password == "123")
+            else if (loginDAL.checkStaff(email, password))
             {
-                //password == "p@55Staff" to be changed after debuuging
+                Staff staff = adminDAL.GetSpecificStaffByEmail(email);
 
+                HttpContext.Session.SetString("StaffName", staff.StaffName);
                 // Store Login ID in session with the key “LoginID”
-                HttpContext.Session.SetString("LoginID", loginID);
+                HttpContext.Session.SetString("LoginID", email);
                 // Store user role “Staff” as a string in session with the key “Role”
                 HttpContext.Session.SetString("Role", "Admin");
                 // Redirect user to the "StaffMain" view through an action
@@ -73,6 +77,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
             // Store an error message in TempData for display at the index view
             TempData["Message"] = "Invalid Login Credentials!";
+            TempData["Action"] = "FAIL";
             // if wrong credetials found, attempt again
             return RedirectToAction("Login");
         }

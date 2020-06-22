@@ -4,80 +4,181 @@
 }
 @model IEnumerable<web2020apr_p01_assignment_group5.Models.PersonnelViewModel>
 
-<!DOCTYPE html>
-<html lang="en">
-
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="~/css/viewpersonnels.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <script src="~/js/admin.js" type="text/javascript"></script>
-</head>
+<link rel="stylesheet" href="~/css/viewpersonnels.css">
+<link rel="stylesheet" href="~/css/switch.css">
+<script src="~/js/admin.js" type="text/javascript"></script>
 
 <body>
     <div class="container text-center">
 
-        <div class="row content">
-
+        <div class="row content titleholder">
             <h1 class="title">View all Personnels and Flights Assigned</h1>
         </div>
-        <hr />
 
-        @{int i = 1;}
-        @foreach (var item in Model)
-        {
-            <div id="holder@(i)" class="row content holder">
+        <div class="row content">
+            <input oninput="updateResult(this.value)" class="search__input" type="text" placeholder="Search" />
+            <label class="switch ml-auto">
+                <input id="toggle_switch" onchange="displayAllTable(this)" type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <hr />
+        </div>
 
-                <span class="staffid">StaffID : @item.StaffId</span>
-                <span class="staffname">StaffName: @item.StaffName</span>
-                <span class="vocation">Vocation: @item.Vocation</span>
-                <span onclick="toggle(@(i))" id="arrow@(i)" class="arrow-down"></span>
+        <div class="result">
 
-            </div>
-            
-            if (item.flightScheduleList.Count > 0)
+            @{int i = 1;}
+            @foreach (var item in Model)
             {
-                <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto;">
+                <div id="holder@(i)" class="row content holder">
 
-                    <table>
-                        <tr>
-                            <th>ScheduleID</th>
-                            <th>FlightNumber</th>
-                            <th>RouteID</th>
-                            <th>DepartureDateTime</th>
-                            <th>ArrivalDateTime</th>
-                            <th>Status</th>
-                            <th>Role</th>
-                        </tr>
-                        @foreach (var schedule in item.flightScheduleList)
-                        {
-                            <tr>
-                                <td>@schedule.ScheduleId</td>
-                                <td>@schedule.FlightNumber</td>
-                                <td>@schedule.RouteId</td>
-                                <td>@schedule.DepartureDateTime</td>
-                                <td>@schedule.ArrivalDateTime</td>
-                                <td>@schedule.Status</td>
-                                <td>@schedule.Role</td>
-                            </tr>
-                        }
-
-                    </table>
+                    <span class="staffid">StaffID : @item.StaffId</span>
+                    <span class="staffname">StaffName: @item.StaffName</span>
+                    <span class="vocation">Vocation: @item.Vocation</span>
+                    <span onclick="toggle(@(i))" id="arrow@(i)" class="arrow-down"></span>
 
                 </div>
-            }
-            i++;
 
-        }
+                <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto; margin-top:10px;">
+                    @if (item.flightScheduleList.Count > 0)
+                    {
+                        <table>
+                            <tr>
+                                <th>ScheduleID</th>
+                                <th>FlightNumber</th>
+                                <th>RouteID</th>
+                                <th>DepartureDateTime</th>
+                                <th>ArrivalDateTime</th>
+                                <th>Status</th>
+                                <th>Role</th>
+                            </tr>
+                            @foreach (var schedule in item.flightScheduleList)
+                            {
+                                <tr>
+                                    <td>@schedule.ScheduleId</td>
+                                    <td>@schedule.FlightNumber</td>
+                                    <td>@schedule.RouteId</td>
+                                    <td>@schedule.DepartureDateTime</td>
+                                    <td>@schedule.ArrivalDateTime</td>
+                                    <td>@schedule.Status</td>
+                                    <td>@schedule.Role</td>
+                                </tr>
+                            }
+
+                        </table>
+
+                    }
+                    else
+                    {
+                        <p>No record found!</p>
+                    }   
+            </div>
+                i++;
+            }
+        </div>
+
     </div>
 
-</body>
+    <script type="text/javascript">
+        var raw_arr = @Html.Raw(Json.Serialize(Model));
 
-</html>
+        var arr = [];
+
+        for (i = 0; i < raw_arr.length; i++) {
+            arr[i] = raw_arr[i].staffName;
+        }
+        
+        var _switch = document.getElementById("toggle_switch");
+
+        function displayAllTable(element) {
+            var n = arr.length
+            if (element.checked) {
+                console.log("checked")
+                for (i = 1; i < n+1; i++){
+                    var tablename = "flights_table" + i;
+                    var arrowname = "arrow" + i;
+                    var holdername = "holder" + i;
+
+                    var table = document.getElementById(tablename);
+                    var arrow = document.getElementById(arrowname);
+                    var holder = document.getElementById(holdername);
+
+                    if (holder.style.display != "none") {
+                        table.style.display = "";
+                        if (arrow != null) {
+                            arrow.style["border-bottom"] = "16px solid black";
+                            arrow.style["border-top"] = "0px";
+                        }
+                    
+                    }
+                }
+                
+            } else {
+                console.log("unchecked")
+                for (i = 1; i < n+1; i++){
+                    var tablename = "flights_table" + i;
+                    var arrowname = "arrow" + i;
+                    var holdername = "holder" + i;
+                    
+                    var table = document.getElementById(tablename);
+                    var arrow = document.getElementById(arrowname);
+                    var holder = document.getElementById(holdername);
+
+                    if (holder != null) {
+                        table.style.display = "none";
+                        if (arrow != null) {
+                            arrow.style["border-bottom"] = "0px";
+                            arrow.style["border-top"] = "16px solid black";
+                        }
+                    
+                    }
+                }
+            }
+        }
+
+        function updateResult(query) {
+
+            arr.map(function (algo) {
+                query.split(" ").map(function (word) {
+                    var index = arr.indexOf(algo) + 1;
+
+                    var holdername = "holder" + index;
+                    var tablename = "flights_table" + index;
+                    var arrowname = "arrow" + i;
+
+                    var holder = document.getElementById(holdername);
+                    var table = document.getElementById(tablename);
+                    var arrow = document.getElementById(arrowname);
+
+                    if (word == "") {
+                        showAll(arr.length)
+                    } else if (algo.toLowerCase().indexOf(word.toLowerCase()) != -1) {
+                        holder.style.display = "";
+                    }else{
+                        holder.style.display = "none";
+                        if (table != null) {
+                            table.style.display = "none";
+                            if (arrow != null) {
+                                arrow.style["border-bottom"] = "0px";
+                                arrow.style["border-top"] = "16px solid black";
+                            }
+                           
+                        }
+                    }
+                    
+                })
+            })
+
+            displayAllTable(_switch);
+        }
+
+        function showAll(len){
+            for (i = 1; i < len+1; i++){
+                var holdername = "holder" + i;
+                var holder = document.getElementById(holdername);
+                holder.style.display = "";
+            }
+        }
+        
+    </script>
+
+</body>

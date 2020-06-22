@@ -100,5 +100,75 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
             return scheduleModelList;
         }
+
+        public ActionResult CreatePersonnel()
+        {
+            ViewData["VocationList"] = GetVocation();
+            ViewData["GenderList"] = GetGender();
+
+            return View();
+        }
+
+        // POST: Staff/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePersonnel(Staff staff)
+        {
+            //Get country list for drop-down list
+            //in case of the need to return to Create.cshtml view
+            ViewData["VocationList"] = GetVocation();
+            ViewData["GenderList"] = GetGender();
+            if (ModelState.IsValid)
+            {
+                //Add staff record to database
+                staff.StaffId = adminContext.CreatePersonnel(staff);
+                //Redirect user to Staff/Index view
+                return RedirectToAction("Index","Admin");
+            }
+            else
+            {
+                //Input validation fails, return to the Create view
+                //to display error message
+                return View(staff);
+            }
+        }
+
+        private List<SelectListItem> GetVocation()
+        {
+            List<SelectListItem> vocations = new List<SelectListItem>();
+
+            vocations.Add(new SelectListItem
+            {
+                Value = "Pilot",
+                Text = "Pilot"
+            });
+
+            vocations.Add(new SelectListItem
+            {
+                Value = "Flight Attendant",
+                Text = "Flight Attendant"
+            });
+ 
+            return vocations;
+        }
+
+        private List<SelectListItem> GetGender()
+        {
+            List<SelectListItem> vocations = new List<SelectListItem>();
+
+            vocations.Add(new SelectListItem
+            {
+                Value = "M",
+                Text = "Male"
+            });
+
+            vocations.Add(new SelectListItem
+            {
+                Value = "F",
+                Text = "Female"
+            });
+
+            return vocations;
+        }
     }
 }

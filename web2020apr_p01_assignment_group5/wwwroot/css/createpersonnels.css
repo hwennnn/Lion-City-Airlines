@@ -1,0 +1,36 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.title {
+    margin-top: 50px;
+}
+
+.titleholder {
+    margin-bottom: 40px;
+}
+
+hr {
+    height: 2px;
+    background-color: black;
+    width: 100%;
+}
+
+form {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.indicate {
+    width: 150px;
+    text-align: right;
+    margin-right: 50px;
+}
+
+.formcontent {
+    margin-bottom: 30px;
+}
+
+.formfield{
+    width:200px;
+}

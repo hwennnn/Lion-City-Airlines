@@ -28,6 +28,41 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn = new SqlConnection(strConn);
         }
 
+        public Staff GetSpecificStaffByEmail(string email)
+        {
+            Staff staff = new Staff();
+
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM Staff WHERE EmailAddr = @email";
+            cmd.Parameters.AddWithValue("@email", email);
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    staff.StaffId = reader.GetInt32(0);
+                    staff.StaffName = reader.GetString(1);
+                    staff.Gender = reader.GetString(2)[0];
+                    staff.DateEmployed = reader.GetDateTime(3);
+                    staff.Vocation = reader.GetString(4);
+                    staff.Email = reader.GetString(5);
+                    staff.Status = reader.GetString(7);
+                }
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return staff;
+        }
+
         public List<Staff> getAllStaff()
         {
             List<Staff> staffList = new List<Staff>();
@@ -44,11 +79,15 @@ namespace web2020apr_p01_assignment_group5.DAL
                 staffList.Add(
                 new Staff
                 {
-                    StaffId = reader.GetInt32(0), //0: 1st column
-                    StaffName = reader.GetString(1), //1: 2nd column
-                    Vocation = reader.GetString(4), //5: 6th column
+                    StaffId = reader.GetInt32(0),
+                    StaffName = reader.GetString(1),
+                    Gender = reader.GetString(2)[0],
+                    DateEmployed = reader.GetDateTime(3),
+                    Vocation = reader.GetString(4),
+                    Email = reader.GetString(5),
+                    Status = reader.GetString(7)
 
-               });
+            });
             }
 
             //Close DataReader
@@ -224,6 +263,37 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
 
             return flightCrewList;
+        }
+
+        public int CreatePersonnel(Staff staff)
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an INSERT SQL statement which will
+            //return the auto-generated StaffID after insertion
+            cmd.CommandText = @"INSERT INTO Staff (StaffName, Gender, DateEmployed, Vocation,
+                                EmailAddr, Password, Status)
+                                OUTPUT INSERTED.StaffID
+                                VALUES(@name, @gender, @dateEmployed, @vocation,
+                                @email, @password, @status)";
+            //Define the parameters used in SQL statement, value for each parameter
+            //is retrieved from respective class's property.
+            cmd.Parameters.AddWithValue("@name", staff.StaffName);
+            cmd.Parameters.AddWithValue("@gender", staff.Gender);
+            cmd.Parameters.AddWithValue("@dateEmployed", staff.DateEmployed);
+            cmd.Parameters.AddWithValue("@vocation", staff.Vocation);
+            cmd.Parameters.AddWithValue("@email", staff.Email);
+            cmd.Parameters.AddWithValue("@password", "p@55Staff");
+            cmd.Parameters.AddWithValue("@status", "Active");
+            //A connection to database must be opened before any operations made.
+            conn.Open();
+            //ExecuteScalar is used to retrieve the auto-generated
+            //StaffID after executing the INSERT SQL statement
+            staff.StaffId = (int)cmd.ExecuteScalar();
+            //A connection should be closed after operations.
+            conn.Close();
+            //Return id when no error occurs.
+            return staff.StaffId;
         }
 
     }
