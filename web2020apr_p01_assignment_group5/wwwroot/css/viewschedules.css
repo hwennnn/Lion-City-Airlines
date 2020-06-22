@@ -22,12 +22,16 @@ hr {
 
 .scheduleid {
     text-align: left;
-    width: 150px;
+    width: 250px;
 }
 
 .departdate {
     text-align: left;
+    width: 340px;
+}
+.arrivaldate {
     width: 320px;
+    margin-left: 80px;
 }
 
 .holder {
