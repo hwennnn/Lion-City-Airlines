@@ -170,7 +170,10 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
             return vocations;
         }
+
+        public ActionResult CreateFlightRoute()
+        {
+            return View();
+        }
     }
-
-
 }
