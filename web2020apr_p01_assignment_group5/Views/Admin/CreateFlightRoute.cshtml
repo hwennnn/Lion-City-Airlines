@@ -14,27 +14,27 @@
             <hr />
         </div>
         <form asp-action="CreateFlightRoute">
-            <div class="row">
-                <label asp-for="DepartureCity"></label>
+            <div class="row field justify-content-center">
+                <label class="formlabel" asp-for="DepartureCity"></label>
                 <input type="text" asp-for="DepartureCity" />
             </div>
-            <div class="row">
-                <label asp-for="DepartureCountry"></label>
+            <div class="row field justify-content-center">
+                <label class="formlabel" asp-for="DepartureCountry"></label>
                 <input type="text" asp-for="DepartureCountry" />
             </div>
-            <div class="row">
-                <label asp-for="ArrivalCity"></label>
+            <div class="row field justify-content-center">
+                <label class="formlabel" asp-for="ArrivalCity"></label>
                 <input type="text" asp-for="ArrivalCity" />
             </div>
-            <div class="row">
-                <label asp-for="ArrivalCountry"></label>
+            <div class="row field justify-content-center">
+                <label class="formlabel" asp-for="ArrivalCountry"></label>
                 <input type="text" asp-for="ArrivalCountry" />
             </div>
-            <div class="row">
-                <label asp-for="FlightDuration"></label>
+            <div class="row field justify-content-center">
+                <label class="formlabel" asp-for="FlightDuration"></label>
                 <input type="number" asp-for="FlightDuration" />
             </div>
-            <div class="row">
+            <div class="row field justify-content-center">
                 <input type="submit" value="Create">
             </div>
         </form>

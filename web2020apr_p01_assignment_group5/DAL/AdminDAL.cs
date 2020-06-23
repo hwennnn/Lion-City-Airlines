@@ -277,7 +277,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                                 VALUES(@name, @gender, @dateEmployed, @vocation,
                                 @email, @password, @status)";
             //Define the parameters used in SQL statement, value for each parameter
-            //is retrieved from respective class's property.
+            //is retrieved from respective class's property
             cmd.Parameters.AddWithValue("@name", staff.StaffName);
             cmd.Parameters.AddWithValue("@gender", staff.Gender);
             cmd.Parameters.AddWithValue("@dateEmployed", staff.DateEmployed);
@@ -294,6 +294,33 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
             //Return id when no error occurs.
             return staff.StaffId;
+        }
+
+        public int CreateFlightRoute(FlightRoute flightRoute)
+        {
+            //Create SqlCommand from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an INSERT SQL statement which will
+            //return the auto-generated FlightRoute ID after insertion
+            cmd.CommandText = @"INSERT INTO FlightRoute (DepartureCity, DepartureCountry,
+                                ArrivalCity, ArrivalCountry, FlightDuration)
+                                OUTPUT INSERTED.RouteID
+                                VALUES(@departureCity, @departureCountry,
+                                @arrivalCity, @arrivalCountry, @flightDuration)";
+            //Defining parameters to be inserted
+            cmd.Parameters.AddWithValue("@departureCity", flightRoute.DepartureCity);
+            cmd.Parameters.AddWithValue("@departureCountry", flightRoute.DepartureCountry);
+            cmd.Parameters.AddWithValue("@arrivalCity", flightRoute.ArrivalCity);
+            cmd.Parameters.AddWithValue("@arrivalCountry", flightRoute.ArrivalCountry);
+            cmd.Parameters.AddWithValue("@flightDuration", flightRoute.FlightDuration);
+            //Opening connection to database
+            conn.Open();
+            //Execute Scalar to retrieve inserted Route ID
+            flightRoute.RouteId = (int)cmd.ExecuteScalar();
+            //Close the connection
+            conn.Close();
+            //Return ID if successful
+            return flightRoute.RouteId;
         }
 
     }

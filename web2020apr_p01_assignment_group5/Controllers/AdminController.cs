@@ -175,5 +175,24 @@ namespace web2020apr_p01_assignment_group5.Controllers
         {
             return View();
         }
+        // POST: FlightRoute/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFlightRoute(FlightRoute flightRoute)
+        {
+            if (ModelState.IsValid)
+            {
+                //Add new FlightRoute record into database
+                flightRoute.RouteId = adminContext.CreateFlightRoute(flightRoute);
+                //Return user to admin home page
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                //Input validation fails, return to the Create view
+                //to display error message
+                return View(flightRoute);
+            }
+        }
     }
 }
