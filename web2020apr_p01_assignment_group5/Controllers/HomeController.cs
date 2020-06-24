@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
-using web2020apr_p01_assignment_group5.DAL;
 using Microsoft.AspNetCore.Identity;
 
 namespace web2020apr_p01_assignment_group5.Controllers
@@ -17,6 +16,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
     {
         private LoginDAL loginDAL = new LoginDAL();
         private AdminDAL adminDAL = new AdminDAL();
+        private CustomerDAL customerContext = new CustomerDAL();
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -56,6 +56,14 @@ namespace web2020apr_p01_assignment_group5.Controllers
             if (loginDAL.checkCustomer(email, password))
             {
                 HttpContext.Session.SetString("Role", "Customer");
+
+                // Store Login ID in session with the key “LoginID”
+                HttpContext.Session.SetString("LoginID", email);
+                // Finds Customer based on LoginID in Database
+                Customer customer = customerContext.GetDetails(email);
+                // Store Customer Name with the key "CustomerName"
+                HttpContext.Session.SetString("CustomerName", customer.CustomerName);
+
                 // redirect to customer homepage
                 // store session data as customer
                 return RedirectToAction("Index", "Customers");
