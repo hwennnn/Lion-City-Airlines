@@ -101,14 +101,6 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return scheduleModelList;
         }
 
-        public ActionResult CreatePersonnel()
-        {
-            ViewData["VocationList"] = GetVocation();
-            ViewData["GenderList"] = GetGender();
-
-            return View();
-        }
-
         public ActionResult CreatePersonnels()
         {
             ViewData["VocationList"] = GetVocation();
@@ -162,21 +154,21 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         private List<SelectListItem> GetGender()
         {
-            List<SelectListItem> vocations = new List<SelectListItem>();
+            List<SelectListItem> genders = new List<SelectListItem>();
 
-            vocations.Add(new SelectListItem
+            genders.Add(new SelectListItem
             {
                 Value = "M",
                 Text = "Male"
             });
 
-            vocations.Add(new SelectListItem
+            genders.Add(new SelectListItem
             {
                 Value = "F",
                 Text = "Female"
             });
 
-            return vocations;
+            return genders;
         }
     }
 }
