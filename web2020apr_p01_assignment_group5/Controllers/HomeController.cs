@@ -89,5 +89,10 @@ namespace web2020apr_p01_assignment_group5.Controllers
             // Call the Index action of Home controller
             return RedirectToAction("Index");
         }
+
+        public ActionResult ContactUs()
+        {
+            return View();
+        }
     }
 }
