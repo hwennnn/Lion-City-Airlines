@@ -12,16 +12,19 @@ hr {
     margin-top: 50px;
 }
 
-.formcontent {
-    text-align: right;
-}
-
 .field {
     margin-bottom: 30px;
-    text-align: right;
 }
 
 .formlabel {
     text-align: right;
     margin-right: 20px;
+}
+
+.input {
+    text-align: right;
+}
+
+.formcontainer {
+    text-align: right;
 }

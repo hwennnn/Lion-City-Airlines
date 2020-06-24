@@ -150,8 +150,11 @@ namespace web2020apr_p01_assignment_group5.DAL
                     ScheduleId = reader.GetInt32(0),
                     FlightNumber = reader.GetString(1),
                     RouteId = reader.GetInt32(2),
+                    AircraftId = reader.GetInt32(3),
                     DepartureDateTime = reader.GetDateTime(4),
                     ArrivalDateTime = reader.GetDateTime(5),
+                    EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
+                    BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
                     Status = reader.GetString(8),
 
             });

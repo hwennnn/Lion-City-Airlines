@@ -89,6 +89,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 scheduleModel.ScheduleId = schedule.ScheduleId;
                 scheduleModel.FlightNumber = schedule.FlightNumber;
                 scheduleModel.RouteId = schedule.RouteId;
+                scheduleModel.AircraftId = schedule.AircraftId;
                 scheduleModel.DepartureDateTime = schedule.DepartureDateTime;
                 scheduleModel.ArrivalDateTime = schedule.ArrivalDateTime;
                 scheduleModel.EconomyClassPrice = schedule.EconomyClassPrice;

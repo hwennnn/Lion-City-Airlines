@@ -13,31 +13,33 @@
             <h1 class="title">Create Flight Route Record</h1>
             <hr />
         </div>
-        <form asp-action="CreateFlightRoute">
-            <div class="row field justify-content-center">
-                <label class="formlabel" asp-for="DepartureCity"></label>
-                <input type="text" asp-for="DepartureCity" />
-            </div>
-            <div class="row field justify-content-center">
-                <label class="formlabel" asp-for="DepartureCountry"></label>
-                <input type="text" asp-for="DepartureCountry" />
-            </div>
-            <div class="row field justify-content-center">
-                <label class="formlabel" asp-for="ArrivalCity"></label>
-                <input type="text" asp-for="ArrivalCity" />
-            </div>
-            <div class="row field justify-content-center">
-                <label class="formlabel" asp-for="ArrivalCountry"></label>
-                <input type="text" asp-for="ArrivalCountry" />
-            </div>
-            <div class="row field justify-content-center">
-                <label class="formlabel" asp-for="FlightDuration"></label>
-                <input type="number" asp-for="FlightDuration" />
-            </div>
-            <div class="row field justify-content-center">
-                <input type="submit" value="Create">
-            </div>
-        </form>
+        <div class="container text-right">
+            <form asp-action="CreateFlightRoute">
+                <div class="row field justify-content-center">
+                    <label class="formlabel" asp-for="DepartureCity"></label>
+                    <input class="input" type="text" asp-for="DepartureCity" />
+                </div>
+                <div class="row field justify-content-center">
+                    <label class="formlabel" asp-for="DepartureCountry"></label>
+                    <input class="input" type="text" asp-for="DepartureCountry" />
+                </div>
+                <div class="row field justify-content-center">
+                    <label class="formlabel" asp-for="ArrivalCity"></label>
+                    <input class="input" type="text" asp-for="ArrivalCity" />
+                </div>
+                <div class="row field justify-content-center">
+                    <label class="formlabel" asp-for="ArrivalCountry"></label>
+                    <input class="input" type="text" asp-for="ArrivalCountry" />
+                </div>
+                <div class="row field justify-content-center">
+                    <label class="formlabel" asp-for="FlightDuration"></label>
+                    <input class="input" type="number" asp-for="FlightDuration" />
+                </div>
+                <div class="row field justify-content-center">
+                    <input type="submit" value="Create">
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 

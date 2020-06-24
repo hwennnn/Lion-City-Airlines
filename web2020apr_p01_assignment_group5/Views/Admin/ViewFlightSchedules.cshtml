@@ -44,20 +44,26 @@
                             <tr>
                                 <th>FlightNumber</th>
                                 <th>RouteID</th>
+                                <th>AircraftID</th>
                                 <th>DepartureCity</th>
                                 <th>DepartureCountry</th>
                                 <th>ArrivalCity</th>
                                 <th>ArrivalCountry</th>
+                                <th>EconomyPrice</th>
+                                <th>BusinessPrice</th>
                                 <th>FlightDuration</th>
                                 <th>Status</th>
                             </tr>
                             <tr>
                                 <td>@item.FlightNumber</td>
                                 <td>@item.RouteId</td>
+                                <td>@item.AircraftId</td>
                                 <td>@item.Route.DepartureCity</td>
                                 <td>@item.Route.DepartureCountry</td>
                                 <td>@item.Route.ArrivalCity</td>
                                 <td>@item.Route.ArrivalCountry</td>
+                                <td>@item.EconomyClassPrice</td>
+                                <td>@item.BusinessClassPrice</td>
                                 <td>@item.Route.FlightDuration</td>
                                 <td>@item.Status</td>
                             </tr>
