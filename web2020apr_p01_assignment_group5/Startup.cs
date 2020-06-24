@@ -52,9 +52,8 @@ namespace web2020apr_p01_assignment_group5
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseSession();
-
             app.UseAuthorization();
+            app.UseSession();         
 
             app.UseEndpoints(endpoints =>
             {

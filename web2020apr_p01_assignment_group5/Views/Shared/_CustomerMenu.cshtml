@@ -17,7 +17,6 @@
 
 <body>
 
-
     <nav class="navbar navbar-expand-md bg-light navbar-light navbar-inver">
 
 
@@ -35,17 +34,15 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="~/Admin/Index" style="color:black">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="~/Home/Index" style="color:black">About us</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color:black">
                         Booking
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Book Air Ticket</a>
-                        <a class="dropdown-item" href="#">View Air Tickets Booked</a>
+                        <a class="dropdown-item" href="~/Customers/BookAirTickets">Book Air Ticket</a>
+                        <a class="dropdown-item" href="~/Customers/ViewAirTicketsBooked">View Air Tickets Booked</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -53,14 +50,14 @@
                         Customer Support
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Change Password</a>
+                        <a class="dropdown-item" href="~/Customers/ChangePassword">Change Password</a>
                     </div>
                 </li>
             </ul>
 
             <ul class="nav navbar-nav ml-auto">
-                <li><span style="color:#5F6169">Customer0</span></li>
-                <li><a href="~/Home/Logout" style="color:#5F6169">Sign Out</a></li>
+                <li><span style="color:#5F6169">@(Context.Session.GetString("CustomerName"))</span></li>
+                <li><a href="~/Home/Login" style="color:#5F6169">Sign Out</a></li>
             </ul>
 
         </div>
