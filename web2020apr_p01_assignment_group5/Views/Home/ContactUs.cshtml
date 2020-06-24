@@ -27,10 +27,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <script src="~/lib/bootstrap/dist/css/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="~/css/font-awesome-4.7.0/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="~/css/contactus.css">
 </head>
 <body>
@@ -61,9 +60,9 @@
                     <span class="focus-input100"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Valid contact number is required: +65 98765432">
+                <div class="wrap-input100 validate-input" data-validate="Valid contact number is required: 98765432">
                     <span class="label-input100">Contact Number</span>
-                    <input class="input100" type="tel" name="tel" pattern="[8-9]{1}[0-9]{7}">
+                    <input class="input100" type="tel" name="tel" pattern="[8-9]{1}[0-9]{7}" placeholder="Enter Number: 98765432">
                     <span class="focus-input100"></span>
                 </div>
 
@@ -73,7 +72,6 @@
                         <button class="contact100-form-btn">
                             <span>
                                 Submit
-                                <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
                             </span>
                         </button>
                     </div>
