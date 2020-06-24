@@ -109,10 +109,18 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return View();
         }
 
+        public ActionResult CreatePersonnels()
+        {
+            ViewData["VocationList"] = GetVocation();
+            ViewData["GenderList"] = GetGender();
+
+            return View();
+        }
+
         // POST: Staff/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreatePersonnel(Staff staff)
+        public ActionResult CreatePersonnels(Staff staff)
         {
             //Get country list for drop-down list
             //in case of the need to return to Create.cshtml view

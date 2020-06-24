@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "_AdminMenu";
+    ViewData["Title"] = "Create Flight Personnel Record";
+}
+
+@model web2020apr_p01_assignment_group5.Models.Staff
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Create Flight Personnel Record</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/main.css">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+    <div class="container-contact100">
+
+        <div class="wrap-contact100">
+            <form asp-action="CreatePersonnels" class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Create Flight Personnel
+                </span>
+
+                <div class="wrap-input100 validate-input bg1" data-validate="Please Type Staff Name">
+                    <span class="label-input100">STAFF NAME *</span>
+                    <input class="input100" asp-for="StaffName" placeholder="Enter Staff Name">
+                </div>
+
+                <div class="wrap-input100 validate-input bg1" data-validate="Enter Your Email (hello@gmail.com)">
+                    <span class="label-input100">Email *</span>
+                    <input class="input100" asp-for="Email" placeholder="Enter Your Email ">
+                </div>
+
+                <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+                    <span class="label-input100">Gender *</span>
+                    <div>
+                        <select class="js-select2" asp-for="Gender"
+                                asp-items="@ViewData["GenderList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+                <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+                    <span class="label-input100">Vocation *</span>
+                    <div>
+                        <select class="js-select2" asp-for="Vocation"
+                                asp-items="@ViewData["VocationList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+                <div class="wrap-input100 validate-input bg1" data-validate="Please Select Date Employed">
+                    <span class="label-input100">Date Employed *</span>
+                    <input class="input100" asp-for="DateEmployed" placeholder="Select Date Employed">
+                </div>
+
+
+                <div class="container-contact100-form-btn">
+                    <button class="contact100-form-btn" type="submit">
+                        <span>
+                            Create
+                            <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!--===============================================================================================-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/select2/select2.min.js"></script>
+    <script>$(".js-select2").each(function () {
+            $(this).select2({
+                minimumResultsForSearch: 20,
+                dropdownParent: $(this).next('.dropDownSelect2')
+            });
+
+            $(".js-select2").each(function () {
+                $(this).on('select2:close', function (e) {
+                    if ($(this).val() == "Please select...") {
+                        $('.js-show-service').slideUp();
+                    } else {
+                        $('.js-show-service').slideUp();
+                        $('.js-show-service').slideDown();
+                    }
+                });
+            });
+    document.getElementById("body_container").classList.remove("container-fluid");
+        })</script>
+    <!--===============================================================================================-->
+    <script src="~/js/main.js"></script>
+
+
+</body>
+
+</html>
