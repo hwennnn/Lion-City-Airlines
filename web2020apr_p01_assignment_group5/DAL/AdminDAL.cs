@@ -296,5 +296,36 @@ namespace web2020apr_p01_assignment_group5.DAL
             return staff.StaffId;
         }
 
+        public bool IsEmailExist(string email)
+        {
+            bool emailFound = false;
+
+            //Create a SqlCommand object and specify the SQL statement 
+            //to get a customer record with the email address to be validated 
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM Staff 
+                                WHERE EmailAddr=@selectedEmail";
+            cmd.Parameters.AddWithValue("@selectedEmail", email);
+
+            //Open a database connection and excute the SQL statement 
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    emailFound = true;
+                }
+            }
+            else
+            { //No record 
+                emailFound = false; // The email address given does not exist
+            }
+            reader.Close();
+            conn.Close();
+            return emailFound;
+        }
+
     }
 }

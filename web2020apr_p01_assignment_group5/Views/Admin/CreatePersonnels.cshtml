@@ -44,6 +44,8 @@
                 <div class="wrap-input100 validate-input bg1" data-validate="Enter Your Email (hello@gmail.com)">
                     <span class="label-input100">Email *</span>
                     <input class="input100" asp-for="Email" placeholder="Enter Your Email ">
+                    <span asp-validation-for="Email"
+                          class="text-danger"></span>
                 </div>
 
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">

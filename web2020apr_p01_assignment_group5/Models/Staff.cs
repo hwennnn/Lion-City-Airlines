@@ -21,6 +21,7 @@ namespace web2020apr_p01_assignment_group5.Models
 
         [StringLength(50)]
         [EmailAddress]
+        [ValidateEmailExists]
         public string Email { get; set; }
 
         public string Nationality { get; set; }

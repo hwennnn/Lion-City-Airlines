@@ -10,17 +10,15 @@ namespace web2020apr_p01_assignment_group5.Models
     public class ValidateEmailExists : ValidationAttribute
     {
         private CustomerDAL customerContext = new CustomerDAL();
+        private AdminDAL adminContext = new AdminDAL();
+
         protected override ValidationResult IsValid(
             object value, ValidationContext validationContext)
         {
             // Get the email value to validate 
             string email = Convert.ToString(value);
-            // Casting the validation context to the "Customer" model class 
-            Customer customer = (Customer)validationContext.ObjectInstance;
-            // Get the Customer Id from the Customer instance
-            int customerId = customer.CustomerId;
 
-            if (customerContext.IsEmailExist(email, customerId))
+            if (customerContext.IsEmailExist(email) || adminContext.IsEmailExist(email))
                 // validation failed
                 return new ValidationResult
                     ("Email address already exists!");

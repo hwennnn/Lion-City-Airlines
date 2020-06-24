@@ -57,7 +57,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             return customer.CustomerId;
         }
 
-        public bool IsEmailExist(string email, int CustomerID)
+        public bool IsEmailExist(string email)
         {
             bool emailFound = false;
 
@@ -76,9 +76,9 @@ namespace web2020apr_p01_assignment_group5.DAL
             { //Records found
                 while (reader.Read())
                 {
-                    if (reader.GetInt32(0) != CustomerID)
-                        //The email address is used by another Customer 
-                        emailFound = true;
+                   
+                    //The email address is used by another Customer 
+                    emailFound = true;
                 }
             }
             else
