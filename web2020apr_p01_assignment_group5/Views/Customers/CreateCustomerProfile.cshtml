@@ -39,22 +39,23 @@
                         <h4><u>Personal Information</u></h4>
                         <h6 style="color: grey;">Please complete all the fields marked with *</h6>
                         <label asp-for="CustomerName">Full Name*</label><br>
-                        <input asp-for="CustomerName" type="text" id="CustomerName" name="fullname" placeholder="Enter Full Name" required><br>
+                        <input asp-for="CustomerName" type="text" id="CustomerName" placeholder="Enter Full Name" required><br>
+                        <span asp-validation-for="CustomerName" class="text-danger"></span><br>
                         <label asp-for="Nationality">Nationality</label><br>
-                        <input asp-for="Nationality" type="text" id="Nationality" name="Nationality" placeholder="Nationality"><br>
-                        <span asp-validation-for="Nationality" class="text-danger"></span>
+                        <input asp-for="Nationality" type="text" id="Nationality" placeholder="Nationality"><br>
+                        <span asp-validation-for="Nationality" class="text-danger"></span><br>
                         <label asp-for="BirthDate">Date of birth</label><br>
-                        <input asp-for="BirthDate" type="date" name="dob"><br><br>
+                        <input asp-for="BirthDate" type="date"><br><br>
                         <span asp-validation-for="BirthDate" class="text-danger"></span>
                         <h4><u>Contact Information</u></h4>
-                        <label asp-for="EmailAddr"><h6>Email address*</h6></label><br>
-                        <input asp-for="EmailAddr" type="text" id="EmailAddr" name="EmailAddr" placeholder="Enter Email Address" required><br>
-                        <span asp-validation-for="EmailAddr" class="text-danger"></span>
+                        <label asp-for="EmailAddr">Email address*</label><br>
+                        <input asp-for="EmailAddr" type="text" id="EmailAddr" placeholder="Enter Email Address" required><br>
+                        <span asp-validation-for="EmailAddr" class="text-danger"></span><br>
                         <label asp-for="TelNo">Contact Number</label><br>
-                        <input asp-for="TelNo" type="text" pattern="[689][0-9]{7}" maxlength="8" id="contact" name="contact" placeholder="Phone Number"><br>
-                        <span asp-validation-for="TelNo" class="text-danger"></span>
-                        <input class="btn" type="submit" value="submit" onclick="acknowledge()">
-                        <input class="btn" type="reset" value="Reset" onclick="myFunction()">
+                        <input asp-for="TelNo" type="text" pattern="[689][0-9]{7}" maxlength="8" id="contact" placeholder="Phone Number"><br>
+                        <span asp-validation-for="TelNo" class="text-danger"></span><br>
+                        <input class="btn" type="submit" value="submit" onsubmit="myFunction()">
+                        <input class="btn" type="reset" value="Reset">
                     </form>
                 </div>
             </div>

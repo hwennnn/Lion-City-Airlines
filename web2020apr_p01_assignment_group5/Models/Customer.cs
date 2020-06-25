@@ -35,7 +35,7 @@ namespace web2020apr_p01_assignment_group5.Models
         [Display(Name = "Email Address")]
         [Required(ErrorMessage = "Please enter your Email Address!")]
         [StringLength(50,
-            ErrorMessage = "Contact Number cannot exceed 50 characters")]
+            ErrorMessage = "Email Address cannot exceed 50 characters")]
         [EmailAddress]
         [ValidateEmailExists]
         public string EmailAddr { get; set; }
