@@ -1,0 +1,30 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+hr {
+    height: 2px;
+    background-color: black;
+    width: 100%;
+}
+
+.title {
+    margin-top: 50px;
+}
+
+.field {
+    margin-bottom: 30px;
+}
+
+.formlabel {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.input {
+    text-align: right;
+}
+
+.formcontainer {
+    text-align: right;
+}

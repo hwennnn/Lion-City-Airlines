@@ -89,6 +89,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 scheduleModel.ScheduleId = schedule.ScheduleId;
                 scheduleModel.FlightNumber = schedule.FlightNumber;
                 scheduleModel.RouteId = schedule.RouteId;
+                scheduleModel.AircraftId = schedule.AircraftId;
                 scheduleModel.DepartureDateTime = schedule.DepartureDateTime;
                 scheduleModel.ArrivalDateTime = schedule.ArrivalDateTime;
                 scheduleModel.EconomyClassPrice = schedule.EconomyClassPrice;
@@ -169,6 +170,30 @@ namespace web2020apr_p01_assignment_group5.Controllers
             });
 
             return genders;
+        }
+
+        public ActionResult CreateFlightRoute()
+        {
+            return View();
+        }
+        // POST: FlightRoute/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFlightRoute(FlightRoute flightRoute)
+        {
+            if (ModelState.IsValid)
+            {
+                //Add new FlightRoute record into database
+                flightRoute.RouteId = adminContext.CreateFlightRoute(flightRoute);
+                //Return user to admin home page
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                //Input validation fails, return to the Create view
+                //to display error message
+                return View(flightRoute);
+            }
         }
     }
 }

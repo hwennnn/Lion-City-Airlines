@@ -1,0 +1,86 @@
+﻿@{
+    var role = Context.Session.GetString("Role");
+    if (role == "Customer")
+    {
+        Layout = "_CustomerMenu";
+    }
+    else if (role == "Admin")
+    {
+        Layout = "_AdminMenu";
+    }
+    else
+    {
+        Layout = "_CommonMenu";
+    }
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contact V4</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/x-icon" href="~/images/logo.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet" type="text/css" href="~/css/contactus.css">
+</head>
+<body>
+
+
+    <div class="container-contact100">
+        <div class="wrap-contact100">
+            <form class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Contact Us!
+                </span>
+
+                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                    <span class="label-input100">First Name</span>
+                    <input class="input100" type="text" name="firstname" placeholder="Enter your name">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                    <span class="label-input100">last Name Name</span>
+                    <input class="input100" type="text" name="lastname" placeholder="Enter your name">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                    <span class="label-input100">Email</span>
+                    <input class="input100" type="text" name="email" placeholder="Enter your email addess">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Valid contact number is required: 98765432">
+                    <span class="label-input100">Contact Number</span>
+                    <input class="input100" type="tel" name="tel" pattern="[8-9]{1}[0-9]{7}" placeholder="Enter Number: 98765432">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="container-contact100-form-btn">
+                    <div class="wrap-contact100-form-btn">
+                        <div class="contact100-form-bgbtn"></div>
+                        <button class="contact100-form-btn">
+                            <span>
+                                Submit
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/js/contactus.js"></script>
+
+</body>
+</html>
