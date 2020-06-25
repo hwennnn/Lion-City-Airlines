@@ -1,46 +1,109 @@
-﻿@model web2020apr_p01_assignment_group5.Models.FlightRoute
-
-@{
+﻿@{
     Layout = "_AdminMenu";
     ViewData["Title"] = "Create Flight Route Record";
 }
 
-<link rel="stylesheet" href="~/css/createflightroute.css">
+@model web2020apr_p01_assignment_group5.Models.FlightRoute
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Create Flight Route Record</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/main.css">
+    <!--===============================================================================================-->
+</head>
 
 <body>
-    <div class="container text-center">
-        <div class="row content">
-            <h1 class="title">Create Flight Route Record</h1>
-            <hr />
-        </div>
-        <div class="container text-right">
-            <form asp-action="CreateFlightRoute">
-                <div class="row field justify-content-center">
-                    <label class="formlabel" asp-for="DepartureCity"></label>
-                    <input class="input" type="text" asp-for="DepartureCity" />
+    <div class="container-contact100">
+
+        <div class="wrap-contact100"> 
+            <form asp-action="CreateFlightRoute" class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Create Flight Route
+                </span>
+
+                <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Departure City">
+                    <span class="label-input100">Departure City</span>
+                    <input class="input100" asp-for="DepartureCity" placeholder="Enter Departure City">
                 </div>
-                <div class="row field justify-content-center">
-                    <label class="formlabel" asp-for="DepartureCountry"></label>
-                    <input class="input" type="text" asp-for="DepartureCountry" />
+
+                <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Departure Country">
+                    <span class="label-input100">Departure Country</span>
+                    <input class="input100" asp-for="DepartureCountry" placeholder="Enter Departure Country">
                 </div>
-                <div class="row field justify-content-center">
-                    <label class="formlabel" asp-for="ArrivalCity"></label>
-                    <input class="input" type="text" asp-for="ArrivalCity" />
+
+                <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Arrival City">
+                    <span class="label-input100">Arrival City</span>
+                    <input class="input100" asp-for="ArrivalCity" placeholder="Enter Arrival City">
                 </div>
-                <div class="row field justify-content-center">
-                    <label class="formlabel" asp-for="ArrivalCountry"></label>
-                    <input class="input" type="text" asp-for="ArrivalCountry" />
+
+                <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Arrival Country">
+                    <span class="label-input100">Arrival Country</span>
+                    <input class="input100" asp-for="ArrivalCountry" placeholder="Enter Arrival Country">
                 </div>
-                <div class="row field justify-content-center">
-                    <label class="formlabel" asp-for="FlightDuration"></label>
-                    <input class="input" type="number" asp-for="FlightDuration" />
+
+                <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Flight Duration">
+                    <span class="label-input100">Flight Duration</span>
+                    <input class="input100" asp-for="FlightDuration" placeholder="Enter Flight Duration">
                 </div>
-                <div class="row field justify-content-center">
-                    <input type="submit" value="Create">
+
+                <div class="container-contact100-form-btn">
+                    <button class="contact100-form-btn" type="submit">
+                        <span>
+                            Create
+                            <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                        </span>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
+
+
+
+    <!--===============================================================================================-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/select2/select2.min.js"></script>
+    <script>
+$(".js-select2").each(function () {
+            $(this).select2({
+                minimumResultsForSearch: 20,
+                dropdownParent: $(this).next('.dropDownSelect2')
+            });
+
+            $(".js-select2").each(function () {
+                $(this).on('select2:close', function (e) {
+                    if ($(this).val() == "Please select...") {
+                        $('.js-show-service').slideUp();
+                    } else {
+                        $('.js-show-service').slideUp();
+                        $('.js-show-service').slideDown();
+                    }
+                });
+            });
+    document.getElementById("body_container").classList.remove("container-fluid");
+        })</script>
+    <!--===============================================================================================-->
+    <script src="~/js/main.js"></script>
+
+
 </body>
 
-
+</html>
