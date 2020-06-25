@@ -328,6 +328,8 @@ namespace web2020apr_p01_assignment_group5.DAL
             reader.Close();
             conn.Close();
             return emailFound;
+        }
+        
         public int CreateFlightRoute(FlightRoute flightRoute)
         {
             //Create SqlCommand from connection object
