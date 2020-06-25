@@ -40,7 +40,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 //Add customer record to database
                 customer.CustomerId = customerContext.Addcustomer(customer);
                 //Redirect user to customer/Index view
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Customers");
             }
             else
             {
