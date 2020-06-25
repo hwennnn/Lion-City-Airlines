@@ -363,7 +363,7 @@ textarea.input100 {
 
 .alert-validate::after {
     content: "\f06a";
-    font-family: 'Montserrat', sans-serif;
+    font-family: FontAwesome;
     display: block;
     position: absolute;
     color: #c80000;
