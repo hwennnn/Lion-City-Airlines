@@ -8,6 +8,9 @@
 <html lang="en">
 
 <head>
+    <!-- Main CSS-->
+    <link href="~/css/main.css" rel="stylesheet" media="all">
+
     <title>HomePage</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,69 +20,44 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <script src="~/js/CreateCustomerProfile.js"></script>
+    <link rel="stylesheet" href="~/css/CreateCustomerProfile.css">
 </head>
 
 <body>
-    <br>
-    <div class="container">
-        <div class="column">
-            <h2><b>Create Customer Profile</b></h2>
-            <form asp-action="CreateCustomerProfile" id="Form">
-                <fieldset class="FormContent">
-                    <div class="form-group row">
-                        <label asp-for="CustomerName"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="CustomerName" id="CustomerName" class="form-control" />
-                            <span asp-validation-for="CustomerName"
-                                  class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label asp-for="BirthDate"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="BirthDate" class="form-control" />
-                            <span asp-validation-for="BirthDate"
-                                  class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label asp-for="Nationality"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="Nationality" class="form-control" />
-                            <span asp-validation-for="Nationality"
-                                  class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label asp-for="TelNo"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="TelNo" class="form-control" />
-                            <span asp-validation-for="TelNo"
-                                  class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label asp-for="EmailAddr"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="EmailAddr" class="form-control" />
-                            <span asp-validation-for="EmailAddr"
-                                  class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-9 offset-sm-3">
-                            <input type="submit" value="Submit" onclick="acknowledge()" id="date" class="btn btn-primary" />
-                            <input type="reset" value="Reset" onclick="myFunction()" class="btn btn-primary" />
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="container">
+            <div style="text-align:center">
+                <br>
+                <h2><b>Create Customer Profile</b></h2>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <img src="~/images/CreateCustomerProfile.jpg" style="width:100%">
+                </div>
+                <div class="column">
+                    <form asp-action="CreateCustomerProfile" id="Form">
+                        <h4><u>Personal Information</u></h4>
+                        <h6 style="color: grey;">Please complete all the fields marked with *</h6>
+                        <label asp-for="CustomerName">Full Name*</label><br>
+                        <input asp-for="CustomerName" type="text" id="CustomerName" name="fullname" placeholder="Enter Full Name" required><br>
+                        <label asp-for="Nationality">Nationality</label><br>
+                        <input asp-for="Nationality" type="text" id="Nationality" name="Nationality" placeholder="Nationality"><br>
+                        <span asp-validation-for="Nationality" class="text-danger"></span>
+                        <label asp-for="BirthDate">Date of birth</label><br>
+                        <input asp-for="BirthDate" type="date" name="dob"><br><br>
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        <h4><u>Contact Information</u></h4>
+                        <label asp-for="EmailAddr"><h6>Email address*</h6></label><br>
+                        <input asp-for="EmailAddr" type="text" id="EmailAddr" name="EmailAddr" placeholder="Enter Email Address" required><br>
+                        <span asp-validation-for="EmailAddr" class="text-danger"></span>
+                        <label asp-for="TelNo">Contact Number</label><br>
+                        <input asp-for="TelNo" type="text" pattern="[689][0-9]{7}" maxlength="8" id="contact" name="contact" placeholder="Phone Number"><br>
+                        <span asp-validation-for="TelNo" class="text-danger"></span>
+                        <input class="btn" type="submit" value="submit" onclick="acknowledge()">
+                        <input class="btn" type="reset" value="Reset" onclick="myFunction()">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </body>

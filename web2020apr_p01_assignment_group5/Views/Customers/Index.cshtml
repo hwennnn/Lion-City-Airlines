@@ -1,5 +1,17 @@
 ﻿@{
-    Layout = "_CustomerMenu";
+    var role = Context.Session.GetString("Role");
+    if (role == "Customer")
+    {
+        Layout = "_CustomerMenu";
+    }
+    else if (role == "Admin")
+    {
+        Layout = "_AdminMenu";
+    }
+    else
+    {
+        Layout = "_CommonMenu";
+    }
 }
 
 <!DOCTYPE html>
