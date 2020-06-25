@@ -49,6 +49,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 personnelsModel.StaffId = staff.StaffId;
                 personnelsModel.StaffName = staff.StaffName;
                 personnelsModel.Vocation = staff.Vocation;
+                personnelsModel.Status = staff.Status;
 
                 List<FlightCrew> flightCrewList = adminContext.getSpecificFlightCrew(staff.StaffId);
                 List<FlightSchedule> scheduleList = new List<FlightSchedule>();
@@ -80,8 +81,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
         public List<ScheduleViewModel> mapScheduletoRoute()
         {
             List<ScheduleViewModel> scheduleModelList = new List<ScheduleViewModel>();
-            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
-            scheduleList = adminContext.getAllFlightSchedule();
+            List<FlightSchedule> scheduleList = adminContext.getAllFlightSchedule();
 
             foreach (FlightSchedule schedule in scheduleList)
             {
@@ -193,6 +193,51 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 //Input validation fails, return to the Create view
                 //to display error message
                 return View(flightRoute);
+            }
+        }
+
+        // GET: Staff/Edit/5
+        public ActionResult UpdatePersonnelStatus(int? id)
+        {
+            // Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            //if ((HttpContext.Session.GetString("Role") == null) ||
+            //(HttpContext.Session.GetString("Role") != "Admin"))
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+            if (id == null)
+            { //Query string parameter not provided
+              //Return to listing page, not allowed to edit
+                return RedirectToAction("Index");
+            }
+
+            Staff staff = adminContext.GetSpecificStaffByID(id.Value);
+            if (staff == null)
+            {
+                //Return to listing page, not allowed to edit
+                return RedirectToAction("Index");
+            }
+            return View(staff);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePersonnelStatus(Staff staff)
+        {
+          
+
+            if (ModelState.IsValid)
+            {
+                //Update staff record to database
+                //adminContext.Update(staff);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                //Input validation fails, return to the view
+                //to display error message
+                return View(staff);
             }
         }
     }

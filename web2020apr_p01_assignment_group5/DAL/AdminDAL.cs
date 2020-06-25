@@ -63,6 +63,41 @@ namespace web2020apr_p01_assignment_group5.DAL
             return staff;
         }
 
+        public Staff GetSpecificStaffByID(int id)
+        {
+            Staff staff = new Staff();
+
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM Staff WHERE StaffID = @staffID";
+            cmd.Parameters.AddWithValue("@staffID", id);
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    staff.StaffId = reader.GetInt32(0);
+                    staff.StaffName = reader.GetString(1);
+                    staff.Gender = reader.GetString(2)[0];
+                    staff.DateEmployed = reader.GetDateTime(3);
+                    staff.Vocation = reader.GetString(4);
+                    staff.Email = reader.GetString(5);
+                    staff.Status = reader.GetString(7);
+                }
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return staff;
+        }
+
         public List<Staff> getAllStaff()
         {
             List<Staff> staffList = new List<Staff>();
