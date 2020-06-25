@@ -16,7 +16,7 @@
         </div>
 
         <div class="row content">
-            <input oninput="updateResult(this.value)" class="search__input" type="text" placeholder="Search" />
+            <input class="search__input" id="search_bar" type="text" onkeyup="updateResult(this.value)" placeholder="Search" />
             <label class="switch ml-auto">
                 <input id="toggle_switch" onchange="displayAllTable(this)" type="checkbox">
                 <span class="slider round"></span>
@@ -86,7 +86,7 @@
         for (i = 0; i < raw_arr.length; i++) {
             arr[i] = raw_arr[i].staffName;
         }
-        
+
         var _switch = document.getElementById("toggle_switch");
 
         function displayAllTable(element) {
@@ -108,17 +108,17 @@
                             arrow.style["border-bottom"] = "16px solid black";
                             arrow.style["border-top"] = "0px";
                         }
-                    
+
                     }
                 }
-                
+
             } else {
                 console.log("unchecked")
                 for (i = 1; i < n+1; i++){
                     var tablename = "flights_table" + i;
                     var arrowname = "arrow" + i;
                     var holdername = "holder" + i;
-                    
+
                     var table = document.getElementById(tablename);
                     var arrow = document.getElementById(arrowname);
                     var holder = document.getElementById(holdername);
@@ -129,7 +129,7 @@
                             arrow.style["border-bottom"] = "0px";
                             arrow.style["border-top"] = "16px solid black";
                         }
-                    
+
                     }
                 }
             }
@@ -161,10 +161,10 @@
                                 arrow.style["border-bottom"] = "0px";
                                 arrow.style["border-top"] = "16px solid black";
                             }
-                           
+
                         }
                     }
-                    
+
                 })
             })
 
@@ -178,7 +178,7 @@
                 holder.style.display = "";
             }
         }
-        
+
     </script>
 
 </body>
