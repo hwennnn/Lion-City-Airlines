@@ -78,6 +78,37 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return personnelsModelList;
         }
 
+        public PersonnelViewModel mapSpecificPersonneltoSchedule(Staff staff)
+        {
+            PersonnelViewModel personnelsModel = new PersonnelViewModel();
+            personnelsModel.StaffId = staff.StaffId;
+            personnelsModel.StaffName = staff.StaffName;
+            personnelsModel.Vocation = staff.Vocation;
+            personnelsModel.Status = staff.Status;
+
+            List<FlightCrew> flightCrewList = adminContext.getSpecificFlightCrew(staff.StaffId);
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+            foreach (FlightCrew crew in flightCrewList)
+            {
+                FlightSchedule schedule = adminContext.getSpecificSchedule(crew.ScheduleID);
+                scheduleList.Add(
+                     new FlightSchedule
+                     {
+                         ScheduleId = schedule.ScheduleId,
+                         FlightNumber = schedule.FlightNumber,
+                         RouteId = schedule.RouteId,
+                         DepartureDateTime = schedule.DepartureDateTime,
+                         ArrivalDateTime = schedule.ArrivalDateTime,
+                         Status = schedule.Status,
+                         Role = crew.Role
+
+                     });
+            }
+            personnelsModel.flightScheduleList = scheduleList;
+
+            return personnelsModel;
+        }
+
         public List<ScheduleViewModel> mapScheduletoRoute()
         {
             List<ScheduleViewModel> scheduleModelList = new List<ScheduleViewModel>();
@@ -213,6 +244,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             }
 
             Staff staff = adminContext.GetSpecificStaffByID(id.Value);
+            
             if (staff == null)
             {
                 //Return to listing page, not allowed to edit
@@ -225,18 +257,29 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UpdatePersonnelStatus(Staff staff)
         {
-          
+            bool isUpdateValid = true;
 
-            if (ModelState.IsValid)
+            PersonnelViewModel personnelModel = mapSpecificPersonneltoSchedule(staff);
+            foreach (FlightSchedule schedule in personnelModel.flightScheduleList)
             {
-                //Update staff record to database
-                //adminContext.Update(staff);
-                return RedirectToAction("Index");
+                if (schedule.DepartureDateTime.Date >= DateTime.Today)
+                {
+                    isUpdateValid = false;
+                }
+            }
+
+            if (isUpdateValid)
+            {
+                Console.WriteLine("valid update");
+                //Update staff status to database
+                adminContext.updatePersonnelStatus(staff);
+                TempData["alert"] = "The staff's status has been updated.";
+                return RedirectToAction("ViewPersonnels");
             }
             else
             {
-                //Input validation fails, return to the view
-                //to display error message
+                Console.WriteLine("invalid update");
+                TempData["alert"] = "The update action is fail as the staff has already been assigned upcoming schedules.";
                 return View(staff);
             }
         }

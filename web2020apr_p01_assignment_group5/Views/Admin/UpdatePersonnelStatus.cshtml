@@ -15,10 +15,22 @@
             <hr />
         </div>
 
-        <form asp-action="UpdatePersonnelStatus">
+        <form asp-action="UpdatePersonnelStatus" method="post">
             <fieldset class="FormContent">
 
-                <legend>Are you sure to update the status?</legend>
+                @{
+                    var text = "";
+                    if (Model.Status.Equals("Active"))
+                    {
+                        text = "Are you sure to update the status to inactive?";
+                    }
+                    else
+                    {
+                        text = "Are you sure to update the status to active?";
+                    }
+                }
+
+                <legend>@text</legend>
 
                 <div class="form-group row">
                     <label asp-for="StaffId"
@@ -51,6 +63,8 @@
                     <input type="submit" value="Update" class="btn btn-primary" />
                 </div>
 
+                <br />
+
                 <div>
                     <a asp-action="ViewPersonnels">Back to List</a>
                 </div>
@@ -59,6 +73,14 @@
         </form>
 
     </div>
+
+    <script>
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
+
+        if (message) {
+            alert(message);
+        }
+    </script>
 
 </body>
 

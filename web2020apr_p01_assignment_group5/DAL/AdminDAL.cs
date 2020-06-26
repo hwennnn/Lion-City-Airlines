@@ -392,5 +392,37 @@ namespace web2020apr_p01_assignment_group5.DAL
             return flightRoute.RouteId;
         }
 
+        public void updatePersonnelStatus(Staff staff)
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+
+            //Specify an UPDATE SQL statement
+            cmd.CommandText = @"UPDATE Staff SET Status=@status 
+                                WHERE StaffID = @selectedStaffID";
+
+            //Define the parameters used in SQL statement, value for each parameter
+            //is retrieved from respective class's property.
+
+            if (staff.Status.Equals("Active"))
+            {
+                cmd.Parameters.AddWithValue("@status", "Inactive");
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@status", "Active");
+            }
+
+            cmd.Parameters.AddWithValue("@selectedStaffID", staff.StaffId);
+
+            //Open a database connection
+            conn.Open();
+            //ExecuteNonQuery is used for UPDATE and DELETE
+            cmd.ExecuteNonQuery();
+            //Close the database connection
+            conn.Close();
+
+        }
+
     }
 }

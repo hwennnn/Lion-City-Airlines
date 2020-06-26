@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "_AdminMenu";
-    ViewData["Title"] = "View all Personnels and Flights Assigned";
+    ViewData["Title"] = "View All Flights Personnels";
 }
 @model IEnumerable<web2020apr_p01_assignment_group5.Models.PersonnelViewModel>
 
@@ -12,7 +12,7 @@
     <div class="container text-center">
 
         <div class="row content titleholder">
-            <h1 class="title">View all Personnels and Flights Assigned</h1>
+            <h1 class="title">View All Flight Personnels</h1>
         </div>
 
         <div class="row content">
@@ -73,7 +73,7 @@
                     }
                     else
                     {
-                        <p>No record found!</p>
+                        <p>No FlightSchedule record found!</p>
                     }
                     <br />
                     <a asp-action="UpdatePersonnelStatus" asp-controller="Admin"
@@ -87,6 +87,13 @@
     </div>
 
     <script type="text/javascript">
+
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
+
+        if (message) {
+            alert(message);
+        }
+
         var raw_arr = @Html.Raw(Json.Serialize(Model));
 
         var arr = [];
