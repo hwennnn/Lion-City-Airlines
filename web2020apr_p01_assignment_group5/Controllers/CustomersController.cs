@@ -20,7 +20,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Customer/CreateCustomerProfile
