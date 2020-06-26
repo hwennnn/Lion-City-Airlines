@@ -77,16 +77,16 @@ p {
   clear: both; }
 
 body {
-  line-height: 1.8;
-  background-image: url("../images/Customerhomepage.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  -moz-background-size: cover;
-  -webkit-background-size: cover;
-  -o-background-size: cover;
-  -ms-background-size: cover;
-  background-position: center center;
-  margin: 0px; }
+    background-image: url("../images/airplane.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-position: center center;
+    min-height: 100vh;
+}
 
 .main {
   position: relative; }
@@ -163,13 +163,15 @@ label {
   -ms-justify-content: space-between; }
 
 .form-destination {
-  width: 230px; }
+  width: 190px; }
 
 .form-date-from, .form-date-to {
   width: 190px; }
 
 .form-submit {
-  width: 140px; }
+  width: 140px;
+  margin: 0 auto;
+}
 
 .minus {
   bottom: 0px; }
@@ -208,4 +210,6 @@ label {
   .booking-form {
     padding: 35px 30px 51px 30px; } }
 
-/*# sourceMappingURL=style.css.map */
+h6{
+    font-size:12px;
+}
