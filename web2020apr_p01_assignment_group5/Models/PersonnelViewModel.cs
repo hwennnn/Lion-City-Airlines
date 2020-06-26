@@ -14,6 +14,9 @@ namespace web2020apr_p01_assignment_group5.Models
         [StringLength(50)]
         public string Vocation { get; set; }
 
+        [StringLength(255)]
+        public string Status { get; set; }
+
         public List<FlightSchedule> flightScheduleList;
     }
 }

@@ -30,6 +30,11 @@ hr {
     width: 350px;
 }
 
+.vocation {
+    text-align: left;
+    width: 300px;
+}
+
 .holder {
     margin-top: 20px;
     position: relative;

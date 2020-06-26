@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "_AdminMenu";
-    ViewData["Title"] = "View all Personnels and Flights Assigned";
+    ViewData["Title"] = "View All Flights Personnels";
 }
 @model IEnumerable<web2020apr_p01_assignment_group5.Models.PersonnelViewModel>
 
@@ -12,7 +12,7 @@
     <div class="container text-center">
 
         <div class="row content titleholder">
-            <h1 class="title">View all Personnels and Flights Assigned</h1>
+            <h1 class="title">View All Flight Personnels</h1>
         </div>
 
         <div class="row content">
@@ -29,15 +29,19 @@
             @{int i = 1;}
             @foreach (var item in Model)
             {
-                <div id="holder@(i)" class="row content holder">
+            <div id="holder@(i)" class="row content holder">
 
-                    <span class="staffid">StaffID : @item.StaffId</span>
-                    <span class="staffname">StaffName: @item.StaffName</span>
-                    <span class="vocation">Vocation: @item.Vocation</span>
-                    <span onclick="toggle(@(i))" id="arrow@(i)" class="arrow-down"></span>
+                <span class="staffid">StaffID : @item.StaffId</span>
+                <span class="staffname">StaffName: @item.StaffName</span>
+                <span class="vocation">Vocation: @item.Vocation</span>
+                <a style="color:black" asp-action="UpdatePersonnelStatus" asp-controller="Admin"
+                       asp-route-id="@item.StaffId">
+                  <span class="vocation">Status: @item.Status</span></a>
 
-                </div>
+                <span onclick="toggle(@(i))" id="arrow@(i)" class="arrow-down"></span>
 
+            </div>
+                
                 <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto; margin-top:10px;">
                     @if (item.flightScheduleList.Count > 0)
                     {
@@ -69,9 +73,13 @@
                     }
                     else
                     {
-                        <p>No record found!</p>
-                    }   
-            </div>
+                        <p>No FlightSchedule record found!</p>
+                    }
+                    <br />
+                    <a asp-action="UpdatePersonnelStatus" asp-controller="Admin"
+                       asp-route-id="@item.StaffId"><button>Update Personnel Status</button></a>
+                    
+                </div>
                 i++;
             }
         </div>
@@ -79,6 +87,13 @@
     </div>
 
     <script type="text/javascript">
+
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
+
+        if (message) {
+            alert(message);
+        }
+
         var raw_arr = @Html.Raw(Json.Serialize(Model));
 
         var arr = [];
@@ -103,7 +118,7 @@
                     var holder = document.getElementById(holdername);
 
                     if (holder.style.display != "none") {
-                        table.style.display = "";
+                        table.style.display = "block";
                         if (arrow != null) {
                             arrow.style["border-bottom"] = "16px solid black";
                             arrow.style["border-top"] = "0px";
@@ -152,7 +167,7 @@
                     if (word == "") {
                         showAll(arr.length)
                     } else if (algo.toLowerCase().indexOf(word.toLowerCase()) != -1) {
-                        holder.style.display = "";
+                        holder.style.display = "block";
                     }else{
                         holder.style.display = "none";
                         if (table != null) {
@@ -175,7 +190,7 @@
             for (i = 1; i < len+1; i++){
                 var holdername = "holder" + i;
                 var holder = document.getElementById(holdername);
-                holder.style.display = "";
+                holder.style.display = "block";
             }
         }
 
