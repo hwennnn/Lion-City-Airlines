@@ -12,49 +12,53 @@
     {
         Layout = "_CommonMenu";
     }
-
 }
 
-@{
-    ViewData["Title"] = "Home Page";
-}
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <title>HomePage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="~/css/aboutus.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="~/css/material-design-iconic-font.min.css">
+</head>
 
 <body>
-
-    <div class="grey-bg">
-        <br><br><br>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <image class="aboutus" src="@Url.Content("~/images/aboutus_1.png")"</image>
-                </div>
+    <div class="container text-center">
+        <div class="row content">
+            <div class="col-sm-12 text-centre">
+                <h2 id="welcome_title">Hi, Where would you like to go?</h2>
             </div>
         </div>
-        <br><br>
-    </div>
-
-    <div>
-        <br><br><br>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <image class="aboutus_intro" src="@Url.Content("~/images/snap.png")"</image>
+        <form id="booking-form" class="booking-form" method="POST">
+            <div class="form-group">
+                <div class="form-destination">
+                    <label for="destination"><h6>Destination</h6></label>
+                    <input type="text" id="destination" name="destination" placeholder="Destination" />
                 </div>
-
-                <div class="col-sm-12">
-                    <p class="aboutus_text">
-                        We started out as a dream. The Owner of Lion City Airlines, “Wai Hou Man” had a dream: To bring about the best services in the skies. From there, our founder assembled a crew of people who were skilled and excellent in providing services to people. The
-                        crew underwent training for providing services in an airplane for 3 months. On 1st of May, 2015, the crew took flight for the very first time, making it the debut of the Lion City Airlines. From that day on, we made a promise to
-                        uphold and follow through the pledge of the Lion City Airlines:
-                        <br><br> “Be efficient, be kind and be confident. We will bring our passengers to greater heights and destinations with comfort, elegance and style.”
-                    </p>
+                <div class="form-date-from form-icon">
+                    <label for="date_from"><h6>Departure Date</h6></label>
+                    <input type="date" id="date_from" class="date_from" placeholder="Pick a date" />
+                </div>
+                <div class="form-date-to form-icon">
+                    <label for="date_to"><h6>Arrival Date</h6></label>
+                    <input type="date" id="date_to" class="date_to" placeholder="Pick a date" />
+                </div>
+                <div class="form-submit">
+                    <input type="submit" id="submit" class="submit" value="Search" />
                 </div>
             </div>
-        </div>
-        <br><br><br>
+        </form>
     </div>
-
 </body>
+
+</html>
