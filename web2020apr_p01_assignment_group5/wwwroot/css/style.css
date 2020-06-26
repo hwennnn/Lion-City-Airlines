@@ -104,7 +104,7 @@ body {
 .booking-form {
   padding: 35px 70px 51px 70px; }
 
-input {
+select, input {
   border: none;
   background: #fff;
   border-radius: 5px;
@@ -210,6 +210,6 @@ label {
   .booking-form {
     padding: 35px 30px 51px 30px; } }
 
-h6{
+label{
     font-size:12px;
 }

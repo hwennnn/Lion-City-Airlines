@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
@@ -24,8 +25,13 @@ namespace web2020apr_p01_assignment_group5.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
+            BookingModel bookingModel = getBookingModel();
+
+            ViewData["DepartureList"] = bookingModel.departureCountryList;
+            ViewData["ArrivalList"] = bookingModel.arrivalCountryList;
+
             return View();
         }
 
@@ -107,6 +113,54 @@ namespace web2020apr_p01_assignment_group5.Controllers
         public ActionResult AboutUs()
         {
             return View();
+        }
+
+        public BookingModel getBookingModel()
+        {
+            BookingModel bookingModel = new BookingModel();
+            List<FlightSchedule> flightSchedules = adminDAL.getAllFlightSchedule();
+
+            List<SelectListItem> dList = new List<SelectListItem>();
+            List<SelectListItem> aList = new List<SelectListItem>();
+
+            HashSet<string> dSet = new HashSet<string>();
+            HashSet<string> aSet = new HashSet<string>();
+
+            foreach (FlightSchedule schedule in flightSchedules)
+            {
+                if (schedule.Status.Equals("Opened"))
+                {
+                    FlightRoute flightRoute = adminDAL.getSpecificRoute(schedule.RouteId);
+                    if (flightRoute != null)
+                    {
+                        if (!dSet.Contains(flightRoute.DepartureCountry)){
+                            dList.Add(new SelectListItem
+                            {
+                                Value = flightRoute.DepartureCountry,
+                                Text = flightRoute.DepartureCountry
+                            });
+                            dSet.Add(flightRoute.DepartureCountry);
+                        }
+
+                        if (!aSet.Contains(flightRoute.ArrivalCountry))
+                        {
+                            aList.Add(new SelectListItem
+                            {
+                                Value = flightRoute.ArrivalCountry,
+                                Text = flightRoute.ArrivalCountry
+                            });
+                            aSet.Add(flightRoute.ArrivalCountry);
+                        }
+                        
+                    }
+                }
+
+            }
+
+            bookingModel.departureCountryList = dList;
+            bookingModel.arrivalCountryList = aList;
+
+            return bookingModel;
         }
     }
 }
