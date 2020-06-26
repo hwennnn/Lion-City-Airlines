@@ -77,7 +77,6 @@ p {
   clear: both; }
 
 body {
-  font-size: 14px;
   line-height: 1.8;
   background-image: url("../images/Customerhomepage.jpg");
   background-repeat: no-repeat;
@@ -87,7 +86,6 @@ body {
   -o-background-size: cover;
   -ms-background-size: cover;
   background-position: center center;
-  font-weight: 600;
   margin: 0px; }
 
 .main {
