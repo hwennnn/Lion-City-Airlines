@@ -27,6 +27,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult Index()
         {
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             BookingModel bookingModel = getBookingModel();
 
             ViewData["DepartureList"] = bookingModel.departureCountryList;
@@ -48,12 +53,30 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult Login()
         {
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (HttpContext.Session.GetString("Role") == "Customer")
+            {
+                return RedirectToAction("Index", "Customer");
+            }
+
             return View();
         }
 
         [HttpPost]
         public ActionResult Login(IFormCollection formData)
         {
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (HttpContext.Session.GetString("Role") == "Customer")
+            {
+                return RedirectToAction("Index", "Customer");
+            }
+
             string email = formData["txtLoginEmail"].ToString();
             string password = formData["txtPassword"].ToString();
             Console.WriteLine(email);
@@ -107,11 +130,21 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult ContactUs()
         {
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             return View();
         }
 
         public ActionResult AboutUs()
         {
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             return View();
         }
 
