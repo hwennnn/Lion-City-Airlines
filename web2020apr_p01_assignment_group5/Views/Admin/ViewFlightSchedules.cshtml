@@ -86,13 +86,18 @@
     </div>
 
     <script type="text/javascript">
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
+
+        if (message) {
+            alert(message);
+        }
         var raw_arr = @Html.Raw(Json.Serialize(Model));
 
         var arr = [];
 
         for (i = 0; i < raw_arr.length; i++) {
             arr[i] = raw_arr[i].scheduleId.toString();
-           
+
         }
 
         console.log(arr);
