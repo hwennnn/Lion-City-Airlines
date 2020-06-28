@@ -4,6 +4,7 @@ body {
 
 .title {
     margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .scheduleid,
@@ -27,12 +28,10 @@ hr {
 
 .departdate {
     text-align: left;
-    width: 480px;
+    width: 400px;
 }
 
 .status {
-    width: 320px;
-    margin-left: 80px;
 }
 
 .holder {

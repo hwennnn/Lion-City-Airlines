@@ -107,7 +107,6 @@
         function displayAllTable(element) {
             var n = arr.length
             if (element.checked) {
-                console.log("checked")
                 for (i = 1; i < n+1; i++){
                     var tablename = "flights_table" + i;
                     var arrowname = "arrow" + i;
@@ -128,7 +127,6 @@
                 }
 
             } else {
-                console.log("unchecked")
                 for (i = 1; i < n+1; i++){
                     var tablename = "flights_table" + i;
                     var arrowname = "arrow" + i;
@@ -153,7 +151,7 @@
         function updateResult(query) {
 
             arr.map(function (algo) {
-                query.split(" ").map(function (word) {
+                query.trim().split(" ").map(function (word) {
                     var index = arr.indexOf(algo) + 1;
 
                     var holdername = "holder" + index;
@@ -164,9 +162,7 @@
                     var table = document.getElementById(tablename);
                     var arrow = document.getElementById(arrowname);
 
-                    if (word == "") {
-                        showAll(arr.length)
-                    } else if (algo.toLowerCase().indexOf(word.toLowerCase()) != -1) {
+                    if (algo.toLowerCase().indexOf(word.toLowerCase()) != -1) {
                         holder.style.display = "block";
                     }else{
                         holder.style.display = "none";
@@ -186,13 +182,6 @@
             displayAllTable(_switch);
         }
 
-        function showAll(len){
-            for (i = 1; i < len+1; i++){
-                var holdername = "holder" + i;
-                var holder = document.getElementById(holdername);
-                holder.style.display = "block";
-            }
-        }
 
     </script>
 
