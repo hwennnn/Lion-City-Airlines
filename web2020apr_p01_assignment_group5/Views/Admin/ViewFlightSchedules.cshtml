@@ -28,53 +28,58 @@
             @{int i = 1;}
             @foreach (var item in Model)
             {
-                <div id="holder@(i)" class="row content holder">
+            <div id="holder@(i)" class="row content holder">
 
-                    <span class="scheduleid">ScheduleID: @item.ScheduleId</span>
-                    <span class="departdate">Departure Date: @item.DepartureDateTime</span>
-                    <span class="arrivaldate">Arrival Date: @item.ArrivalDateTime</span>
-                    <span onclick="toggle(@(i))" id="arrow@(i)" class="arrow-down"></span>
+                <span class="scheduleid">ScheduleID: @item.ScheduleId</span>
+                <span class="departdate">Departure Date: @item.DepartureDateTime</span>
+                <a style="color:black" asp-action="UpdateFlightScheduleStatus" asp-controller="Admin"
+                   asp-route-id="@item.ScheduleId">
+                    <span class="status">Status: @item.Status</span></a>
+                <span onclick="toggle(@(i))" id="arrow@(i)" class="arrow-down"></span>
 
-                </div>
+            </div>
 
-                <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto; margin-top:10px;">
-                    @if (item.Route != null)
-                    {
-                        <table>
-                            <tr>
-                                <th>FlightNumber</th>
-                                <th>RouteID</th>
-                                <th>AircraftID</th>
-                                <th>DepartureCity</th>
-                                <th>DepartureCountry</th>
-                                <th>ArrivalCity</th>
-                                <th>ArrivalCountry</th>
-                                <th>EconomyPrice</th>
-                                <th>BusinessPrice</th>
-                                <th>FlightDuration</th>
-                                <th>Status</th>
-                            </tr>
-                            <tr>
-                                <td>@item.FlightNumber</td>
-                                <td>@item.RouteId</td>
-                                <td>@item.AircraftId</td>
-                                <td>@item.Route.DepartureCity</td>
-                                <td>@item.Route.DepartureCountry</td>
-                                <td>@item.Route.ArrivalCity</td>
-                                <td>@item.Route.ArrivalCountry</td>
-                                <td>@item.EconomyClassPrice</td>
-                                <td>@item.BusinessClassPrice</td>
-                                <td>@item.Route.FlightDuration</td>
-                                <td>@item.Status</td>
-                            </tr>
+            <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto; margin-top:10px;">
+                @if (item.Route != null)
+                {
+                    <table>
+                        <tr>
+                            <th>FlightNumber</th>
+                            <th>RouteID</th>
+                            <th>AircraftID</th>
+                            <th>DepartureCity</th>
+                            <th>DepartureCountry</th>
+                            <th>ArrivalCity</th>
+                            <th>ArrivalCountry</th>
+                            <th>EconomyPrice</th>
+                            <th>BusinessPrice</th>
+                            <th>ArrivalDateTime</th>
+                            <th>FlightDuration</th>
+                        </tr>
+                        <tr>
+                            <td>@item.FlightNumber</td>
+                            <td>@item.RouteId</td>
+                            <td>@item.AircraftId</td>
+                            <td>@item.Route.DepartureCity</td>
+                            <td>@item.Route.DepartureCountry</td>
+                            <td>@item.Route.ArrivalCity</td>
+                            <td>@item.Route.ArrivalCountry</td>
+                            <td>@item.EconomyClassPrice</td>
+                            <td>@item.BusinessClassPrice</td>
+                            <td>@item.ArrivalDateTime</td>
+                            <td>@item.Route.FlightDuration</td>
+                        </tr>
 
-                        </table>
-                    }
-                    else
-                    {
-                        <p>No record found!</p>
-                    }
-                </div>
+                    </table>
+                }
+                else
+                {
+                    <p>No record found!</p>
+                }
+                <br />
+                <a asp-action="UpdateFlightScheduleStatus" asp-controller="Admin"
+                   asp-route-id="@item.ScheduleId"><button>Update Flight Schedule Status</button></a>
+            </div>
                 i++;
             }
         </div>

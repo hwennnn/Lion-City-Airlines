@@ -17,7 +17,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public IActionResult Index()
         {
-            if ((HttpContext.Session.GetString("Role") == null) ||(HttpContext.Session.GetString("Role") != "Admin"))
+            if ((HttpContext.Session.GetString("Role") == null) || (HttpContext.Session.GetString("Role") != "Admin"))
             {
                 return RedirectToAction("Index", "Home");
                 // return to homepage if the user does not login as admin
@@ -67,7 +67,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                              Status = schedule.Status,
                              Role = crew.Role
 
-                         }) ;
+                         });
                 }
                 personnelsModel.flightScheduleList = scheduleList;
 
@@ -155,7 +155,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 //Add staff record to database
                 staff.StaffId = adminContext.CreatePersonnel(staff);
                 //Redirect user to Staff/Index view
-                return RedirectToAction("Index","Admin");
+                return RedirectToAction("Index", "Admin");
             }
             else
             {
@@ -180,7 +180,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 Value = "Flight Attendant",
                 Text = "Flight Attendant"
             });
- 
+
             return vocations;
         }
 
@@ -244,7 +244,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             }
 
             Staff staff = adminContext.GetSpecificStaffByID(id.Value);
-            
+
             if (staff == null)
             {
                 //Return to listing page, not allowed to edit
@@ -281,6 +281,55 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 Console.WriteLine("invalid update");
                 TempData["alert"] = "The update action is fail as the staff has already been assigned upcoming schedules.";
                 return View(staff);
+            }
+        }
+
+        private List<String> FlightStatusList()
+        {
+            List<String> flightStatusList = new List<String>();
+            flightStatusList.Add("Opened");
+            flightStatusList.Add("Full");
+            flightStatusList.Add("Delayed");
+            flightStatusList.Add("Cancelled");
+            return flightStatusList;
+        }
+        public ActionResult UpdateFlightScheduleStatus(int? id)
+        {
+            //Check if ID exists in database
+            if (id == null)
+            {
+                //Return user to index
+                return RedirectToAction("Index");
+            }
+            //Declaring attribute for calling status list in view
+            ViewData["StatusList"] = FlightStatusList();
+            //Declaring selected FlightSchedule
+            FlightSchedule schedule = adminContext.getSpecificSchedule(id.Value);
+
+            //Check if schedule object exists
+            if (schedule == null)
+            {
+                //Return user to index
+                return RedirectToAction("Index");
+            }
+            //Display view with schedule as item
+            return View(schedule);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateFlightScheduleStatus(FlightSchedule schedule)
+        {
+            if (ModelState.IsValid)
+            {
+                adminContext.updateFlightScheduleStatus(schedule, schedule.Status);
+                TempData["alert"] = "Flight Schedule Status has been updated.";
+                return RedirectToAction("ViewFlightSchedules");
+            }
+            else
+            {
+                TempData["alert"] = "An error occurred. Sending User back to List...";
+                return RedirectToAction("ViewFlightSchedules");
             }
         }
     }

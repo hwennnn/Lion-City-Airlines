@@ -424,5 +424,24 @@ namespace web2020apr_p01_assignment_group5.DAL
 
         }
 
+        public void updateFlightScheduleStatus(FlightSchedule schedule, string status)
+        {
+            //Create SQL Command
+            SqlCommand cmd = conn.CreateCommand();
+            //Create UPDATE SQL Statement for FlightSchedule
+            cmd.CommandText = @"UPDATE FlightSchedule SET Status=@status
+                                WHERE ScheduleID = @selectedScheduleID";
+            //Define parameters used in SQL
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("selectedScheduleID", schedule.ScheduleId);
+
+            //Open connection to database
+            conn.Open();
+            //Use ExequteNonQuery for UPDATE
+            cmd.ExecuteNonQuery();
+            //Close database connection
+            conn.Close();
+        }
+
     }
 }
