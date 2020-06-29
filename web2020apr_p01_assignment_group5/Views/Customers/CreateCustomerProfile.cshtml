@@ -88,7 +88,7 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/vendor/select2/select2.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/css/main.css">
+    <link rel="stylesheet" type="text/css" href="~/css/CreateCustomerProfile.css">
     <!--===============================================================================================-->
 </head>
 
@@ -101,13 +101,13 @@
                     Create Customer Profile
                 </span>
 
-                <div class="wrap-input100 validate-input bg1" data-validate="Please Type Your Full Name">
-                    <span asp-validation-for="CustomerName" class="label-input100">Full Name *</span>
-                    <input class="input100" asp-for="CustomerName" placeholder="Enter Your Full Name">
+                <div class="wrap-input100 validate-input" data-validate="Please Type Your Full Name">
+                    <span asp-validation-for="CustomerName" class="label-input100"></span>
+                    <input class="input100" asp-for="CustomerName" placeholder="Enter Your Full Name *">
                 </div>
 
-                <div class="wrap-input100 validate-input bg1">
-                    <span asp-validation-for="Nationality" class="label-input100">Nationality *</span>
+                <div class="wrap-input100 validate-input" data-validate="Please Enter Your Nationality">
+                    <span asp-validation-for="Nationality" class="label-input100"></span>
                     <input class="input100" asp-for="Nationality" placeholder="Enter Your Nationality">
                     @*<div>
                             <select class="js-select2" asp-for="Nationality"
@@ -117,20 +117,18 @@
                         </div>*@
                 </div>
 
-                <div class="wrap-input100 validate-input bg1" data-validate="Please Select Date Of Birth">
-                    <span asp-validation-for="BirthDate" class="label-input100">Date Of Birth *</span>
+                <div class="wrap-input100 validate-input" data-validate="Please Select Date Of Birth">
+                    <span asp-validation-for="BirthDate" class="label-input100"></span>
                     <input class="input100" asp-for="BirthDate" placeholder="Select Your Date Of Birth">
                 </div>
 
-                <div class="wrap-input100 validate-input bg1" data-validate="Enter Your Email (hello@gmail.com)">
-                    <span class="label-input100">Email *</span>
-                    <input class="input100" asp-for="EmailAddr" placeholder="Enter Your Email">
-                    <span asp-validation-for="EmailAddr"
-                          class="text-danger"></span>
+                <div class="wrap-input100 validate-input" data-validate="Enter Your Email (hello@gmail.com)">
+                    <span asp-validation-for="EmailAddr" class="label-input100"></span>
+                    <input class="input100" asp-for="EmailAddr" placeholder="Enter Your Email *">
                 </div>
 
-                <div class="wrap-input100 validate-input bg1" data-validate="Please Enter A Valid Contact Number: 98765432">
-                    <span asp-validation-for="TelNo" class="label-input100">Contact Number</span>
+                <div class="wrap-input100 validate-input" data-validate="Please Enter A Valid Contact Number: 98765432">
+                    <span asp-validation-for="TelNo" class="label-input100"></span>
                     <input class="input100" asp-for="TelNo" type="tel" pattern="[8-9]{1}[0-9]{7}" placeholder="Enter Your Contact Number">
                 </div>
 
@@ -174,7 +172,7 @@
             document.getElementById("body_container").classList.remove("container-fluid");
         })</script>
     <!--===============================================================================================-->
-    <script src="~/js/main.js"></script>
+    <script src="~/js/main2.js"></script>
     <script>
         var message = @Html.Raw(Json.Serialize(TempData["alert"]));
 
