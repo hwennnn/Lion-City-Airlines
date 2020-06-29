@@ -158,13 +158,15 @@ iframe {
     align-items: center;
     padding: 15px;
     position: relative;
-    background-color: #f2f2f2;
+    background-color: #f3f3f5;
 }
 
 .wrap-contact100 {
     width: 550px;
-    background: transparent;
-    padding: 50px 0px 160px 0px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 32px 55px 45px 55px;
 }
 
 
@@ -183,7 +185,7 @@ iframe {
     line-height: 1.2;
     text-transform: uppercase;
     text-align: center;
-    padding-top: 49px;
+    padding-top: 30px;
     padding-bottom: 49px;
 }
 
@@ -203,7 +205,7 @@ iframe {
     position: relative;
     display: block;
     width: 100%;
-    background: #fff;
+    background: #f7f7f7;
     border-radius: 31px;
     font-family: Ubuntu-Bold;
     font-size: 18px;
