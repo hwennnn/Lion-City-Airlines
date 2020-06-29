@@ -329,7 +329,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             else
             {
                 TempData["alert"] = "An error occurred. Sending User back to List...";
-                return RedirectToAction("ViewFlightSchedules");
+                return View(schedule);
             }
         }
     }

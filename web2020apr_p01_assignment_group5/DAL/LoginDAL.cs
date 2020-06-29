@@ -46,7 +46,6 @@ namespace web2020apr_p01_assignment_group5.DAL
                 {
                     if (reader.GetString(6) == password && reader.GetString(4) == "Administrator")
                     {
-                        Console.WriteLine(reader.GetString(6));
                         check = true;
                     } 
                 }

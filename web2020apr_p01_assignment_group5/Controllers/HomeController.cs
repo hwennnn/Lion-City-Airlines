@@ -148,6 +148,16 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return View();
         }
 
+        public ActionResult OurCrew()
+        {
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            return View();
+        }
+
         public BookingModel getBookingModel()
         {
             BookingModel bookingModel = new BookingModel();
