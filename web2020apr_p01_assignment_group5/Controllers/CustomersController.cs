@@ -32,6 +32,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             {
                 //Add customer record to database
                 customer.CustomerId = customerContext.Addcustomer(customer);
+                TempData["alert"] = "Your Account Password is p@55Cust";
                 //Redirect user to Home/Login view
                 return RedirectToAction("Login", "Home");
             }
@@ -39,6 +40,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             {
                 //Input validation fails, return to the CreateCustomerProfile.cshtml view
                 //to display error message
+                TempData["alert"] = "Error creating an account. Sending back to Create Customer Profile.";
                 return View(customer);
             }
         }
@@ -57,8 +59,15 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 Customer customer = customerContext.GetDetails(HttpContext.Session.GetString("LoginID"));
                 if (customer.Password == changePassword.CurrentPassword && changePassword.NewPassword == changePassword.ConfirmPassword)
                 {
-                    customerContext.ChangePassword(customer, changePassword);
-                    return RedirectToAction("Index");
+                    if(changePassword.CurrentPassword == changePassword.NewPassword)
+                    {
+                        return RedirectToAction("ChangePassword");
+                    }
+                    else
+                    {
+                        customerContext.ChangePassword(customer, changePassword);
+                        return RedirectToAction("Index");
+                    }                   
                 }
                 else
                 {
