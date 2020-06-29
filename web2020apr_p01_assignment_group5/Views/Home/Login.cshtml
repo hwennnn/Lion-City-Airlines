@@ -52,8 +52,14 @@
 
     </div>
 
-    <input type="hidden" id="recordFailLogin" data-value="@TempData["Action"]"/>
+    <input type="hidden" id="recordFailLogin" data-value="@TempData["Action"]" />
     <script type="text/javascript" src="~/js/activatekeyframe.js"></script>
+    <script>
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
 
+        if (message) {
+            alert(message);
+        }
+    </script>
 </body>
 </html>
