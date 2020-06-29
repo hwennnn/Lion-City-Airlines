@@ -86,23 +86,25 @@
     </div>
 
     <script type="text/javascript">
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
+
+        if (message) {
+            alert(message);
+        }
         var raw_arr = @Html.Raw(Json.Serialize(Model));
 
         var arr = [];
 
         for (i = 0; i < raw_arr.length; i++) {
             arr[i] = raw_arr[i].scheduleId.toString();
-           
-        }
 
-        console.log(arr);
+        }
 
         var _switch = document.getElementById("toggle_switch");
 
         function displayAllTable(element) {
             var n = arr.length
             if (element.checked) {
-                console.log("checked")
                 for (i = 1; i < n+1; i++){
                     var tablename = "flights_table" + i;
                     var arrowname = "arrow" + i;
@@ -123,7 +125,6 @@
                 }
 
             } else {
-                console.log("unchecked")
                 for (i = 1; i < n+1; i++){
                     var tablename = "flights_table" + i;
                     var arrowname = "arrow" + i;
@@ -148,10 +149,9 @@
         function updateResult(query) {
 
             arr.map(function (algo) {
-                query.split(" ").map(function (word) {
-                    console.log(word);
+                query.trim().split(" ").map(function (word) {
+
                     var index = arr.indexOf(algo) + 1;
-                    console.log(index);
 
                     var holdername = "holder" + index;
                     var tablename = "flights_table" + index;
@@ -161,9 +161,7 @@
                     var table = document.getElementById(tablename);
                     var arrow = document.getElementById(arrowname);
 
-                    if (word == "") {
-                        showAll(arr.length)
-                    } else if (algo.indexOf(word) != -1) {
+                    if (algo.indexOf(word) != -1) {
                         holder.style.display = "";
                     }else{
                         holder.style.display = "none";
@@ -181,14 +179,6 @@
             })
 
             displayAllTable(_switch);
-        }
-
-        function showAll(len){
-            for (i = 1; i < len+1; i++){
-                var holdername = "holder" + i;
-                var holder = document.getElementById(holdername);
-                holder.style.display = "";
-            }
         }
 
     </script>

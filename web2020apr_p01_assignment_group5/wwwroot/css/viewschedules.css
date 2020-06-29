@@ -3,7 +3,8 @@ body {
 }
 
 .title {
-    margin-top: 50px;
+    margin-top: 106px;
+    margin-bottom: 50px;
 }
 
 .scheduleid,
@@ -31,8 +32,6 @@ hr {
 }
 
 .status {
-    width: 320px;
-    margin-left: 80px;
 }
 
 .holder {
