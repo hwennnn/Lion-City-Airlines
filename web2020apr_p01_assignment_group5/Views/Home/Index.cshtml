@@ -76,4 +76,11 @@
     <script type="text/javascript">
         document.getElementById("common_navbar").classList.remove("fixed-top");
     </script>
+    <script>
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
+
+        if (message) {
+            alert(message);
+        }
+    </script>
 </body>

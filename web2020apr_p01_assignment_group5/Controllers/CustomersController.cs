@@ -66,6 +66,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                     else
                     {
                         customerContext.ChangePassword(customer, changePassword);
+                        TempData["alert"] = "Password has been changed successfully!";
                         return RedirectToAction("Index");
                     }                   
                 }
