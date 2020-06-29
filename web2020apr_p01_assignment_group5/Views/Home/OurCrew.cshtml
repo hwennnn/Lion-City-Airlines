@@ -1,0 +1,84 @@
+﻿@{
+    var role = Context.Session.GetString("Role");
+    if (role == "Customer")
+    {
+        Layout = "_CustomerMenu";
+    }
+    else if (role == "Admin")
+    {
+        Layout = "_AdminMenu";
+    }
+    else
+    {
+        Layout = "_CommonMenu";
+    }
+
+}
+
+@{
+    ViewData["Title"] = "Our Crew";
+}
+<link rel="stylesheet" href="~/css/ourcrew.css">
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<body>
+    <div class="container" style="margin-top:100px;">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-lg">
+                <div class="card">
+                    <img src="@Url.Content("~/images/weijie.png")" alt="Jane" style="width:75%; margin: 0 auto;">
+                    <div class="container" style="margin-top: 20px;">
+                        <h2 class="text-center">Wei Jie</h2>
+                        <p class="title text-center">CEO</p>
+                        <p class="text-center">
+                            Common Home Page
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-lg">
+                <div class="card">
+                    <img src="@Url.Content("~/images/houman.png")" alt="Jane" style="width:75%; margin: 0 auto;">
+                    <div class="container" style="margin-top: 20px;">
+                        <h2 class="text-center">Hou Man</h2>
+                        <p class="title text-center">Techlead</p>
+                        <p class="text-center">
+                            Search function
+                            <br />
+                            Javascript interaction
+                            <br />
+                            Routing & Authentication
+                            <br />
+                            About Us Page
+                            <br />
+                            Our Crew Page
+                            <br />
+                            Login Page
+                            <br />
+                            Navbar
+                            <br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-lg">
+                <div class="card">
+                    <img src="@Url.Content("~/images/glenn.png")" alt="Jane" style="width:75%; margin: 0 auto;">
+                    <div class="container" style="margin-top: 20px;">
+                        <h2 class="text-center">Glenn</h2>
+                        <p class="title text-center">UI/UX Designer</p>
+                        <p class="text-center">
+                            Admin Home Page
+                            <br />
+                            Contact Us Page
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
