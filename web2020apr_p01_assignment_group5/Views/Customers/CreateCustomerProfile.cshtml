@@ -1,69 +1,4 @@
-﻿@*@model web2020apr_p01_assignment_group5.Models.Customer
-
-@{
-    Layout = "_CommonMenu";
-}
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>HomePage</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <script src="~/js/CreateCustomerProfile.js"></script>
-    <link rel="stylesheet" href="~/css/CreateCustomerProfile.css">
-    <link href="~/css/main.css" rel="stylesheet" media="all">
-</head>
-
-<body>
-    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
-        <div class="container">
-            <div style="text-align:center">
-                <br>
-                <h2><b>Create Customer Profile</b></h2>
-            </div>
-            <div class="row">
-                <div class="column">
-                    <img src="~/images/CreateCustomerProfile.jpg" style="width:100%">
-                </div>
-                <div class="column">
-                    <form asp-action="CreateCustomerProfile" id="Form">
-                        <h4><u>Personal Information</u></h4>
-                        <h6 style="color: grey;">Please complete all the fields marked with *</h6>
-                        <label asp-for="CustomerName">Full Name*</label><br>
-                        <input asp-for="CustomerName" type="text" id="CustomerName" placeholder="Enter Full Name" required><br>
-                        <span asp-validation-for="CustomerName" class="text-danger"></span><br>
-                        <label asp-for="Nationality">Nationality</label><br>
-                        <input asp-for="Nationality" type="text" id="Nationality" placeholder="Nationality"><br>
-                        <span asp-validation-for="Nationality" class="text-danger"></span><br>
-                        <label asp-for="BirthDate">Date of birth</label><br>
-                        <input asp-for="BirthDate" type="date"><br><br>
-                        <span asp-validation-for="BirthDate" class="text-danger"></span>
-                        <h4><u>Contact Information</u></h4>
-                        <label asp-for="EmailAddr">Email address*</label><br>
-                        <input asp-for="EmailAddr" type="text" id="EmailAddr" placeholder="Enter Email Address" required><br>
-                        <span asp-validation-for="EmailAddr" class="text-danger"></span><br>
-                        <label asp-for="TelNo">Contact Number</label><br>
-                        <input asp-for="TelNo" type="text" pattern="[689][0-9]{7}" maxlength="8" id="contact" placeholder="Phone Number"><br>
-                        <span asp-validation-for="TelNo" class="text-danger"></span><br>
-                        <input class="btn" type="submit" value="submit" onsubmit="myFunction()">
-                        <input class="btn" type="reset" value="Reset">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-
-</html>*@
-
-@{
+﻿@{
     Layout = "_CommonMenu";
     ViewData["Title"] = "Create Customer Profile";
 }
@@ -102,12 +37,12 @@
                 </span>
 
                 <div class="wrap-input100 validate-input" data-validate="Please Type Your Full Name">
-                    <span asp-validation-for="CustomerName" class="label-input100"></span>
+                    <span asp-validation-for="CustomerName" id="1label-input100"></span>
                     <input class="input100" asp-for="CustomerName" placeholder="Enter Your Full Name *">
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Please Enter Your Nationality">
-                    <span asp-validation-for="Nationality" class="label-input100"></span>
+                    <span asp-validation-for="Nationality" id="2label-input100"></span>
                     <input class="input100" asp-for="Nationality" placeholder="Enter Your Nationality">
                     @*<div>
                             <select class="js-select2" asp-for="Nationality"
@@ -118,17 +53,17 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Please Select Date Of Birth">
-                    <span asp-validation-for="BirthDate" class="label-input100"></span>
+                    <span asp-validation-for="BirthDate" id="3label-input100"></span>
                     <input class="input100" asp-for="BirthDate" placeholder="Select Your Date Of Birth">
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Enter Your Email (hello@gmail.com)">
-                    <span asp-validation-for="EmailAddr" class="label-input100"></span>
+                    <span asp-validation-for="EmailAddr" id="4label-input100"></span>
                     <input class="input100" asp-for="EmailAddr" placeholder="Enter Your Email *">
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Please Enter A Valid Contact Number: 98765432">
-                    <span asp-validation-for="TelNo" class="label-input100"></span>
+                    <span asp-validation-for="TelNo" id="5label-input100"></span>
                     <input class="input100" asp-for="TelNo" type="tel" pattern="[8-9]{1}[0-9]{7}" placeholder="Enter Your Contact Number">
                 </div>
 
@@ -178,6 +113,13 @@
 
         if (message) {
             alert(message);
+            for (i = 1; i < 6; i++) {
+                var labelname = i + "label-input100";
+                var element = document.getElementById(labelname);
+                if ($(element).is(":visible")) {
+                    $(element).addClass("validate-padding");
+                }
+            }
         }
     </script>
 </body>

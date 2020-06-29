@@ -1,80 +1,4 @@
-﻿/** {
-    box-sizing: border-box;
-}*/
-
-/* Style inputs 
-input[type=text], select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical;
-    border: 10px;
-}
-
-input[type=submit] {
-    background-color: black;
-    border-color: black;
-    color: white;
-    padding: 12px 20px;
-     border: none; 
-    cursor: pointer;
-}
-
-input[type=reset] {
-    background-color: black;
-    border-color: black;
-    color: white;
-    padding: 12px 20px;
-     border: none; 
-    cursor: pointer;
-}
-
-.btn {
-    margin-right: 20px;
-    margin-bottom: 20px;
-}
-
-    .btn:hover {
-        background-color: white;
-    }
-
- Style the container/contact section 
-.container {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 10px;
-}
-
- Create two columns that float next to eachother 
-.column {
-    float: left;
-    width: 50%;
-    margin-top: 6px;
-    padding: 20px;
-}
-
- Clear floats after the columns 
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
- Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other 
-@media screen and (max-width: 600px) {
-    .column, input[type=submit], input[type=reset] {
-        width: 100%;
-        margin-top: 0;
-    }
-}*/
-
-
-
-
-
-/*//////////////////////////////////////////////////////////////////
+﻿/*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
 @font-face {
@@ -100,8 +24,6 @@ body, html {
 
 /*---------------------------------------------*/
 a {
-    font-family: Ubuntu-Bold;
-    font-size: 14px;
     line-height: 1.7;
     color: #666666;
     margin: 0px;
@@ -261,6 +183,7 @@ iframe {
     line-height: 1.2;
     text-transform: uppercase;
     text-align: center;
+    padding-top: 49px;
     padding-bottom: 49px;
 }
 
@@ -272,7 +195,7 @@ iframe {
     background-color: #fff;
     border-radius: 31px;
     margin-bottom: 16px;
-    position: relative;
+    position: relative
     z-index: 1;
 }
 
@@ -288,8 +211,9 @@ iframe {
     line-height: 1.2;
 }
 
-.label-input100{
+.validate-padding {
     padding-left: 35px;
+    color: orangered;
 }
 
 /*---------------------------------------------*/
@@ -297,7 +221,6 @@ input.input100 {
     height: 62px;
     padding: 0 35px 0 35px;
 }
-
 
 textarea.input100 {
     min-height: 169px;
