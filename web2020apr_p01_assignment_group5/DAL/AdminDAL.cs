@@ -235,6 +235,44 @@ namespace web2020apr_p01_assignment_group5.DAL
             return route;
         }
 
+        public bool IsRouteExist(FlightRoute route)
+        {
+            //Assign a boolean for return if FlightRoute Exists
+            bool routeFound = false;
+
+            //Create sql command
+            SqlCommand cmd = conn.CreateCommand();
+            //Set SQL Command Text
+            cmd.CommandText = @"SELECT * FROM FlightRoute WHERE DepartureCity = @selectedDepartureCity
+                                AND DepartureCountry = @selectedDepartureCountry
+                                AND ArrivalCity = @selectedArrivalCity
+                                AND ArrivalCountry = @selectedArrivalCountry";
+            //Set parameters for SQL Command
+            cmd.Parameters.AddWithValue("@selectedDepartureCity", route.DepartureCity);
+            cmd.Parameters.AddWithValue("@selectedDepartureCountry", route.DepartureCountry);
+            cmd.Parameters.AddWithValue("@selectedArrivalCity", route.ArrivalCity);
+            cmd.Parameters.AddWithValue("@selectedArrivalCountry", route.ArrivalCountry);
+            //Open connection to DB
+            conn.Open();
+            //Read SQL data using command text
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {//If record exists
+                while (reader.Read())
+                {
+                    routeFound = true;
+                }
+            }
+            else
+            {//If record does not exist
+                routeFound = false;
+            }
+            reader.Close();
+            conn.Close();
+            return routeFound;
+        }
+
         public List<FlightCrew> getSpecificFlightCrew(int staffID)
         {
             List<FlightCrew> flightCrewList = new List<FlightCrew>();
