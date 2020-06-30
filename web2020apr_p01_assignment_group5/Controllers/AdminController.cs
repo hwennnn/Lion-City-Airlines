@@ -295,7 +295,6 @@ namespace web2020apr_p01_assignment_group5.Controllers
         private List<String> FlightStatusList()
         {
             List<String> flightStatusList = new List<String>();
-            flightStatusList.Add("Opened");
             flightStatusList.Add("Full");
             flightStatusList.Add("Delayed");
             flightStatusList.Add("Cancelled");
