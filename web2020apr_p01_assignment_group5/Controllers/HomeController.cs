@@ -106,7 +106,15 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 // Store Login ID in session with the key “LoginID”
                 HttpContext.Session.SetString("LoginID", email);
                 // Store user role “Staff” as a string in session with the key “Role”
-                HttpContext.Session.SetString("Role", "Admin");
+
+                if (staff.Vocation.Equals("Administrator"))
+                {
+                    HttpContext.Session.SetString("Role", "Admin");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("Role", "Staff");
+                }
                 // Redirect user to the "StaffMain" view through an action
                 HttpContext.Session.SetString("LoginDT", DateTime.Now.ToString("dd-MMMM-y h:mm:ss tt"));
 

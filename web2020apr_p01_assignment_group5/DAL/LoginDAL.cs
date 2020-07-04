@@ -44,7 +44,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             { //Records found
                 while (reader.Read())
                 {
-                    if (reader.GetString(6) == password && reader.GetString(4) == "Administrator")
+                    if (reader.GetString(6) == password)
                     {
                         check = true;
                     } 

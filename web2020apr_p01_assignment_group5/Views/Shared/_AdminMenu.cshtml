@@ -34,26 +34,33 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="~/Admin/Index" style="color:black">Home</a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color:black">
-                        Flight Scheduling
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="~/Admin/CreateFlightRoute">Create Flight Route</a>
-                        <a class="dropdown-item" href="~/Admin/ViewFlightSchedules">View Flight Route & Schedule</a>
-                        <a class="dropdown-item" href="#">Create Flight Schedule</a>
-                    </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color:black">
-                        Flight Personnel
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="~/Admin/CreatePersonnels">Create Flight Personnel Record</a>
-                        <a class="dropdown-item" href="~/Admin/ViewPersonnels">View All Flight Personnels</a>
-                        <a class="dropdown-item" href="#">Assign Personnel to Flight Schedule</a>
-                    </div>
-                </li>
+                @{
+                    if (Context.Session.GetString("Role") == "Admin")
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color:black">
+                                Flight Scheduling
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="~/Admin/CreateFlightRoute">Create Flight Route</a>
+                                <a class="dropdown-item" href="~/Admin/ViewFlightSchedules">View Flight Route & Schedule</a>
+                                <a class="dropdown-item" href="#">Create Flight Schedule</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color:black">
+                                Flight Personnel
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="~/Admin/CreatePersonnels">Create Flight Personnel Record</a>
+                                <a class="dropdown-item" href="~/Admin/ViewPersonnels">View All Flight Personnels</a>
+                                <a class="dropdown-item" href="#">Assign Personnel to Flight Schedule</a>
+                            </div>
+                        </li>
+                    }
+                }
+
             </ul>
             @{
                 String staffName = "Nobody";

@@ -15,9 +15,10 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         private AdminDAL adminContext = new AdminDAL();
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
-            if ((HttpContext.Session.GetString("Role") == null) || (HttpContext.Session.GetString("Role") != "Admin"))
+            if ((HttpContext.Session.GetString("Role") == null) || ((HttpContext.Session.GetString("Role") != "Admin") &&
+                (HttpContext.Session.GetString("Role") != "Staff")))
             {
                 return RedirectToAction("Index", "Home");
                 // return to homepage if the user does not login as admin
@@ -28,6 +29,10 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult ViewPersonnels()
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -42,6 +47,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult ViewFlightSchedules()
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -151,6 +161,10 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult CreatePersonnels()
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -170,6 +184,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePersonnels(Staff staff)
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -254,6 +273,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult CreateFlightRoute()
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -270,6 +294,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateFlightRoute(FlightRoute flightRoute)
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -309,6 +338,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
         // GET: Staff/Edit/5
         public ActionResult UpdatePersonnelStatus(int? id)
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -337,6 +371,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UpdatePersonnelStatus(Staff staff)
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -387,6 +426,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
         }
         public ActionResult UpdateFlightScheduleStatus(int? id)
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -420,6 +464,11 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UpdateFlightScheduleStatus(FlightSchedule schedule)
         {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
             //Stop accessing the action if not logged in
             // or account not in the "Staff" role
             if ((HttpContext.Session.GetString("Role") == null) ||
