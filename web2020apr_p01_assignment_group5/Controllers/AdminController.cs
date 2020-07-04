@@ -171,6 +171,12 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
             vocations.Add(new SelectListItem
             {
+                Value = "",
+                Text = "Please select ..."
+            });
+
+            vocations.Add(new SelectListItem
+            {
                 Value = "Pilot",
                 Text = "Pilot"
             });
@@ -187,6 +193,12 @@ namespace web2020apr_p01_assignment_group5.Controllers
         private List<SelectListItem> GetGender()
         {
             List<SelectListItem> genders = new List<SelectListItem>();
+
+            genders.Add(new SelectListItem
+            {
+                Value = "N", // i put in a random char because char connot be null technically
+                Text = "Please select ..."
+            });
 
             genders.Add(new SelectListItem
             {

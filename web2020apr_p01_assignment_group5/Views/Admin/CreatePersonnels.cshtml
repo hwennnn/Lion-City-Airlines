@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
-                    <span class="label-input100">Gender *</span>
+                    <span class="label-input100">Gender</span>
                     <div>
                         <select class="js-select2" asp-for="Gender"
                                 asp-items="@ViewData["GenderList"] as List<SelectListItem>">
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
-                    <span class="label-input100">Vocation *</span>
+                    <span class="label-input100">Vocation</span>
                     <div>
                         <select class="js-select2" asp-for="Vocation"
                                 asp-items="@ViewData["VocationList"] as List<SelectListItem>">
@@ -68,8 +68,8 @@
                     </div>
                 </div>
 
-                <div class="wrap-input100 validate-input bg1" data-validate="Please Select Date Employed">
-                    <span class="label-input100">Date Employed *</span>
+                <div class="wrap-input100 bg1">
+                    <span class="label-input100">Date Employed</span>
                     <input class="input100" asp-for="DateEmployed" placeholder="Select Date Employed">
                 </div>
 
