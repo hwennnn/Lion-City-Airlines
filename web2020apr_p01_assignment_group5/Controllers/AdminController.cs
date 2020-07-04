@@ -226,10 +226,18 @@ namespace web2020apr_p01_assignment_group5.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Add new FlightRoute record into database
-                flightRoute.RouteId = adminContext.CreateFlightRoute(flightRoute);
-                //Return user to admin home page
-                return RedirectToAction("Index", "Admin");
+                if (adminContext.IsRouteExist(flightRoute))
+                {
+                    TempData["alert"] = "Flight Route with identical path already exists. Please enter new route...";
+                    return View(flightRoute);
+                }
+                else
+                {
+                    //Add new FlightRoute record into database
+                    flightRoute.RouteId = adminContext.CreateFlightRoute(flightRoute);
+                    //Return user to admin home page
+                    return RedirectToAction("Index", "Admin");
+                }
             }
             else
             {
@@ -299,7 +307,6 @@ namespace web2020apr_p01_assignment_group5.Controllers
         private List<String> FlightStatusList()
         {
             List<String> flightStatusList = new List<String>();
-            flightStatusList.Add("Opened");
             flightStatusList.Add("Full");
             flightStatusList.Add("Delayed");
             flightStatusList.Add("Cancelled");
