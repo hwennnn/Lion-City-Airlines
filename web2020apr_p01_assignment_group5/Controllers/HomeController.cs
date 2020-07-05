@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace web2020apr_p01_assignment_group5.Controllers
@@ -27,7 +24,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult Index()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -68,7 +65,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [HttpPost]
         public ActionResult Login(IFormCollection formData)
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff") 
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -139,7 +136,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult ContactUs()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -149,7 +146,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult AboutUs()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -159,7 +156,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult OurCrew()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
