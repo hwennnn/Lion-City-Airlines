@@ -40,11 +40,33 @@ namespace web2020apr_p01_assignment_group5.DAL
             //Define the parameters used in SQL statement, value for each parameter 
             //is retrieved from respective class's property.
             cmd.Parameters.AddWithValue("@customerName", customer.CustomerName);
-            cmd.Parameters.AddWithValue("@nationality", customer.Nationality);
-            cmd.Parameters.AddWithValue("@birthDate", customer.BirthDate);
-            cmd.Parameters.AddWithValue("@telNo", customer.TelNo);
-            cmd.Parameters.AddWithValue("@emailAddr", customer.EmailAddr);
+            if (string.IsNullOrEmpty(customer.Nationality))
+            {
+                cmd.Parameters.AddWithValue("@nationality", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@nationality", customer.Nationality);
+            }
 
+            if (!customer.BirthDate.HasValue)
+            {
+                cmd.Parameters.AddWithValue("@birthDate", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@birthDate", customer.BirthDate);
+            }
+
+            if (string.IsNullOrEmpty(customer.TelNo))
+            {
+                cmd.Parameters.AddWithValue("@telNo", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@telNo", "+65"+customer.TelNo);
+            }
+            cmd.Parameters.AddWithValue("@emailAddr", customer.EmailAddr);
             //A connection to database must be opened before any operations made. 
             conn.Open();
 

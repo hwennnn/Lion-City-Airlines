@@ -45,8 +45,7 @@
                     <input class="input100" asp-for="CustomerName" placeholder="Enter Your Full Name *">
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Please Enter Your Nationality">
-                    <span asp-validation-for="Nationality" id="2label-input100"></span>
+                <div class="wrap-input100">
                     <input class="input100" asp-for="Nationality" placeholder="Enter Your Nationality">
                     @*<div>
                             <select class="js-select2" asp-for="Nationality"
@@ -56,18 +55,16 @@
                         </div>*@
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Please Select Date Of Birth">
-                    <span asp-validation-for="BirthDate" id="3label-input100"></span>
+                <div class="wrap-input100 validate-input" data-validate="Select a Valid BirthDate">
                     <input class="input100" asp-for="BirthDate" placeholder="Select Your Date Of Birth">
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter Your Email (hello@gmail.com)">
+                <div class="wrap-input100 validate-input" data-validate="Enter Your Email (YourName@gmail.com)">
                     <span asp-validation-for="EmailAddr" id="4label-input100"></span>
                     <input class="input100" asp-for="EmailAddr" placeholder="Enter Your Email *">
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Please Enter Your Contact Number">
-                    <span asp-validation-for="TelNo" id="5label-input100"></span>
+                <div class="wrap-input100">
                     <input class="input100" asp-for="TelNo" type="tel" pattern="[8-9]{1}[0-9]{7}" id="phone" placeholder="Enter Your Contact Number">
                 </div>
 
