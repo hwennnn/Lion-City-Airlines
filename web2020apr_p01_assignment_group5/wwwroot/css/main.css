@@ -768,3 +768,14 @@ textarea.input100 {
         padding: 15px 0px 0 0px;
     }
 }
+
+.customInput {
+    display: block;
+    width: 100%;
+    background: transparent;
+    font-family: Montserrat-SemiBold;
+    font-size: 18px;
+    color: #555555;
+    line-height: 1.2;
+    padding-right: 15px;
+}
