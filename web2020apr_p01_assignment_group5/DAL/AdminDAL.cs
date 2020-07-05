@@ -446,7 +446,14 @@ namespace web2020apr_p01_assignment_group5.DAL
             cmd.Parameters.AddWithValue("@departureCountry", flightRoute.DepartureCountry);
             cmd.Parameters.AddWithValue("@arrivalCity", flightRoute.ArrivalCity);
             cmd.Parameters.AddWithValue("@arrivalCountry", flightRoute.ArrivalCountry);
-            cmd.Parameters.AddWithValue("@flightDuration", flightRoute.FlightDuration);
+            if (flightRoute.FlightDuration.HasValue)
+            {
+                cmd.Parameters.AddWithValue("@flightDuration", flightRoute.FlightDuration);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@flightDuration", DBNull.Value);
+            }
             //Opening connection to database
             conn.Open();
             //Execute Scalar to retrieve inserted Route ID

@@ -48,9 +48,6 @@
                 return false;
             }
         }
-        else if ($(input).attr('id') == 'flightduration') {
-            return true;
-        }
         else {
             if($(input).val().trim() == ''){
                 return false;
@@ -79,4 +76,4 @@
     
     
 
-})(jQuery);
+})(j`Query);
