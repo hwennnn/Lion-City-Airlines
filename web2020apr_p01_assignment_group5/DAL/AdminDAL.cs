@@ -430,7 +430,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             return emailFound;
         }
         
-        public int CreateFlightRoute(FlightRoute flightRoute)
+        public void CreateFlightRoute(FlightRoute flightRoute)
         {
             //Create SqlCommand from connection object
             SqlCommand cmd = conn.CreateCommand();
@@ -460,8 +460,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             flightRoute.RouteId = (int)cmd.ExecuteScalar();
             //Close the connection
             conn.Close();
-            //Return ID if successful
-            return flightRoute.RouteId;
+       
         }
 
         public void updatePersonnelStatus(Staff staff)

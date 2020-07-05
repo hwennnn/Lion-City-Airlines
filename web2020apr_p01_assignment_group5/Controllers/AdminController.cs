@@ -331,7 +331,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 else
                 {
                     //Add new FlightRoute record into database
-                    flightRoute.RouteId = adminContext.CreateFlightRoute(flightRoute);
+                    adminContext.CreateFlightRoute(flightRoute);
                     //Return user to admin home page
                     return RedirectToAction("Index", "Admin");
                 }
