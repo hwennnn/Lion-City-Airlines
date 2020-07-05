@@ -185,29 +185,44 @@ namespace web2020apr_p01_assignment_group5.Controllers
                     FlightRoute flightRoute = adminDAL.getSpecificRoute(schedule.RouteId);
                     if (flightRoute != null)
                     {
-                        if (!dSet.Contains(flightRoute.DepartureCountry)){
+                        string dText = String.Format("{0} ({1})", flightRoute.DepartureCity, flightRoute.DepartureCountry);
+                        
+                        if (!dSet.Contains(dText)){
                             dList.Add(new SelectListItem
                             {
-                                Value = flightRoute.DepartureCountry,
-                                Text = flightRoute.DepartureCountry
+                                Value = dText,
+                                Text = dText
                             });
-                            dSet.Add(flightRoute.DepartureCountry);
+                            dSet.Add(dText);
                         }
 
-                        if (!aSet.Contains(flightRoute.ArrivalCountry))
+                        string aText = String.Format("{0} ({1})", flightRoute.ArrivalCity, flightRoute.ArrivalCountry);
+                        if (!aSet.Contains(aText))
                         {
                             aList.Add(new SelectListItem
                             {
-                                Value = flightRoute.ArrivalCountry,
-                                Text = flightRoute.ArrivalCountry
+                                Value = aText,
+                                Text = aText
                             });
-                            aSet.Add(flightRoute.ArrivalCountry);
+                            aSet.Add(aText);
                         }
                         
                     }
                 }
 
             }
+
+            dList.Insert(0, new SelectListItem
+            {
+                Value = "",
+                Text = "--Select--"
+            });
+
+            aList.Insert(0, new SelectListItem
+            {
+                Value = "",
+                Text = "--Select--"
+            });
 
             bookingModel.departureCountryList = dList;
             bookingModel.arrivalCountryList = aList;
