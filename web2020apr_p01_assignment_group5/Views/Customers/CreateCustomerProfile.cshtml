@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Enter Your Email (YourName@gmail.com)">
-                    <span asp-validation-for="EmailAddr" id="4label-input100"></span>
+                    <span asp-validation-for="EmailAddr" id="4label-input100" style="color:red"></span>
                     <input class="input100" asp-for="EmailAddr" placeholder="Enter Your Email *">
                 </div>
 
@@ -112,7 +112,6 @@
         var message = @Html.Raw(Json.Serialize(TempData["alert"]));
 
         if (message) {
-            alert(message);
             for (i = 1; i < 6; i++) {
                 var labelname = i + "label-input100";
                 var element = document.getElementById(labelname);
