@@ -93,18 +93,19 @@
                 <div class="row content" style="overflow-x:auto; margin-top:20px;">
                     @{ if (Model.flightScheduleList.Count > 0)
                         {
-                            <table>
-
-                                <tr>
-                                    <th>ScheduleID</th>
-                                    <th>FlightNumber</th>
-                                    <th>RouteID</th>
-                                    <th>DepartureDateTime</th>
-                                    <th>ArrivalDateTime</th>
-                                    <th>Status</th>
-                                    <th>Role</th>
-                                </tr>
-
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>ScheduleID</th>
+                                        <th>FlightNumber</th>
+                                        <th>RouteID</th>
+                                        <th>DepartureDateTime</th>
+                                        <th>ArrivalDateTime</th>
+                                        <th>Status</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                    
                                 @foreach (var schedule in Model.flightScheduleList)
                                 {
                                     <tr>

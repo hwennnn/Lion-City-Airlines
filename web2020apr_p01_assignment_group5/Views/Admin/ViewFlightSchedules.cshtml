@@ -50,20 +50,22 @@
             <div id="flights_table@(i)" class="row content" style="display:none; overflow-x:auto; margin-top:10px;">
                 @if (item.Route != null)
                 {
-                    <table>
-                        <tr>
-                            <th>FlightNumber</th>
-                            <th>RouteID</th>
-                            <th>AircraftID</th>
-                            <th>DepartureCity</th>
-                            <th>DepartureCountry</th>
-                            <th>ArrivalCity</th>
-                            <th>ArrivalCountry</th>
-                            <th>EconomyPrice</th>
-                            <th>BusinessPrice</th>
-                            <th>ArrivalDateTime</th>
-                            <th>FlightDuration</th>
-                        </tr>
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>FlightNumber</th>
+                                <th>RouteID</th>
+                                <th>AircraftID</th>
+                                <th>DepartureCity</th>
+                                <th>DepartureCountry</th>
+                                <th>ArrivalCity</th>
+                                <th>ArrivalCountry</th>
+                                <th>EconomyPrice</th>
+                                <th>BusinessPrice</th>
+                                <th>ArrivalDateTime</th>
+                                <th>FlightDuration</th>
+                            </tr>
+                        </thead>
                         <tr>
                             <td>@item.FlightNumber</td>
                             <td>@item.RouteId</td>
@@ -127,7 +129,7 @@
                     var holder = document.getElementById(holdername);
 
                     if (holder.style.display != "none") {
-                        table.style.display = "";
+                        table.style.display = "block";
                         if (arrow != null) {
                             arrow.style["border-bottom"] = "16px solid black";
                             arrow.style["border-top"] = "0px";
@@ -174,7 +176,7 @@
                     var arrow = document.getElementById(arrowname);
 
                     if (algo.indexOf(word) != -1) {
-                        holder.style.display = "";
+                        holder.style.display = "block";
                     }else{
                         holder.style.display = "none";
                         if (table != null) {
