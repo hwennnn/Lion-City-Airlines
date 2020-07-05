@@ -13,29 +13,21 @@ namespace web2020apr_p01_assignment_group5.Models
     {
         public int CustomerId { get; set; }
 
-        [Display(Name = "Name")]
-        [Required(ErrorMessage = "Please Enter Your FullName!")]
-        [StringLength(50,
-            ErrorMessage = "Name cannot exceed 50 characters")]
+        [Required]
+        [StringLength(50)]
         public string CustomerName { get; set; }
 
-        [StringLength(50,
-            ErrorMessage = "Nationality cannot exceed 50 characters")]
+        [StringLength(50)]
         public string? Nationality { get; set; }
 
-        [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
 
-        [Display(Name = "Contact Number")]
-        [StringLength(50,
-            ErrorMessage = "Contact Number cannot exceed 50 characters")]
+        [StringLength(50)]
         public string? TelNo { get; set; }
 
-        [Display(Name = "Email Address")]
         [Required(ErrorMessage = "Please enter your Email Address!")]
-        [StringLength(50,
-            ErrorMessage = "Email Address cannot exceed 50 characters")]
+        [StringLength(50)]
         [EmailAddress]
         [ValidateEmailExists]
         public string EmailAddr { get; set; }
