@@ -12,18 +12,18 @@ namespace web2020apr_p01_assignment_group5.DAL
         private IConfiguration Configuration { get; }
         private SqlConnection conn;
         //Constructor 
-        public CustomerDAL() 
-        { 
+        public CustomerDAL()
+        {
             //Read ConnectionString from appsettings.json file 
-            var builder = new ConfigurationBuilder() 
-                .SetBasePath(Directory.GetCurrentDirectory()) 
-                .AddJsonFile("appsettings.json"); 
-            Configuration = builder.Build(); 
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            Configuration = builder.Build();
             string strConn = Configuration.GetConnectionString(
-                "Air_Flights_DBConnectionString"); 
+                "Air_Flights_DBConnectionString");
             //Instantiate a SqlConnection object with the 
             //Connection String read. 
-            conn = new SqlConnection(strConn); 
+            conn = new SqlConnection(strConn);
         }
         public int Addcustomer(Customer customer)
         {
@@ -77,7 +77,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             { //Records found
                 while (reader.Read())
                 {
-                   
+
                     //The email address is used by another Customer 
                     emailFound = true;
                 }
@@ -98,7 +98,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             SqlCommand cmd = conn.CreateCommand();
 
             //Specify the SELECT SQL statement that 
-            //retrieves all attributes of a staff record. 
+            //retrieves all attributes of a customer record. 
             cmd.CommandText = @"SELECT * FROM Customer 
                                 WHERE EmailAddr = @selectedCustomerID";
             //Define the parameter used in SQL statement, value for the 
@@ -158,6 +158,80 @@ namespace web2020apr_p01_assignment_group5.DAL
             return count;
         }
 
-        
-    }
+        public List<Booking> GetAllbooking(int? CustomerId)
+        {
+            List<Booking> bookingList = new List<Booking>();
+            //Create a SqlCommand object from connection object 
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement that 
+            cmd.CommandText = @"SELECT * FROM Booking WHERE CustomerID = @CustomerID ORDER BY BookingID";
+            cmd.Parameters.AddWithValue("@CustomerID", CustomerId);
+            //Open a database connection 
+            conn.Open();
+            //Execute SELCT SQL through a DataReader 
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                bookingList.Add(
+                new Booking
+                {
+                    BookingId = reader.GetInt32(0),
+                    CustomerId = reader.GetInt32(1),
+                    ScheduleId = reader.GetInt32(2),
+                    PassengerName = reader.GetString(3),
+                    PassportNumber = reader.GetString(4),
+                    Nationality = reader.GetString(5),
+                    SeatClass = reader.GetString(6),
+                    AmtPayable = Convert.ToDouble(reader.GetDecimal(7)),
+                    Remarks = !reader.IsDBNull(8) ? 
+                        reader.GetString(8) : null,
+                    DateTimeCreated =reader.GetDateTime(9)
+                });
+            }
+            //Close data reader 
+            reader.Close();
+            //Close database connection
+            conn.Close();
+
+            return bookingList;
+        }
+
+        public Booking GetViewAirTicketsBookedDetails(int? BookingId)
+        {
+            Booking ViewDetails = new Booking();
+            //Create a SqlCommand object from connection object 
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement that 
+            cmd.CommandText = @"SELECT * FROM Booking WHERE BookingID = @BookingID";
+            cmd.Parameters.AddWithValue("@BookingID", BookingId);
+            //Open a database connection 
+            conn.Open();
+            //Execute SELCT SQL through a DataReader 
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    ViewDetails.BookingId = reader.GetInt32(0);
+                    ViewDetails.CustomerId = reader.GetInt32(1);
+                    ViewDetails.ScheduleId = reader.GetInt32(2);
+                    ViewDetails.PassengerName = reader.GetString(3);
+                    ViewDetails.PassportNumber = reader.GetString(4);
+                    ViewDetails.Nationality = reader.GetString(5);
+                    ViewDetails.SeatClass = reader.GetString(6);
+                    ViewDetails.AmtPayable = Convert.ToDouble(reader.GetDecimal(7));
+                    ViewDetails.Remarks = !reader.IsDBNull(8) ?
+                        reader.GetString(8) : null;
+                    ViewDetails.DateTimeCreated = reader.GetDateTime(9);
+                }
+            }        
+            //Close data reader 
+            reader.Close();
+            //Close database connection
+            conn.Close();
+            return ViewDetails;
+        }
+    }      
 }

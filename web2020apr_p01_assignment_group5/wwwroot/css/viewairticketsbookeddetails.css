@@ -1,0 +1,37 @@
+﻿.PageTitle {
+    text-align: center;
+    font-weight: bold;
+    color: black;
+    padding-top: 20px;
+}
+
+.FormContent {
+    padding: 10px;
+    margin: auto;
+    width: 90%;
+}
+
+.col-form-label {
+    text-align: left;
+    font-weight: bold;
+}
+
+fieldset {
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 5px;
+    background-color: #b3b3b3;
+}
+
+.cd-select {
+    color: #FFFFFFFF;
+    font-size: 14px;
+    font-family: "Open Sans",sans-serif;
+    background: #0C1F28;
+    padding: 18.2px 42px;
+    border-radius: 20px;
+}
+
+.form-control-plaintext {
+    padding-left: 60px
+}

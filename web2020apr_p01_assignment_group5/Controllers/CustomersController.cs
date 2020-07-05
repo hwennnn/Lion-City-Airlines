@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
 
@@ -10,7 +13,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
     public class CustomersController : Controller
     {
         private CustomerDAL customerContext = new CustomerDAL();
-
+        private AdminDAL adminContext = new AdminDAL();
         public IActionResult Index()
         {
             return RedirectToAction("Index", "Home");
@@ -78,5 +81,80 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return View();
         }
 
+        public List<ViewAirTicketsBooked> BookingToViewBooking(int? CustomerId)
+        {
+            List<ViewAirTicketsBooked> BookingModelList = new List<ViewAirTicketsBooked>();
+            List<Booking> BookingList = customerContext.GetAllbooking(CustomerId);
+            List<FlightSchedule> scheduleList = adminContext.getAllFlightSchedule();          
+
+            foreach (Booking Booking in BookingList) 
+            {
+                FlightSchedule schedule = scheduleList.First(b => b.ScheduleId == Booking.ScheduleId);
+                FlightRoute flightRoutes = adminContext.getSpecificRoute(schedule.RouteId);
+                ViewAirTicketsBooked viewAirTickets = new ViewAirTicketsBooked();
+                viewAirTickets.BookingId = Booking.BookingId;
+                viewAirTickets.PassengerName = Booking.PassengerName;
+                viewAirTickets.PassportNumber = Booking.PassportNumber;
+                viewAirTickets.Nationality = Booking.Nationality;
+                viewAirTickets.SeatClass = Booking.SeatClass;
+                viewAirTickets.AmtPayable = Booking.AmtPayable;
+                viewAirTickets.Remarks = Booking.Remarks;
+                viewAirTickets.DateTimeCreated = Booking.DateTimeCreated;
+                viewAirTickets.FlightNumber = schedule.FlightNumber;
+                viewAirTickets.DepartureCity = flightRoutes.DepartureCity;
+                viewAirTickets.DepartureCountry = flightRoutes.DepartureCountry;
+                viewAirTickets.DepartureDateTime = schedule.DepartureDateTime;
+                viewAirTickets.ArrivalCity = flightRoutes.ArrivalCity;
+                viewAirTickets.ArrivalCountry = flightRoutes.ArrivalCountry;
+                viewAirTickets.ArrivalDateTime = schedule.ArrivalDateTime;
+                BookingModelList.Add(viewAirTickets);
+            }
+            return BookingModelList;
+        }
+
+        public ActionResult ViewAirTicketsBooked()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Customer"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            int? id = HttpContext.Session.GetInt32("CustomerID");
+            return View(BookingToViewBooking(id));
+        }
+
+        public ActionResult ViewAirTicketsBookedDetails(int? id)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Customer"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(GetSpecificDetails(id));
+        }
+
+        public ViewAirTicketsBooked GetSpecificDetails(int? BookingId)
+        {
+            Booking booking = customerContext.GetViewAirTicketsBookedDetails(BookingId);
+            ViewAirTicketsBooked viewAirTicketsBooked = new ViewAirTicketsBooked();
+            FlightSchedule flightSchedule = adminContext.getSpecificSchedule(booking.ScheduleId);
+            FlightRoute flightRoute = adminContext.getSpecificRoute(flightSchedule.RouteId);
+            viewAirTicketsBooked.BookingId = booking.BookingId;
+            viewAirTicketsBooked.PassengerName = booking.PassengerName;
+            viewAirTicketsBooked.PassportNumber = booking.PassportNumber;
+            viewAirTicketsBooked.Nationality = booking.Nationality;
+            viewAirTicketsBooked.SeatClass = booking.SeatClass;
+            viewAirTicketsBooked.AmtPayable = booking.AmtPayable;
+            viewAirTicketsBooked.Remarks = booking.Remarks;
+            viewAirTicketsBooked.DateTimeCreated = booking.DateTimeCreated;
+            viewAirTicketsBooked.FlightNumber = flightSchedule.FlightNumber;
+            viewAirTicketsBooked.DepartureCity = flightRoute.DepartureCity;
+            viewAirTicketsBooked.DepartureCountry = flightRoute.DepartureCountry;
+            viewAirTicketsBooked.DepartureDateTime = flightSchedule.DepartureDateTime;
+            viewAirTicketsBooked.ArrivalCity = flightRoute.ArrivalCity;
+            viewAirTicketsBooked.ArrivalCountry = flightRoute.ArrivalCountry;
+            viewAirTicketsBooked.ArrivalDateTime = flightSchedule.ArrivalDateTime;
+            return viewAirTicketsBooked;
+        }
     }
 }

@@ -13,6 +13,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/fonts/iconic/css/material-design-iconic-font.min.css">
@@ -23,7 +25,9 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/vendor/select2/select2.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/css/CreateCustomerProfile.css">
+    <link rel="stylesheet" type="text/css" href="~/css/createcustomerprofile.css">
+    <!--===============================================================================================-->
+    @*<link rel="stylesheet" type="text/css" href="~/css/intlTelInput.css">*@
     <!--===============================================================================================-->
 </head>
 
@@ -62,9 +66,9 @@
                     <input class="input100" asp-for="EmailAddr" placeholder="Enter Your Email *">
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Please Enter A Valid Contact Number: 98765432">
+                <div class="wrap-input100 validate-input" data-validate="Please Enter Your Contact Number">
                     <span asp-validation-for="TelNo" id="5label-input100"></span>
-                    <input class="input100" asp-for="TelNo" type="tel" pattern="[8-9]{1}[0-9]{7}" placeholder="Enter Your Contact Number">
+                    <input class="input100" asp-for="TelNo" type="tel" pattern="[8-9]{1}[0-9]{7}" id="phone" placeholder="Enter Your Contact Number">
                 </div>
 
                 <div class="container-contact100-form-btn">
@@ -79,8 +83,7 @@
         </div>
     </div>
 
-
-
+    @*<script src="~/js/intlTelInput.js"></script>*@
     <!--===============================================================================================-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!--===============================================================================================-->
@@ -122,6 +125,23 @@
             }
         }
     </script>
+    @*<script>
+        var input = document.querySelector("#phone");
+        window.intlTelInput(input);
+    </script>
+    <script>
+        var input = document.querySelector("#phone");
+        intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: function (success, failure) {
+                $.get("https://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    success(countryCode);
+                });
+            },
+            utilsScript: "~/js/utils.js"
+        });
+    </script>*@
 </body>
 
 </html>

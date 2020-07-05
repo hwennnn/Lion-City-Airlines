@@ -1,0 +1,120 @@
+﻿@model web2020apr_p01_assignment_group5.Models.ViewAirTicketsBooked
+
+@{
+    Layout = "_CustomerMenu";
+    ViewData["Title"] = "ViewAirTicketsBookedDetails";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/viewairticketsbookeddetails.css">
+
+<h4 class="PageTitle">View Air Tickets Booked Details</h4>
+<hr />
+<fieldset class="FormContent">
+    <div class="form-group row">
+        <label asp-for="BookingId"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("BookingId")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="PassengerName" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("PassengerName")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="PassportNumber" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("PassportNumber")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Nationality"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("Nationality")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="SeatClass" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("SeatClass")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="AmtPayable" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("AmtPayable")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Remarks" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("Remarks")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="DateTimeCreated"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("DateTimeCreated")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="FlightNumber"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("FlightNumber")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="DepartureCity"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("DepartureCity")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="DepartureCountry"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("DepartureCountry")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="DepartureDateTime"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("DepartureDateTime")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ArrivalCity"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("ArrivalCity")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ArrivalCountry"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("ArrivalCountry")
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ArrivalDateTime"
+               class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9 form-control-plaintext">
+            @Html.Display("ArrivalDateTime")
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <div class="col-sm-9 offset-sm-3">
+            <a asp-action="ViewAirTicketsBooked"
+               asp-controller="Customers" class="cd-select">Back to List</a>
+        </div>
+    </div>
+</fieldset>

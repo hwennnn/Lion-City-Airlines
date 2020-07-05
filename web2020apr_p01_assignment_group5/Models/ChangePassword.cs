@@ -21,7 +21,7 @@ namespace web2020apr_p01_assignment_group5.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword",ErrorMessage =
-            "The new password and confirm password do not match.")]
+            "New Password & Confirm Password do not match.")]
         public string ConfirmPassword { get; set; }
 
     }

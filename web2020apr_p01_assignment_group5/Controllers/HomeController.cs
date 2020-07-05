@@ -92,7 +92,8 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 Customer customer = customerContext.GetDetails(email);
                 // Store Customer Name with the key "CustomerName"
                 HttpContext.Session.SetString("CustomerName", customer.CustomerName);
-
+                // Store Customer ID with the key "CustomerID"
+                HttpContext.Session.SetInt32("CustomerID", customer.CustomerId);
                 // redirect to customer homepage
                 // store session data as customer
                 return RedirectToAction("Index", "Customers");
