@@ -223,7 +223,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     route.DepartureCountry = reader.GetString(2);
                     route.ArrivalCity = reader.GetString(3);
                     route.ArrivalCountry = reader.GetString(4); 
-                    route.FlightDuration = reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null;
+                    route.FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null;
                 }
             }
 
