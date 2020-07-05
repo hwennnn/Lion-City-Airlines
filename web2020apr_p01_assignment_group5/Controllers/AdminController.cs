@@ -21,7 +21,16 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 (HttpContext.Session.GetString("Role") != "Staff")))
             {
                 return RedirectToAction("Index", "Home");
-                // return to homepage if the user does not login as admin
+                // return to homepage if the user does not login as admin or staff
+            }
+
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                int staffID = (int)HttpContext.Session.GetInt32("StaffID");
+                Staff staff = adminContext.GetSpecificStaffByID(staffID);
+                PersonnelViewModel model = mapSpecificPersonneltoSchedule(staff);
+
+                return View(model);
             }
 
             return View();

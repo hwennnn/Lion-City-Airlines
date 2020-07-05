@@ -53,7 +53,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult Login()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -113,6 +113,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 }
                 else
                 {
+                    HttpContext.Session.SetInt32("StaffID", staff.StaffId);
                     HttpContext.Session.SetString("Role", "Staff");
                 }
                 // Redirect user to the "StaffMain" view through an action
