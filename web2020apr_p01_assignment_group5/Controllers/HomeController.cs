@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace web2020apr_p01_assignment_group5.Controllers
@@ -27,7 +24,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult Index()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -53,7 +50,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult Login()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -68,7 +65,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [HttpPost]
         public ActionResult Login(IFormCollection formData)
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff") 
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -107,7 +104,16 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 // Store Login ID in session with the key “LoginID”
                 HttpContext.Session.SetString("LoginID", email);
                 // Store user role “Staff” as a string in session with the key “Role”
-                HttpContext.Session.SetString("Role", "Admin");
+
+                if (staff.Vocation.Equals("Administrator"))
+                {
+                    HttpContext.Session.SetString("Role", "Admin");
+                }
+                else
+                {
+                    HttpContext.Session.SetInt32("StaffID", staff.StaffId);
+                    HttpContext.Session.SetString("Role", "Staff");
+                }
                 // Redirect user to the "StaffMain" view through an action
                 HttpContext.Session.SetString("LoginDT", DateTime.Now.ToString("dd-MMMM-y h:mm:ss tt"));
 
@@ -131,7 +137,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult ContactUs()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -141,7 +147,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult AboutUs()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -151,7 +157,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult OurCrew()
         {
-            if (HttpContext.Session.GetString("Role") == "Admin")
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -177,29 +183,44 @@ namespace web2020apr_p01_assignment_group5.Controllers
                     FlightRoute flightRoute = adminDAL.getSpecificRoute(schedule.RouteId);
                     if (flightRoute != null)
                     {
-                        if (!dSet.Contains(flightRoute.DepartureCountry)){
+                        string dText = String.Format("{0} ({1})", flightRoute.DepartureCity, flightRoute.DepartureCountry);
+                        
+                        if (!dSet.Contains(dText)){
                             dList.Add(new SelectListItem
                             {
-                                Value = flightRoute.DepartureCountry,
-                                Text = flightRoute.DepartureCountry
+                                Value = dText,
+                                Text = dText
                             });
-                            dSet.Add(flightRoute.DepartureCountry);
+                            dSet.Add(dText);
                         }
 
-                        if (!aSet.Contains(flightRoute.ArrivalCountry))
+                        string aText = String.Format("{0} ({1})", flightRoute.ArrivalCity, flightRoute.ArrivalCountry);
+                        if (!aSet.Contains(aText))
                         {
                             aList.Add(new SelectListItem
                             {
-                                Value = flightRoute.ArrivalCountry,
-                                Text = flightRoute.ArrivalCountry
+                                Value = aText,
+                                Text = aText
                             });
-                            aSet.Add(flightRoute.ArrivalCountry);
+                            aSet.Add(aText);
                         }
                         
                     }
                 }
 
             }
+
+            dList.Insert(0, new SelectListItem
+            {
+                Value = "",
+                Text = "--Select--"
+            });
+
+            aList.Insert(0, new SelectListItem
+            {
+                Value = "",
+                Text = "--Select--"
+            });
 
             bookingModel.departureCountryList = dList;
             bookingModel.arrivalCountryList = aList;

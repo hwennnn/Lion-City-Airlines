@@ -47,9 +47,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                 {
                     staff.StaffId = reader.GetInt32(0);
                     staff.StaffName = reader.GetString(1);
-                    staff.Gender = reader.GetString(2)[0];
-                    staff.DateEmployed = reader.GetDateTime(3);
-                    staff.Vocation = reader.GetString(4);
+                    staff.Gender = !reader.IsDBNull(2) ? reader.GetString(2)[0] : (char)0;
+                    staff.DateEmployed = !reader.IsDBNull(3) ? reader.GetDateTime(3) : (DateTime?)null;
+                    staff.Vocation = !reader.IsDBNull(4) ? reader.GetString(4) : null;
                     staff.Email = reader.GetString(5);
                     staff.Status = reader.GetString(7);
                 }
@@ -82,9 +82,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                 {
                     staff.StaffId = reader.GetInt32(0);
                     staff.StaffName = reader.GetString(1);
-                    staff.Gender = reader.GetString(2)[0];
-                    staff.DateEmployed = reader.GetDateTime(3);
-                    staff.Vocation = reader.GetString(4);
+                    staff.Gender = !reader.IsDBNull(2) ? reader.GetString(2)[0] : (char)0;
+                    staff.DateEmployed = !reader.IsDBNull(3) ? reader.GetDateTime(3) : (DateTime?)null;
+                    staff.Vocation = !reader.IsDBNull(4) ? reader.GetString(4) : null;
                     staff.Email = reader.GetString(5);
                     staff.Status = reader.GetString(7);
                 }
@@ -116,9 +116,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                 {
                     StaffId = reader.GetInt32(0),
                     StaffName = reader.GetString(1),
-                    Gender = reader.GetString(2)[0],
-                    DateEmployed = reader.GetDateTime(3),
-                    Vocation = reader.GetString(4),
+                    Gender = !reader.IsDBNull(2) ? reader.GetString(2)[0] : (char)0,
+                    DateEmployed = !reader.IsDBNull(3) ? reader.GetDateTime(3) : (DateTime?)null,
+                    Vocation = !reader.IsDBNull(4) ? reader.GetString(4) : null,
                     Email = reader.GetString(5),
                     Status = reader.GetString(7)
 
@@ -222,8 +222,8 @@ namespace web2020apr_p01_assignment_group5.DAL
                     route.DepartureCity = reader.GetString(1);
                     route.DepartureCountry = reader.GetString(2);
                     route.ArrivalCity = reader.GetString(3);
-                    route.ArrivalCountry = reader.GetString(4);
-                    route.FlightDuration = reader.GetInt32(5);
+                    route.ArrivalCountry = reader.GetString(4); 
+                    route.FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null;
                 }
             }
 
@@ -233,6 +233,44 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
 
             return route;
+        }
+
+        public bool IsRouteExist(FlightRoute route)
+        {
+            //Assign a boolean for return if FlightRoute Exists
+            bool routeFound = false;
+
+            //Create sql command
+            SqlCommand cmd = conn.CreateCommand();
+            //Set SQL Command Text
+            cmd.CommandText = @"SELECT * FROM FlightRoute WHERE DepartureCity = @selectedDepartureCity
+                                AND DepartureCountry = @selectedDepartureCountry
+                                AND ArrivalCity = @selectedArrivalCity
+                                AND ArrivalCountry = @selectedArrivalCountry";
+            //Set parameters for SQL Command
+            cmd.Parameters.AddWithValue("@selectedDepartureCity", route.DepartureCity);
+            cmd.Parameters.AddWithValue("@selectedDepartureCountry", route.DepartureCountry);
+            cmd.Parameters.AddWithValue("@selectedArrivalCity", route.ArrivalCity);
+            cmd.Parameters.AddWithValue("@selectedArrivalCountry", route.ArrivalCountry);
+            //Open connection to DB
+            conn.Open();
+            //Read SQL data using command text
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {//If record exists
+                while (reader.Read())
+                {
+                    routeFound = true;
+                }
+            }
+            else
+            {//If record does not exist
+                routeFound = false;
+            }
+            reader.Close();
+            conn.Close();
+            return routeFound;
         }
 
         public List<FlightCrew> getSpecificFlightCrew(int staffID)
@@ -316,10 +354,37 @@ namespace web2020apr_p01_assignment_group5.DAL
                                 @email, @password, @status)";
             //Define the parameters used in SQL statement, value for each parameter
             //is retrieved from respective class's property
+
             cmd.Parameters.AddWithValue("@name", staff.StaffName);
-            cmd.Parameters.AddWithValue("@gender", staff.Gender);
-            cmd.Parameters.AddWithValue("@dateEmployed", staff.DateEmployed);
-            cmd.Parameters.AddWithValue("@vocation", staff.Vocation);
+
+            if (staff.Gender.Equals('N'))
+            {
+                cmd.Parameters.AddWithValue("@gender", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@gender", staff.Gender);
+            }
+
+            if (!staff.DateEmployed.HasValue)
+            {
+                cmd.Parameters.AddWithValue("@dateEmployed", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@dateEmployed", staff.DateEmployed);
+            }
+
+            if (string.IsNullOrEmpty(staff.Vocation))
+            {
+                cmd.Parameters.AddWithValue("@vocation", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@vocation", staff.Vocation);
+            }
+
+            
             cmd.Parameters.AddWithValue("@email", staff.Email);
             cmd.Parameters.AddWithValue("@password", "p@55Staff");
             cmd.Parameters.AddWithValue("@status", "Active");
@@ -365,7 +430,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             return emailFound;
         }
         
-        public int CreateFlightRoute(FlightRoute flightRoute)
+        public void CreateFlightRoute(FlightRoute flightRoute)
         {
             //Create SqlCommand from connection object
             SqlCommand cmd = conn.CreateCommand();
@@ -381,15 +446,21 @@ namespace web2020apr_p01_assignment_group5.DAL
             cmd.Parameters.AddWithValue("@departureCountry", flightRoute.DepartureCountry);
             cmd.Parameters.AddWithValue("@arrivalCity", flightRoute.ArrivalCity);
             cmd.Parameters.AddWithValue("@arrivalCountry", flightRoute.ArrivalCountry);
-            cmd.Parameters.AddWithValue("@flightDuration", flightRoute.FlightDuration);
+            if (flightRoute.FlightDuration.HasValue)
+            {
+                cmd.Parameters.AddWithValue("@flightDuration", flightRoute.FlightDuration);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@flightDuration", DBNull.Value);
+            }
             //Opening connection to database
             conn.Open();
             //Execute Scalar to retrieve inserted Route ID
             flightRoute.RouteId = (int)cmd.ExecuteScalar();
             //Close the connection
             conn.Close();
-            //Return ID if successful
-            return flightRoute.RouteId;
+       
         }
 
         public void updatePersonnelStatus(Staff staff)

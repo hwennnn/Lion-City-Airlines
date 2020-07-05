@@ -7,6 +7,10 @@ body {
     margin-bottom: 50px;
 }
 
+.container {
+    margin-bottom: 50px;
+}
+
 .scheduleid,
 .departdate,
 .status,

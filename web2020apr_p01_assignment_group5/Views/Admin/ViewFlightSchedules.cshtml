@@ -32,9 +32,17 @@
 
                 <span class="scheduleid">ScheduleID: @item.ScheduleId</span>
                 <span class="departdate">Departure Date: @item.DepartureDateTime</span>
-                <a style="color:black" asp-action="UpdateFlightScheduleStatus" asp-controller="Admin"
-                   asp-route-id="@item.ScheduleId">
-                    <span class="status">Status: @item.Status</span></a>
+                @if (item.Status == "Opened")
+                {
+                    <a style="color:black" asp-action="UpdateFlightScheduleStatus" asp-controller="Admin"
+                       asp-route-id="@item.ScheduleId">
+                        <span class="status">Status: @item.Status</span>
+                    </a>
+                }
+                else
+                {
+                    <span class="status">Status: @item.Status</span>
+                }
                 <span onclick="toggle(@(i))" id="arrow@(i)" class="arrow-down"></span>
 
             </div>
@@ -71,14 +79,18 @@
                         </tr>
 
                     </table>
+                    <br />
+                    @if (item.Status == "Opened")
+                    {
+                        <a asp-action="UpdateFlightScheduleStatus" asp-controller="Admin"
+                           asp-route-id="@item.ScheduleId"><button>Update Flight Schedule Status</button></a>
+                    }
                 }
                 else
                 {
                     <p>No record found!</p>
                 }
                 <br />
-                <a asp-action="UpdateFlightScheduleStatus" asp-controller="Admin"
-                   asp-route-id="@item.ScheduleId"><button>Update Flight Schedule Status</button></a>
             </div>
                 i++;
             }

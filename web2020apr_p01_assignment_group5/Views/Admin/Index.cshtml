@@ -3,11 +3,14 @@
     ViewData["Title"] = "Home";
 }
 
+
+
 <link rel="stylesheet" href="~/css/homepage.css">
+<link rel="stylesheet" href="~/css/staffindex.css">
 
 <body>
 
-    <div class="container text-center" style="margin-top:56px">    
+    <div class="container text-center" style="margin-top:56px">
         <div class="row content">
 
             <div class="col-sm-6 text-centre welcome">
@@ -40,40 +43,95 @@
                 <div class="welcome_title">
                     <img id="admin-image" src="@Url.Content("~/images/admin-home-image.jpg")">
                 </div>
+
+            </div>
+
+        </div>
+    </div>
+    @{
+        if (Context.Session.GetString("Role") == "Admin")
+        {
+            <div class="container text-centre">
                 
+                <div class="row content" style="margin-top:50px;">
+
+                    <div class="col-sm-6 admin-content">
+                        <h3 class="task-title">Flight Scheduling</h3>
+                        <hr>
+                        <p><a href="~/Admin/CreateFlightRoute" style="color:black">Create Flight Route</a></p>
+                        <p></p>
+                        <p><a href="~/Admin/ViewFlightSchedules" style="color:black">View Flight Route & Schedule</a></p>
+                        <p></p>
+                        <p><a href="#" style="color:black">Create Flight Schedule</a></p>
+                        <p></p>
+                    </div>
+
+                    <div class="col-sm-6 admin-content">
+                        <h3 class="task-title">Flight Personnel</h3>
+                        <hr>
+                        <p><a href="~/Admin/CreatePersonnels" style="color:black">Create Flight Personnel Record</a></p>
+                        <p></p>
+                        <p><a href="~/Admin/ViewPersonnels" style="color:black">View All Flight Personnels</a></p>
+                        <p></p>
+                        <p><a href="#" style="color:black">Assign Flight Schedule to Personnel</a></p>
+                        <p></p>
+                    </div>
+
+                </div>
             </div>
+        }
 
-        </div>
-    </div>
+        else
+        {
+            @model web2020apr_p01_assignment_group5.Models.PersonnelViewModel
+            <div class="container text-centre">
 
-    <div class="container text-centre">
-        <div class="row content">
+                <div class="row content">
+                    <h1>Your flight schedule</h1>
+                </div>
 
-            <div class="col-sm-6 admin-content">
-                <h3 class="task-title">Flight Scheduling</h3>
-                <hr>
-                <p><a href="~/Admin/CreateFlightRoute" style="color:black">Create Flight Route</a></p>
-                <p></p>
-                <p><a href="~/Admin/ViewFlightSchedules" style="color:black">View Flight Route & Schedule</a></p>
-                <p></p>
-                <p><a href="#" style="color:black">Create Flight Schedule</a></p>
-                <p></p>
+                <div class="row content" style="overflow-x:auto; margin-top:20px;">
+                    @{ if (Model.flightScheduleList.Count > 0)
+                        {
+                            <table>
+
+                                <tr>
+                                    <th>ScheduleID</th>
+                                    <th>FlightNumber</th>
+                                    <th>RouteID</th>
+                                    <th>DepartureDateTime</th>
+                                    <th>ArrivalDateTime</th>
+                                    <th>Status</th>
+                                    <th>Role</th>
+                                </tr>
+
+                                @foreach (var schedule in Model.flightScheduleList)
+                                {
+                                    <tr>
+                                        <td>@schedule.ScheduleId</td>
+                                        <td>@schedule.FlightNumber</td>
+                                        <td>@schedule.RouteId</td>
+                                        <td>@schedule.DepartureDateTime</td>
+                                        <td>@schedule.ArrivalDateTime</td>
+                                        <td>@schedule.Status</td>
+                                        <td>@schedule.Role</td>
+                                    </tr>
+                                }
+
+                            </table>
+
+                        }
+                        else
+                        {
+                            <p>No FlightSchedule record found!</p>
+                        }
+                    }
+                </div>
             </div>
+        }
+        }
 
-            <div class="col-sm-6 admin-content">
-                <h3 class="task-title">Flight Personnel</h3>
-                <hr>
-                <p><a href="~/Admin/CreatePersonnels" style="color:black">Create Flight Personnel Record</a></p>
-                <p></p>
-                <p><a href="~/Admin/ViewPersonnels" style="color:black">View All Flight Personnels</a></p>
-                <p></p>
-                <p><a href="#" style="color:black">Assign Flight Schedule to Personnel</a></p>
-                <p></p>
-            </div>
 
-        </div>
-    </div>
-    
+
+
 </body>
-
-</html>

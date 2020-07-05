@@ -30,7 +30,7 @@
 <body>
     <div class="container-contact100" style="margin-top:56px">
 
-        <div class="wrap-contact100"> 
+        <div class="wrap-contact100">
             <form asp-action="CreateFlightRoute" class="contact100-form validate-form">
                 <span class="contact100-form-title">
                     Create Flight Route
@@ -56,7 +56,7 @@
                     <input class="input100" asp-for="ArrivalCountry" placeholder="Enter Arrival Country">
                 </div>
 
-                <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Flight Duration">
+                <div class="wrap-input100 bg1">
                     <span class="label-input100">Flight Duration</span>
                     <input class="input100" asp-for="FlightDuration" placeholder="Enter Flight Duration">
                 </div>
@@ -82,7 +82,7 @@
     <!--===============================================================================================-->
     <script src="~/vendor/select2/select2.min.js"></script>
     <script>
-$(".js-select2").each(function () {
+        $(".js-select2").each(function () {
             $(this).select2({
                 minimumResultsForSearch: 20,
                 dropdownParent: $(this).next('.dropDownSelect2')
@@ -98,10 +98,17 @@ $(".js-select2").each(function () {
                     }
                 });
             });
-    document.getElementById("body_container").classList.remove("container-fluid");
+            document.getElementById("body_container").classList.remove("container-fluid");
         })</script>
     <!--===============================================================================================-->
     <script src="~/js/main.js"></script>
+    <script>
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
+
+        if (message) {
+            alert(message);
+        }
+    </script>
 
 
 </body>
