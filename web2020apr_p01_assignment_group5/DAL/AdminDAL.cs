@@ -47,9 +47,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                 {
                     staff.StaffId = reader.GetInt32(0);
                     staff.StaffName = reader.GetString(1);
-                    staff.Gender = reader.GetString(2)[0];
-                    staff.DateEmployed = reader.GetDateTime(3);
-                    staff.Vocation = reader.GetString(4);
+                    staff.Gender = !reader.IsDBNull(2) ? reader.GetString(2)[0] : (char)0;
+                    staff.DateEmployed = !reader.IsDBNull(3) ? reader.GetDateTime(3) : (DateTime?)null;
+                    staff.Vocation = !reader.IsDBNull(4) ? reader.GetString(4) : null;
                     staff.Email = reader.GetString(5);
                     staff.Status = reader.GetString(7);
                 }
@@ -82,9 +82,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                 {
                     staff.StaffId = reader.GetInt32(0);
                     staff.StaffName = reader.GetString(1);
-                    staff.Gender = reader.GetString(2)[0];
-                    staff.DateEmployed = reader.GetDateTime(3);
-                    staff.Vocation = reader.GetString(4);
+                    staff.Gender = !reader.IsDBNull(2) ? reader.GetString(2)[0] : (char)0;
+                    staff.DateEmployed = !reader.IsDBNull(3) ? reader.GetDateTime(3) : (DateTime?)null;
+                    staff.Vocation = !reader.IsDBNull(4) ? reader.GetString(4) : null;
                     staff.Email = reader.GetString(5);
                     staff.Status = reader.GetString(7);
                 }
@@ -116,9 +116,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                 {
                     StaffId = reader.GetInt32(0),
                     StaffName = reader.GetString(1),
-                    Gender = reader.GetString(2)[0],
-                    DateEmployed = reader.GetDateTime(3),
-                    Vocation = reader.GetString(4),
+                    Gender = !reader.IsDBNull(2) ? reader.GetString(2)[0] : (char)0,
+                    DateEmployed = !reader.IsDBNull(3) ? reader.GetDateTime(3) : (DateTime?)null,
+                    Vocation = !reader.IsDBNull(4) ? reader.GetString(4) : null,
                     Email = reader.GetString(5),
                     Status = reader.GetString(7)
 
@@ -354,10 +354,37 @@ namespace web2020apr_p01_assignment_group5.DAL
                                 @email, @password, @status)";
             //Define the parameters used in SQL statement, value for each parameter
             //is retrieved from respective class's property
+
             cmd.Parameters.AddWithValue("@name", staff.StaffName);
-            cmd.Parameters.AddWithValue("@gender", staff.Gender);
-            cmd.Parameters.AddWithValue("@dateEmployed", staff.DateEmployed);
-            cmd.Parameters.AddWithValue("@vocation", staff.Vocation);
+
+            if (staff.Gender.Equals('N'))
+            {
+                cmd.Parameters.AddWithValue("@gender", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@gender", staff.Gender);
+            }
+
+            if (!staff.DateEmployed.HasValue)
+            {
+                cmd.Parameters.AddWithValue("@dateEmployed", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@dateEmployed", staff.DateEmployed);
+            }
+
+            if (string.IsNullOrEmpty(staff.Vocation))
+            {
+                cmd.Parameters.AddWithValue("@vocation", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@vocation", staff.Vocation);
+            }
+
+            
             cmd.Parameters.AddWithValue("@email", staff.Email);
             cmd.Parameters.AddWithValue("@password", "p@55Staff");
             cmd.Parameters.AddWithValue("@status", "Active");
