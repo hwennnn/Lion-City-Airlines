@@ -14,7 +14,7 @@ namespace web2020apr_p01_assignment_group5.Models
         public string ArrivalCity { get; set; }
         public string ArrivalCountry { get; set;}
 
-        [Range(1, 24, ErrorMessage = "Flight Duration cannot exceed 24 hours!")]
+        [Range(1, 24, ErrorMessage = "Flight Duration Acceptable Range: 1-24 Hrs")]
         public int? FlightDuration { get; set; }
     }
 }
