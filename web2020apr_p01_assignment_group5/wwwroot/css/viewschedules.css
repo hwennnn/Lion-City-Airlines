@@ -11,8 +11,9 @@ body {
     margin-bottom: 50px;
 }
 
-.scheduleid,
-.departdate,
+.routeid,
+.depart,
+.arrive,
 .status,
 .arrow-down {
     display: inline-block;
@@ -25,12 +26,12 @@ hr {
     width: 100%;
 }
 
-.scheduleid {
+.routeid {
     text-align: left;
     width: 250px;
 }
 
-.departdate {
+.depart {
     text-align: left;
     width: 400px;
 }

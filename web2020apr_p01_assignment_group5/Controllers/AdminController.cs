@@ -147,24 +147,20 @@ namespace web2020apr_p01_assignment_group5.Controllers
         public List<ScheduleViewModel> mapScheduletoRoute()
         {
             List<ScheduleViewModel> scheduleModelList = new List<ScheduleViewModel>();
-            List<FlightSchedule> scheduleList = adminContext.getAllFlightSchedule();
+            List<FlightRoute> routeList = adminContext.getAllFlightRoute();
 
-            foreach (FlightSchedule schedule in scheduleList)
+            foreach (FlightRoute route in routeList)
             {
                 ScheduleViewModel scheduleModel = new ScheduleViewModel();
-                scheduleModel.ScheduleId = schedule.ScheduleId;
-                scheduleModel.FlightNumber = schedule.FlightNumber;
-                scheduleModel.RouteId = schedule.RouteId;
-                scheduleModel.AircraftId = schedule.AircraftId;
-                scheduleModel.DepartureDateTime = schedule.DepartureDateTime;
-                scheduleModel.ArrivalDateTime = schedule.ArrivalDateTime;
-                scheduleModel.EconomyClassPrice = schedule.EconomyClassPrice;
-                scheduleModel.BusinessClassPrice = schedule.BusinessClassPrice;
-                scheduleModel.Status = schedule.Status;
-                scheduleModel.Route = adminContext.getSpecificRoute(schedule.RouteId);
+                scheduleModel.RouteId = route.RouteId;
+                scheduleModel.DepartureCity = route.DepartureCity;
+                scheduleModel.DepartureCountry = route.DepartureCountry;
+                scheduleModel.ArrivalCity = route.ArrivalCity;
+                scheduleModel.ArrivalCountry = route.ArrivalCountry;
+                scheduleModel.FlightDuration = route.FlightDuration;
+                scheduleModel.scheduleList = adminContext.getSpecificScheduleList(route.RouteId);
                 scheduleModelList.Add(scheduleModel);
             }
-
             return scheduleModelList;
         }
 

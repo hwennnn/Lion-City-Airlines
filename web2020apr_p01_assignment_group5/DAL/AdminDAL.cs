@@ -202,6 +202,48 @@ namespace web2020apr_p01_assignment_group5.DAL
 
             return scheduleList;
         }
+
+        public List<FlightSchedule> getSpecificScheduleList(int id)
+        {
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify SELECT Statement
+            cmd.CommandText = @"SELECT * FROM FlightSchedule WHERE RouteID = @routeId ORDER BY ScheduleID";
+            //Add parameters for RouteID
+            cmd.Parameters.AddWithValue("@routeId", id);
+            //Open Database Connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    scheduleList.Add(
+                    new FlightSchedule
+                    {
+                        ScheduleId = reader.GetInt32(0),
+                        FlightNumber = reader.GetString(1),
+                        RouteId = reader.GetInt32(2),
+                        AircraftId = reader.GetInt32(3),
+                        DepartureDateTime = reader.GetDateTime(4),
+                        ArrivalDateTime = reader.GetDateTime(5),
+                        EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
+                        BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
+                        Status = reader.GetString(8),
+
+                    });
+                }
+            }
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return scheduleList;
+        }
+
         public FlightRoute getSpecificRoute (int routeID)
         {
             FlightRoute route = new FlightRoute();
@@ -233,6 +275,40 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
 
             return route;
+        }
+
+        public List<FlightRoute> getAllFlightRoute()
+        {
+            List<FlightRoute> routeList = new List<FlightRoute>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL Statement
+            cmd.CommandText = @"SELECT * FROM FlightRoute ORDER BY RouteID";
+            //Open database Connection
+            conn.Open();
+            //Start the reader to retrieve data
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                routeList.Add(
+                new FlightRoute
+                {
+                    RouteId = reader.GetInt32(0),
+                    DepartureCity = reader.GetString(1),
+                    DepartureCountry = reader.GetString(2),
+                    ArrivalCity = reader.GetString(3),
+                    ArrivalCountry = reader.GetString(4),
+                    FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null,
+            });
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return routeList;
+
         }
 
         public bool IsRouteExist(FlightRoute route)
