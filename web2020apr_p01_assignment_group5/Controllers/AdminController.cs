@@ -499,5 +499,37 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 return View(schedule);
             }
         }
+
+        private List<Int32> RouteList()
+        {
+            List<Int32> routeIdList = new List<Int32>();
+            List<FlightRoute> flightRouteList = new List<FlightRoute>();
+            flightRouteList = adminContext.getAllFlightRoute();
+            foreach(FlightRoute route in flightRouteList)
+            {
+                routeIdList.Add(route.RouteId);
+            }
+            return routeIdList;
+        }
+
+        public ActionResult CreateFlightSchedule()
+        {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
+            //Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewData["RouteIdList"] = RouteList();
+
+            return View();
+        }
     }
 }

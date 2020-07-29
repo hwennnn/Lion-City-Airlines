@@ -590,5 +590,39 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
         }
 
+        public List<Aircraft> getAllAircraft()
+        {
+            List<Aircraft> aircraftList = new List<Aircraft>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL Statement
+            cmd.CommandText = @"SELECT * FROM Aircraft ORDER BY AircraftID";
+            //Open database Connection
+            conn.Open();
+            //Start the reader to retrieve data
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                aircraftList.Add(
+                new Aircraft
+                {
+                    AircraftId = reader.GetInt32(0),
+                    MakeModel = reader.GetString(1),
+                    NumEconomySeat = reader.GetInt32(2),
+                    NumBusinessSeat = reader.GetInt32(3),
+                    DateLastMaintenance = reader.GetDateTime(4),
+                    Status = reader.GetString(5),
+                });
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return aircraftList;
+
+        }
+
     }
 }
