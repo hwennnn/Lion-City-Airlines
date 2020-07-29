@@ -512,6 +512,18 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return routeIdList;
         }
 
+        private List<Int32> AircraftList()
+        {
+            List<Int32> aircraftIdList = new List<Int32>();
+            List<Aircraft> aircraftList = new List<Aircraft>();
+            aircraftList = adminContext.getAllAircraft();
+            foreach(Aircraft aircraft in aircraftList)
+            {
+                aircraftIdList.Add(aircraft.AircraftId);
+            }
+            return aircraftIdList;
+        }
+
         public ActionResult CreateFlightSchedule()
         {
             if (HttpContext.Session.GetString("Role") == "Staff")
@@ -528,6 +540,8 @@ namespace web2020apr_p01_assignment_group5.Controllers
             }
 
             ViewData["RouteIdList"] = RouteList();
+
+            ViewData["AircraftIdList"] = AircraftList();
 
             return View();
         }
