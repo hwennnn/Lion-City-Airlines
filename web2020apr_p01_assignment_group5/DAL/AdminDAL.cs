@@ -624,5 +624,33 @@ namespace web2020apr_p01_assignment_group5.DAL
 
         }
 
+        public void CreateFlightSchedule(FlightSchedule flightSchedule)
+        {
+            //Create SqlCommand from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an INSERT SQL statement which will
+            //return the auto-generated FlightRoute ID after insertion
+            cmd.CommandText = @"INSERT INTO FlightSchedule (FlightNumber, RouteID, AircraftID,
+                                DepartureDateTime, ArrivalDateTime, EconomyClassPrice, BusinessClassPrice, Status)
+                                OUTPUT INSERTED.ScheduleID
+                                VALUES(@FlightNumber, @RouteID,
+                                @AircraftID, @DepartureDateTime, @ArrivalDateTime, @EconomyClassPrice, @BusinessClassPrice,
+                                @Status)";
+            //Defining parameters to be inserted
+            cmd.Parameters.AddWithValue("@FlightNumber", flightSchedule.FlightNumber);
+            cmd.Parameters.AddWithValue("@RouteID", flightSchedule.RouteId);
+            cmd.Parameters.AddWithValue("@AircraftID", flightSchedule.AircraftId);
+            cmd.Parameters.AddWithValue("@DepartureDateTime", flightSchedule.DepartureDateTime);
+            cmd.Parameters.AddWithValue("@ArrivalDateTime", flightSchedule.ArrivalDateTime);
+            cmd.Parameters.AddWithValue("@EconomyClassPrice", flightSchedule.EconomyClassPrice);
+            cmd.Parameters.AddWithValue("@BusinessClassPrice", flightSchedule.BusinessClassPrice);
+            cmd.Parameters.AddWithValue("@Status", "Opened");
+            //Opening connection to database
+            conn.Open();
+            //Execute Scalar to retrieve inserted Route ID
+            flightSchedule.ScheduleId = (int)cmd.ExecuteScalar();
+            //Close the connection
+            conn.Close();
+        }
     }
 }

@@ -500,26 +500,26 @@ namespace web2020apr_p01_assignment_group5.Controllers
             }
         }
 
-        private List<Int32> RouteList()
+        private List<String> RouteList()
         {
-            List<Int32> routeIdList = new List<Int32>();
+            List<String> routeIdList = new List<String>();
             List<FlightRoute> flightRouteList = new List<FlightRoute>();
             flightRouteList = adminContext.getAllFlightRoute();
             foreach(FlightRoute route in flightRouteList)
             {
-                routeIdList.Add(route.RouteId);
+                routeIdList.Add(Convert.ToString(route.RouteId));
             }
             return routeIdList;
         }
 
-        private List<Int32> AircraftList()
+        private List<String> AircraftList()
         {
-            List<Int32> aircraftIdList = new List<Int32>();
+            List<String> aircraftIdList = new List<String>();
             List<Aircraft> aircraftList = new List<Aircraft>();
             aircraftList = adminContext.getAllAircraft();
             foreach(Aircraft aircraft in aircraftList)
             {
-                aircraftIdList.Add(aircraft.AircraftId);
+                aircraftIdList.Add(Convert.ToString(aircraft.AircraftId));
             }
             return aircraftIdList;
         }
@@ -544,6 +544,51 @@ namespace web2020apr_p01_assignment_group5.Controllers
             ViewData["AircraftIdList"] = AircraftList();
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFlightSchedule(FlightSchedule flightSchedule)
+        {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
+            //Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (flightSchedule == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            if (ModelState.IsValid)
+            {
+                FlightRoute route = adminContext.getSpecificRoute(flightSchedule.RouteId);
+                if (route.FlightDuration == null)
+                {
+                    TempData["alert"] = "Flight Duration is null, unable to calculate Arrival Date...";
+                    return View(flightSchedule);
+                }
+                else
+                {
+                    flightSchedule.ArrivalDateTime = flightSchedule.DepartureDateTime.AddHours(Convert.ToDouble(route.FlightDuration));
+                    adminContext.CreateFlightSchedule(flightSchedule);
+                    return RedirectToAction("Index", "Admin");
+                }
+            }
+            else
+            {
+                //Input validation fails, return to the Create view
+                //to display error message
+                return View(flightSchedule);
+            }
         }
     }
 }
