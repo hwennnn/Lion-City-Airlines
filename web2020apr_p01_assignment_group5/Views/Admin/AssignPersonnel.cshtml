@@ -1,0 +1,154 @@
+﻿@{
+    Layout = "_AdminMenu";
+    ViewData["Title"] = "Assign Personnel to Flight Schedule";
+}
+
+@model web2020apr_p01_assignment_group5.Models.AssignPersonnelViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Assign Personnels to Flight Schedule</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/main.css">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+    <div class="container-contact100">
+
+        <div class="wrap-contact100">
+            <form asp-action="#" class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Assign Personnel to Flight Schedule
+                </span>
+
+                <div class="wrap-input100 input100-select bg1" data-validate="Please select a flight schedule">
+                    <span class="label-input100">Flight Schedule *</span>
+                    <div>
+                        <select class="js-select2"
+                                asp-items="@ViewData["ScheduleList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+
+                <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight captain">
+                    <span class="label-input100">Flight Captain *</span>
+                    <div>
+                        <select class="js-select2"
+                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+                <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a Flight Pilot">
+                    <span class="label-input100">Flight Pilot *</span>
+                    <div>
+                        <select class="js-select2"
+                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+                <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a Cabin Crew Leader">
+                    <span class="label-input100">Cabin Crew Leader *</span>
+                    <div>
+                        <select class="js-select2"
+                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+                <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
+                    <span class="label-input100">Flight Attendant *</span>
+                    <div>
+                        <select class="js-select2"
+                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+                <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
+                    <span class="label-input100">Flight Attendant *</span>
+                    <div>
+                        <select class="js-select2"
+                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+                <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
+                    <span class="label-input100">Flight Attendant</span>
+                    <div>
+                        <select class="js-select2"
+                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+
+                <div class="container-contact100-form-btn">
+                    <button class="contact100-form-btn" type="submit">
+                        <span>
+                            Assign
+                            <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!--===============================================================================================-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/select2/select2.min.js"></script>
+    <script>$(".js-select2").each(function () {
+            $(this).select2({
+                minimumResultsForSearch: 20,
+                dropdownParent: $(this).next('.dropDownSelect2')
+            });
+
+            $(".js-select2").each(function () {
+                $(this).on('select2:close', function (e) {
+                    if ($(this).val() == "Please select...") {
+                        $('.js-show-service').slideUp();
+                    } else {
+                        $('.js-show-service').slideUp();
+                        $('.js-show-service').slideDown();
+                    }
+                });
+            });
+    document.getElementById("body_container").classList.remove("container-fluid");
+        })</script>
+    <!--===============================================================================================-->
+    <script src="~/js/main.js"></script>
+
+
+</body>
+
+</html>

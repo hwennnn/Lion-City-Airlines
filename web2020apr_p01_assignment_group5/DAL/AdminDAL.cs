@@ -652,5 +652,60 @@ namespace web2020apr_p01_assignment_group5.DAL
             //Close the connection
             conn.Close();
         }
+
+        public List<int> getAllAssignedScheduleID()
+        {
+            List<int> idList = new List<int>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL Statement
+            cmd.CommandText = @"SELECT DISTINCT(ScheduleID) from FlightCrew";
+            //Open database Connection
+            conn.Open();
+            //Start the reader to retrieve data
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                idList.Add(reader.GetInt32(0));
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return idList;
+        }
+
+        public List<int> getAllUnassignedScheduleID()
+        {
+            List<int> assignedScheduleIDList = getAllAssignedScheduleID();
+            List<int> idList = new List<int>();
+
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL Statement
+            cmd.CommandText = @"SELECT ScheduleID from FlightSchedule WHERE NOT [Status] = 'Cancelled'";
+            //Open database Connection
+            conn.Open();
+            //Start the reader to retrieve data
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                if (!assignedScheduleIDList.Contains(id))
+                {
+                    idList.Add(reader.GetInt32(0));
+                }
+                
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return idList;
+        }
     }
 }

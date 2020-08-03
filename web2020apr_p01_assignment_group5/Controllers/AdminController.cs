@@ -590,5 +590,48 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 return View(flightSchedule);
             }
         }
+
+        public ActionResult AssignPersonnel()
+        {
+            //if (HttpContext.Session.GetString("Role") == "Staff")
+            //{
+            //    return RedirectToAction("Index");
+            //}
+
+            ////Stop accessing the action if not logged in
+            //// or account not in the "Staff" role
+            //if ((HttpContext.Session.GetString("Role") == null) ||
+            //(HttpContext.Session.GetString("Role") != "Admin"))
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+
+            ViewData["ScheduleList"] = getUnassignedScheduleList();
+
+            return View();
+        }
+
+        private List<SelectListItem> getUnassignedScheduleList()
+        {
+            List<int> idList = adminContext.getAllUnassignedScheduleID();
+            List<SelectListItem> scheduleList = new List<SelectListItem>();
+
+            scheduleList.Add(new SelectListItem
+            {
+                Value = "N",
+                Text = "Please select ..."
+            });
+
+            foreach (int id in idList)
+            {
+                scheduleList.Add(new SelectListItem
+                {
+                    Value = id.ToString(),
+                    Text = id.ToString()
+                });
+            }
+           
+            return scheduleList;
+        }
     }
 }
