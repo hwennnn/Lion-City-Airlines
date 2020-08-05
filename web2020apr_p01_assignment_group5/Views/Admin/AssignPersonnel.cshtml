@@ -3,7 +3,7 @@
     ViewData["Title"] = "Assign Personnel to Flight Schedule";
 }
 
-@model web2020apr_p01_assignment_group5.Models.AssignPersonnelViewModel
+@model web2020apr_p01_assignment_group5.Models.SchedulePersonnel
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,13 +25,14 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/css/main.css">
     <!--===============================================================================================-->
+
 </head>
 
 <body>
     <div class="container-contact100">
 
         <div class="wrap-contact100">
-            <form asp-action="#" class="contact100-form validate-form">
+            <form asp-action="AssignPersonnel" class="contact100-form validate-form">
                 <span class="contact100-form-title">
                     Assign Personnel to Flight Schedule
                 </span>
@@ -39,8 +40,8 @@
                 <div class="wrap-input100 input100-select bg1" data-validate="Please select a flight schedule">
                     <span class="label-input100">Flight Schedule *</span>
                     <div>
-                        <select class="js-select2"
-                                asp-items="@ViewData["ScheduleList"] as List<SelectListItem>">
+                        <select class="js-select2" id="selectedSchedule" onchange="showList(this.value)"
+                                asp-items="@ViewData["ScheduleList"] as List<SelectListItem>" asp-for="ScheduleID">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -50,18 +51,16 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight captain">
                     <span class="label-input100">Flight Captain *</span>
                     <div>
-                        <select class="js-select2"
-                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        <select class="js-select2" id="selectPilot1" asp-for="StaffIDList[0]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
                 </div>
 
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a Flight Pilot">
-                    <span class="label-input100">Flight Pilot *</span>
+                    <span class="label-input100">Second Pilot *</span>
                     <div>
-                        <select class="js-select2"
-                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        <select class="js-select2" id="selectPilot2" asp-for="StaffIDList[1]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -70,8 +69,7 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a Cabin Crew Leader">
                     <span class="label-input100">Cabin Crew Leader *</span>
                     <div>
-                        <select class="js-select2"
-                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        <select class="js-select2" id="selectStaff1" asp-for="StaffIDList[2]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -80,8 +78,7 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
                     <span class="label-input100">Flight Attendant *</span>
                     <div>
-                        <select class="js-select2"
-                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        <select class="js-select2" id="selectStaff2" asp-for="StaffIDList[3]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -90,18 +87,16 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
                     <span class="label-input100">Flight Attendant *</span>
                     <div>
-                        <select class="js-select2"
-                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        <select class="js-select2" id="selectStaff3" asp-for="StaffIDList[4]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
                 </div>
 
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
-                    <span class="label-input100">Flight Attendant</span>
+                    <span class="label-input100">Flight Attendant *</span>
                     <div>
-                        <select class="js-select2"
-                                asp-items="@ViewData["StaffList"] as List<SelectListItem>">
+                        <select class="js-select2" id="selectStaff4" asp-for="StaffIDList[5]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -143,10 +138,67 @@
                     }
                 });
             });
-    document.getElementById("body_container").classList.remove("container-fluid");
+            document.getElementById("body_container").classList.remove("container-fluid");
         })</script>
     <!--===============================================================================================-->
     <script src="~/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+
+        var scheduleArr = @Json.Serialize(@ViewData["ScheduleList"]);
+        var arr = [];
+
+        @foreach (var item in ViewData["ScheduleStaff"] as IList<AssignPersonnelViewModel>)
+        {
+            @:arr.push(@Json.Serialize(@item.personnelList));
+        }
+        console.log(scheduleArr)
+        console.log(arr);
+
+        function showList(id) {
+            clearOptionList();
+            if (id != "N") {
+                initOptionList();
+                var index = scheduleArr.findIndex(x => x.value == id) - 1;
+                console.log(index);
+                for (var i = 0; i < arr[index].length; i++) {
+                    var staff = arr[index][i];
+                    var opt = staff.staffName + " " + "(StaffID:" + staff.staffId + ")";
+                    var val = staff.staffId;
+
+                    if (staff.vocation == "Pilot") {
+                        $('#selectPilot1').append(new Option(opt, val));
+                        $('#selectPilot2').append(new Option(opt, val));
+                    } else if (staff.vocation == "Flight Attendant") {
+                        $('#selectStaff1').append(new Option(opt, val));
+                        $('#selectStaff2').append(new Option(opt, val));
+                        $('#selectStaff3').append(new Option(opt, val));
+                        $('#selectStaff4').append(new Option(opt, val));
+                    }
+                }
+            }
+        }
+
+        function clearOptionList() {
+            $('#selectPilot1').empty();
+            $('#selectPilot2').empty();
+            $('#selectStaff1').empty();
+            $('#selectStaff2').empty();
+            $('#selectStaff3').empty();
+            $('#selectStaff4').empty();
+        }
+
+        function initOptionList() {
+            var opt = "Please select ...";
+            $('#selectPilot1').append(new Option(opt, 0));
+            $('#selectPilot2').append(new Option(opt, 0));
+            $('#selectStaff1').append(new Option(opt, 0));
+            $('#selectStaff2').append(new Option(opt, 0));
+            $('#selectStaff3').append(new Option(opt, 0));
+            $('#selectStaff4').append(new Option(opt, 0));
+        }
+
+    </script>
 
 
 </body>

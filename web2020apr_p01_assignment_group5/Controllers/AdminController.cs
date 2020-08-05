@@ -607,31 +607,111 @@ namespace web2020apr_p01_assignment_group5.Controllers
             //}
 
             ViewData["ScheduleList"] = getUnassignedScheduleList();
+            ViewData["ScheduleStaff"] = getUnassignedScheduleStaffList();
 
             return View();
         }
 
         private List<SelectListItem> getUnassignedScheduleList()
         {
-            List<int> idList = adminContext.getAllUnassignedScheduleID();
-            List<SelectListItem> scheduleList = new List<SelectListItem>();
-
-            scheduleList.Add(new SelectListItem
+            List<FlightSchedule> idList = adminContext.getAllUnassignedSchedule();
+            List<SelectListItem> scheduleList = new List<SelectListItem>
             {
-                Value = "N",
-                Text = "Please select ..."
-            });
+                new SelectListItem
+                {
+                    Value = "N",
+                    Text = "Please select ..."
+                }
+            };
 
-            foreach (int id in idList)
+            foreach (FlightSchedule schedule in idList)
             {
+
                 scheduleList.Add(new SelectListItem
                 {
-                    Value = id.ToString(),
-                    Text = id.ToString()
+                    Value = schedule.ScheduleId.ToString(),
+                    Text = schedule.ScheduleId.ToString() + " (Flight number:" + schedule.FlightNumber.ToString() + ")"
                 });
             }
            
             return scheduleList;
+        }
+
+        private List<AssignPersonnelViewModel> getUnassignedScheduleStaffList()
+        {
+            List<AssignPersonnelViewModel> fsList = new List<AssignPersonnelViewModel>();
+            List<FlightSchedule> scheduleList = adminContext.getAllUnassignedSchedule();
+            List<PersonnelViewModel> personnelViewModels = mapPersonneltoSchedule();
+
+            foreach (FlightSchedule schedule in scheduleList)
+            {
+                List<Staff> availableStaffList = new List<Staff>();
+                foreach (PersonnelViewModel personnel in personnelViewModels)
+                {
+                    bool isAvailable = true;
+                    foreach (FlightSchedule flightSchedule in personnel.flightScheduleList)
+                    {
+                        if (flightSchedule.DepartureDateTime.Date == schedule.DepartureDateTime.Date)
+                        {
+                            isAvailable = false;
+                        }
+                    }
+
+                    if (isAvailable)
+                    {
+                        Staff staff = adminContext.GetSpecificStaffByID(personnel.StaffId);
+                        availableStaffList.Add(staff);
+                    }
+                }
+                AssignPersonnelViewModel model = new AssignPersonnelViewModel
+                {
+                    flightSchedule = schedule,
+                    personnelList = availableStaffList
+                };
+                fsList.Add(model);
+            }
+
+
+            return fsList;
+        }
+
+        [HttpPost]
+        public ActionResult AssignPersonnel(SchedulePersonnel schedulePersonnel)
+        {
+            //if (HttpContext.Session.GetString("Role") == "Staff")
+            //{
+            //    return RedirectToAction("Index");
+            //}
+
+            ////Stop accessing the action if not logged in
+            //// or account not in the "Staff" role
+            //if ((HttpContext.Session.GetString("Role") == null) ||
+            //(HttpContext.Session.GetString("Role") != "Admin"))
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+
+            if (ModelState.IsValid)
+            {
+                if (schedulePersonnel != null && schedulePersonnel.StaffIDList.Count == 6)
+                {
+                    Console.WriteLine(schedulePersonnel.ScheduleID);
+                    foreach (int staff in schedulePersonnel.StaffIDList)
+                    {
+                        Console.WriteLine(staff);
+                    }
+                    adminContext.AssignFlightCrewsToSchedule(schedulePersonnel);
+
+                    return RedirectToAction("Index", "Admin");
+                }
+                
+            }
+                
+            ViewData["ScheduleList"] = getUnassignedScheduleList();
+            ViewData["ScheduleStaff"] = getUnassignedScheduleStaffList();
+
+            return View();
+            
         }
     }
 }

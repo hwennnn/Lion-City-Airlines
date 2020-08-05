@@ -677,14 +677,14 @@ namespace web2020apr_p01_assignment_group5.DAL
             return idList;
         }
 
-        public List<int> getAllUnassignedScheduleID()
+        public List<FlightSchedule> getAllUnassignedSchedule()
         {
             List<int> assignedScheduleIDList = getAllAssignedScheduleID();
-            List<int> idList = new List<int>();
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
 
             SqlCommand cmd = conn.CreateCommand();
             //Specify the SELECT SQL Statement
-            cmd.CommandText = @"SELECT ScheduleID from FlightSchedule WHERE NOT [Status] = 'Cancelled'";
+            cmd.CommandText = @"SELECT * from FlightSchedule WHERE NOT [Status] = 'Cancelled'";
             //Open database Connection
             conn.Open();
             //Start the reader to retrieve data
@@ -693,9 +693,20 @@ namespace web2020apr_p01_assignment_group5.DAL
             while (reader.Read())
             {
                 int id = reader.GetInt32(0);
-                if (!assignedScheduleIDList.Contains(id))
+                DateTime departureDateTime = reader.GetDateTime(4);
+              
+                if (!assignedScheduleIDList.Contains(id) && departureDateTime > DateTime.Today)
                 {
-                    idList.Add(reader.GetInt32(0));
+                    FlightSchedule schedule = new FlightSchedule();
+                    schedule.ScheduleId = id;
+                    schedule.FlightNumber = reader.GetString(1);
+                    schedule.RouteId = reader.GetInt32(2);
+                    schedule.AircraftId = reader.GetInt32(3);
+                    schedule.DepartureDateTime = departureDateTime;
+                    schedule.ArrivalDateTime = reader.GetDateTime(5);
+                    schedule.Status = reader.GetString(8);
+
+                    scheduleList.Add(schedule);
                 }
                 
             }
@@ -705,7 +716,58 @@ namespace web2020apr_p01_assignment_group5.DAL
             //Close the database connection
             conn.Close();
 
-            return idList;
+            return scheduleList;
+        }
+
+        public void AssignFlightCrewsToSchedule(SchedulePersonnel schedulePersonnel)
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an INSERT SQL statement which will
+            //return the auto-generated StaffID after insertion
+            cmd.CommandText = @"INSERT INTO FlightCrew(ScheduleID,StaffID,Role)
+                                VALUES(@ScheduleID, @StaffID, @Role)";
+            //Define the parameters used in SQL statement, value for each parameter
+            //is retrieved from respective class's property
+
+            cmd.Parameters.AddWithValue("ScheduleID", schedulePersonnel.ScheduleID);
+            //A connection to database must be opened before any operations made.
+            conn.Open();
+
+            List<int> staffIDList = schedulePersonnel.StaffIDList;
+            List<string> staffRoleList = GetPersonnelRoleList();
+            cmd.Parameters.AddWithValue("@StaffID", staffIDList[0]);
+            cmd.Parameters.AddWithValue("@Role", staffRoleList[0]);
+            cmd.ExecuteScalar();
+
+            for (int i = 1; i < 6; i++)
+            {
+                cmd.Parameters["@StaffID"].Value = staffIDList[i];
+                cmd.Parameters["@Role"].Value = staffRoleList[i];
+                cmd.ExecuteScalar();
+            }
+            
+            //ExecuteScalar is used to retrieve the auto-generated
+            //StaffID after executing the INSERT SQL statement
+            //A connection should be closed after operations.
+            conn.Close();
+        }
+
+        public List<string> GetPersonnelRoleList()
+        {
+            List<string> staffRoleList = new List<string>
+        {
+            "Flight Captain",
+            "Second Pilot",
+            "Cabin Crew Leader",
+            "Flight Attendant",
+            "Flight Attendant",
+            "Flight Attendant"
+        };
+
+            return staffRoleList;
         }
     }
+
+    
 }

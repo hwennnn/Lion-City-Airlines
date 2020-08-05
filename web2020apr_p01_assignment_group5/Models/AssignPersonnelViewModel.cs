@@ -6,11 +6,9 @@ namespace web2020apr_p01_assignment_group5.Models
 {
     public class AssignPersonnelViewModel
     {
-
         public List<Staff> personnelList;
 
-        public List<FlightSchedule> flightScheduleList;
+        public FlightSchedule flightSchedule;
 
-        public Dictionary<List<FlightSchedule>, List<Staff>> schedulePersonnelList;
     }
 }
