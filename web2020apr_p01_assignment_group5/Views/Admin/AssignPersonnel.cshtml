@@ -40,7 +40,7 @@
                 <div class="wrap-input100 input100-select bg1" data-validate="Please select a flight schedule">
                     <span class="label-input100">Flight Schedule *</span>
                     <div>
-                        <select class="js-select2" id="selectedSchedule" onchange="showList(this.value)"
+                        <select required class="js-select2" id="selectedSchedule" onchange="showList(this.value)"
                                 asp-items="@ViewData["ScheduleList"] as List<SelectListItem>" asp-for="ScheduleID">
                         </select>
                         <div class="dropDownSelect2"></div>
@@ -51,7 +51,7 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight captain">
                     <span class="label-input100">Flight Captain *</span>
                     <div>
-                        <select class="js-select2" id="selectPilot1" asp-for="StaffIDList[0]">
+                        <select required class="js-select2" id="selectPilot1" asp-for="StaffIDList[0]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -60,7 +60,7 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a Flight Pilot">
                     <span class="label-input100">Second Pilot *</span>
                     <div>
-                        <select class="js-select2" id="selectPilot2" asp-for="StaffIDList[1]">
+                        <select required class="js-select2" id="selectPilot2" asp-for="StaffIDList[1]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -69,7 +69,7 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a Cabin Crew Leader">
                     <span class="label-input100">Cabin Crew Leader *</span>
                     <div>
-                        <select class="js-select2" id="selectStaff1" asp-for="StaffIDList[2]">
+                        <select required class="js-select2" id="selectStaff1" asp-for="StaffIDList[2]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -78,7 +78,7 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
                     <span class="label-input100">Flight Attendant *</span>
                     <div>
-                        <select class="js-select2" id="selectStaff2" asp-for="StaffIDList[3]">
+                        <select required class="js-select2" id="selectStaff2" asp-for="StaffIDList[3]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -87,7 +87,7 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
                     <span class="label-input100">Flight Attendant *</span>
                     <div>
-                        <select class="js-select2" id="selectStaff3" asp-for="StaffIDList[4]">
+                        <select required class="js-select2" id="selectStaff3" asp-for="StaffIDList[4]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
@@ -96,10 +96,14 @@
                 <div class="wrap-input100 input100-select bg1 rs1-wrap-input100" data-validate="Please select a flight attendant">
                     <span class="label-input100">Flight Attendant *</span>
                     <div>
-                        <select class="js-select2" id="selectStaff4" asp-for="StaffIDList[5]">
+                        <select required class="js-select2" id="selectStaff4" asp-for="StaffIDList[5]">
                         </select>
                         <div class="dropDownSelect2"></div>
                     </div>
+                </div>
+
+                <div class="rs1-wrap-input100">
+                    <span style="color:red;font-family: 'Montserrat', sans-serif;">@TempData["Alert"]</span>
                 </div>
 
                 <div class="container-contact100-form-btn">
@@ -157,13 +161,13 @@
 
         function showList(id) {
             clearOptionList();
-            if (id != "N") {
+            if (id != "") {
                 initOptionList();
                 var index = scheduleArr.findIndex(x => x.value == id) - 1;
                 console.log(index);
                 for (var i = 0; i < arr[index].length; i++) {
                     var staff = arr[index][i];
-                    var opt = staff.staffName + " " + "(StaffID:" + staff.staffId + ")";
+                    var opt = `${staff.staffName} (StaffID:${staff.staffId})` ;
                     var val = staff.staffId;
 
                     if (staff.vocation == "Pilot") {
@@ -190,12 +194,12 @@
 
         function initOptionList() {
             var opt = "Please select ...";
-            $('#selectPilot1').append(new Option(opt, 0));
-            $('#selectPilot2').append(new Option(opt, 0));
-            $('#selectStaff1').append(new Option(opt, 0));
-            $('#selectStaff2').append(new Option(opt, 0));
-            $('#selectStaff3').append(new Option(opt, 0));
-            $('#selectStaff4').append(new Option(opt, 0));
+            $('#selectPilot1').append(new Option(opt, ""));
+            $('#selectPilot2').append(new Option(opt, ""));
+            $('#selectStaff1').append(new Option(opt, ""));
+            $('#selectStaff2').append(new Option(opt, ""));
+            $('#selectStaff3').append(new Option(opt, ""));
+            $('#selectStaff4').append(new Option(opt, ""));
         }
 
     </script>

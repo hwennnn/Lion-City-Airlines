@@ -97,6 +97,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                              ScheduleId = schedule.ScheduleId,
                              FlightNumber = schedule.FlightNumber,
                              RouteId = schedule.RouteId,
+                             AircraftId = schedule.AircraftId,
                              DepartureDateTime = schedule.DepartureDateTime,
                              ArrivalDateTime = schedule.ArrivalDateTime,
                              Status = schedule.Status,
@@ -132,6 +133,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                          ScheduleId = schedule.ScheduleId,
                          FlightNumber = schedule.FlightNumber,
                          RouteId = schedule.RouteId,
+                         AircraftId = schedule.AircraftId,
                          DepartureDateTime = schedule.DepartureDateTime,
                          ArrivalDateTime = schedule.ArrivalDateTime,
                          Status = schedule.Status,
@@ -593,18 +595,18 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult AssignPersonnel()
         {
-            //if (HttpContext.Session.GetString("Role") == "Staff")
-            //{
-            //    return RedirectToAction("Index");
-            //}
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
 
-            ////Stop accessing the action if not logged in
-            //// or account not in the "Staff" role
-            //if ((HttpContext.Session.GetString("Role") == null) ||
-            //(HttpContext.Session.GetString("Role") != "Admin"))
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            //Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewData["ScheduleList"] = getUnassignedScheduleList();
             ViewData["ScheduleStaff"] = getUnassignedScheduleStaffList();
@@ -619,7 +621,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             {
                 new SelectListItem
                 {
-                    Value = "N",
+                    Value = "",
                     Text = "Please select ..."
                 }
             };
@@ -649,6 +651,10 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 foreach (PersonnelViewModel personnel in personnelViewModels)
                 {
                     bool isAvailable = true;
+                    if (personnel.Status == "Inactive")
+                    {
+                        isAvailable = false;
+                    }
                     foreach (FlightSchedule flightSchedule in personnel.flightScheduleList)
                     {
                         if (flightSchedule.DepartureDateTime.Date == schedule.DepartureDateTime.Date)
@@ -678,20 +684,20 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [HttpPost]
         public ActionResult AssignPersonnel(SchedulePersonnel schedulePersonnel)
         {
-            //if (HttpContext.Session.GetString("Role") == "Staff")
-            //{
-            //    return RedirectToAction("Index");
-            //}
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
 
-            ////Stop accessing the action if not logged in
-            //// or account not in the "Staff" role
-            //if ((HttpContext.Session.GetString("Role") == null) ||
-            //(HttpContext.Session.GetString("Role") != "Admin"))
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            //Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !IsStaffRepeated(schedulePersonnel))
             {
                 if (schedulePersonnel != null && schedulePersonnel.StaffIDList.Count == 6)
                 {
@@ -709,9 +715,28 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 
             ViewData["ScheduleList"] = getUnassignedScheduleList();
             ViewData["ScheduleStaff"] = getUnassignedScheduleStaffList();
+            TempData["Alert"] = "There are duplicate personnels in the schedule!";
 
-            return View();
+            return RedirectToAction("AssignPersonnel","Admin");
             
+        }
+
+        public bool IsStaffRepeated(SchedulePersonnel schedulePersonnel)
+        {
+            bool isStaffRepeated = false;
+
+            HashSet<int> set = new HashSet<int>();
+
+            foreach (int id in schedulePersonnel.StaffIDList)
+            {
+                if (set.Contains(id))
+                {
+                    return true;
+                }
+                set.Add(id);
+            }
+
+            return isStaffRepeated;
         }
     }
 }

@@ -152,6 +152,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     schedule.ScheduleId = reader.GetInt32(0);
                     schedule.FlightNumber = reader.GetString(1);
                     schedule.RouteId = reader.GetInt32(2);
+                    schedule.AircraftId = reader.GetInt32(3);
                     schedule.DepartureDateTime = reader.GetDateTime(4);
                     schedule.ArrivalDateTime = reader.GetDateTime(5);
                     schedule.Status = reader.GetString(8);
@@ -695,7 +696,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                 int id = reader.GetInt32(0);
                 DateTime departureDateTime = reader.GetDateTime(4);
               
-                if (!assignedScheduleIDList.Contains(id) && departureDateTime > DateTime.Today)
+                if (!assignedScheduleIDList.Contains(id) && departureDateTime > DateTime.Today && departureDateTime!= null)
                 {
                     FlightSchedule schedule = new FlightSchedule();
                     schedule.ScheduleId = id;
