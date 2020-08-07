@@ -6,7 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web2020apr_p01_assignment_group5.DAL;
 using web2020apr_p01_assignment_group5.Models;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static web2020apr_p01_assignment_group5.Models.WeatherDetails;
 
 namespace web2020apr_p01_assignment_group5.Controllers
 {
@@ -226,6 +230,31 @@ namespace web2020apr_p01_assignment_group5.Controllers
             bookingModel.arrivalCountryList = aList;
 
             return bookingModel;
+        }
+
+        public async Task<ActionResult> WeatherForecast()
+        {
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            // Make Web API call 
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.data.gov.sg");
+            HttpResponseMessage response = await client.GetAsync("/v1/environment/4-day-weather-forecast");
+            Console.WriteLine(response.StatusCode);
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(data);
+
+                return View(myDeserializedClass);
+            }
+            else
+            {
+                return View(new List<WeatherDetails>());
+            }
         }
     }
 }
