@@ -33,5 +33,7 @@ namespace web2020apr_p01_assignment_group5.Models
         public string Remarks { get; set; }
 
         public DateTime DateTimeCreated { get; set; }
+
+        public bool IsNextPassenger { get; set; }
     }
 }

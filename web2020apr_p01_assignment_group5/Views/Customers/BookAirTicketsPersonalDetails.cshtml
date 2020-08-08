@@ -54,37 +54,37 @@
                 </div>
 
                 @*<div class="form-group row">
-                        <label asp-for="DepartureCity"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="DepartureCity" readonly
-                                   class="form-control-plaintext" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label asp-for="DepartureCountry"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="DepartureCountry" readonly
-                                   class="form-control-plaintext" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label asp-for="ArrivalCity"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="ArrivalCity" readonly
-                                   class="form-control-plaintext" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label asp-for="ArrivalCountry"
-                               class="col-sm-3 col-form-label"></label>
-                        <div class="col-sm-9 col-md-5">
-                            <input asp-for="ArrivalCountry" readonly
-                                   class="form-control-plaintext" />
-                        </div>
-                    </div>*@
+            <label asp-for="DepartureCity"
+                   class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="DepartureCity" readonly
+                       class="form-control-plaintext" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="DepartureCountry"
+                   class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="DepartureCountry" readonly
+                       class="form-control-plaintext" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ArrivalCity"
+                   class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="ArrivalCity" readonly
+                       class="form-control-plaintext" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ArrivalCountry"
+                   class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="ArrivalCountry" readonly
+                       class="form-control-plaintext" />
+            </div>
+        </div>*@
 
                 <label class="label-input100" for="Passenger-Name">Passenger Name *</label>
                 <div class="wrap-input100 validate-input">
@@ -124,6 +124,9 @@
                     <textarea id="Remarks" class="input100" asp-for="Remarks" placeholder="Please enter your remarks..."></textarea>
                     <span class="focus-input100"></span>
                 </div>
+
+                <label class="label-input100" for="isNextPassenger">Book for next passenger</label>
+                <input asp-for="IsNextPassenger" value="false" type="checkbox" />
 
                 <div class="container-contact100-form-btn">
                     <button class="contact100-form-btn">
@@ -168,6 +171,14 @@
 
             }
         }
+
+        $(document).on("click", "[type='checkbox']", function (e) {
+            if (this.checked) {
+                $(this).attr("value", "true");
+            } else {
+                $(this).attr("value", "false");
+            }
+        });
 
 
     </script>

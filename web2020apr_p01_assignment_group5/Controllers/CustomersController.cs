@@ -197,8 +197,15 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 booking.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("CustomerID"));
                 //Add booking record to database
                 customerContext.BookTickets(booking);
-                //Redirect user to Home/Index view
-                return RedirectToAction("Index", "Home");
+                if (booking.IsNextPassenger)
+                {
+                    return RedirectToAction("BookAirTicketsPersonalDetails", "Customers", booking.ScheduleId);
+                }
+                else
+                {
+                    return RedirectToAction("ViewAirTicketsBooked", "Customers");
+                }
+               
             }
             else
             {
