@@ -54,37 +54,37 @@
                 </div>
 
                 @*<div class="form-group row">
-            <label asp-for="DepartureCity"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="DepartureCity" readonly
-                       class="form-control-plaintext" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="DepartureCountry"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="DepartureCountry" readonly
-                       class="form-control-plaintext" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="ArrivalCity"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="ArrivalCity" readonly
-                       class="form-control-plaintext" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="ArrivalCountry"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="ArrivalCountry" readonly
-                       class="form-control-plaintext" />
-            </div>
-        </div>*@
+                        <label asp-for="DepartureCity"
+                               class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 col-md-5">
+                            <input asp-for="DepartureCity" readonly
+                                   class="form-control-plaintext" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="DepartureCountry"
+                               class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 col-md-5">
+                            <input asp-for="DepartureCountry" readonly
+                                   class="form-control-plaintext" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="ArrivalCity"
+                               class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 col-md-5">
+                            <input asp-for="ArrivalCity" readonly
+                                   class="form-control-plaintext" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="ArrivalCountry"
+                               class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 col-md-5">
+                            <input asp-for="ArrivalCountry" readonly
+                                   class="form-control-plaintext" />
+                        </div>
+                    </div>*@
 
                 <label class="label-input100" for="Passenger-Name">Passenger Name *</label>
                 <div class="wrap-input100 validate-input">
@@ -110,9 +110,14 @@
                 <br><br>
 
                 <label asp-for="AmtPayable" class="label-input100"></label>
-                <div class="input100" id="amount"></div>
+                <div class="input100">
+                    <input asp-for="AmtPayable" readonly
+                           class="form-control-plaintext" />
+                </div>
 
                 <br><br>
+
+
 
                 <label class="label-input100" for="Remarks">Remarks</label>
                 <div class="wrap-input100">
@@ -147,23 +152,23 @@
     <script src="vendor/countdowntime/countdowntime.js"></script>
     <!--===============================================================================================-->
     <script src="~/js/bookairticketspersonaldetails.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
 
         var schedule = @Json.Serialize(@ViewData["Schedule"]);
         var economy = document.getElementById("economyClass");
         var business = document.getElementById("businessClass");
-        var amount = document.getElementById("amount");
-        amount.innerHTML = "$" + schedule.economyClassPrice;
+        var amount = document.getElementById("AmtPayable");
 
         function displayAmount() {
             if (economy.checked) {
-                amount.innerHTML = "$" + schedule.economyClassPrice;
+                $('#AmtPayable').val(schedule.economyClassPrice);
             } else {
-                amount.innerHTML = "$" + schedule.businessClassPrice;
+                $('#AmtPayable').val(schedule.businessClassPrice);
+
             }
         }
-        
+
 
     </script>
 

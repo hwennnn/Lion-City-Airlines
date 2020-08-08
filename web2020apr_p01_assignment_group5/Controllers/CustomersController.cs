@@ -180,9 +180,12 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
         public ActionResult BookAirTicketsPersonalDetails(int id)
         {
+            FlightSchedule schedule = adminContext.getSpecificSchedule(id);
             Booking booking = new Booking();
             booking.ScheduleId = id;
-            ViewData["Schedule"] = adminContext.getSpecificSchedule(id);
+            booking.AmtPayable = schedule.EconomyClassPrice;
+
+            ViewData["Schedule"] = schedule;
             return View(booking);
         }
         [HttpPost]

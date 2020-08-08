@@ -11,6 +11,7 @@ namespace web2020apr_p01_assignment_group5.DAL
     {
         private IConfiguration Configuration { get; }
         private SqlConnection conn;
+        private AdminDAL adminContext = new AdminDAL();
         //Constructor 
         public CustomerDAL()
         {
@@ -273,7 +274,10 @@ namespace web2020apr_p01_assignment_group5.DAL
             cmd.Parameters.AddWithValue("@passportNumber", booking.PassportNumber);
             cmd.Parameters.AddWithValue("@nationality", booking.Nationality);
             cmd.Parameters.AddWithValue("@seatclass", booking.SeatClass);
-            cmd.Parameters.AddWithValue("@amtPayable", booking.AmtPayable);
+            FlightSchedule schedule = adminContext.getSpecificSchedule(booking.ScheduleId);
+            double amt = (booking.SeatClass == "Economy") ? schedule.EconomyClassPrice : schedule.BusinessClassPrice;
+
+            cmd.Parameters.AddWithValue("@amtPayable", amt);
             if (string.IsNullOrEmpty(booking.Remarks))
             {
                 cmd.Parameters.AddWithValue("@remarks", DBNull.Value);
