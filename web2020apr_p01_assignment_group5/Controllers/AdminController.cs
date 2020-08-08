@@ -97,6 +97,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                              ScheduleId = schedule.ScheduleId,
                              FlightNumber = schedule.FlightNumber,
                              RouteId = schedule.RouteId,
+                             AircraftId = schedule.AircraftId,
                              DepartureDateTime = schedule.DepartureDateTime,
                              ArrivalDateTime = schedule.ArrivalDateTime,
                              Status = schedule.Status,
@@ -132,6 +133,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                          ScheduleId = schedule.ScheduleId,
                          FlightNumber = schedule.FlightNumber,
                          RouteId = schedule.RouteId,
+                         AircraftId = schedule.AircraftId,
                          DepartureDateTime = schedule.DepartureDateTime,
                          ArrivalDateTime = schedule.ArrivalDateTime,
                          Status = schedule.Status,
@@ -147,24 +149,20 @@ namespace web2020apr_p01_assignment_group5.Controllers
         public List<ScheduleViewModel> mapScheduletoRoute()
         {
             List<ScheduleViewModel> scheduleModelList = new List<ScheduleViewModel>();
-            List<FlightSchedule> scheduleList = adminContext.getAllFlightSchedule();
+            List<FlightRoute> routeList = adminContext.getAllFlightRoute();
 
-            foreach (FlightSchedule schedule in scheduleList)
+            foreach (FlightRoute route in routeList)
             {
                 ScheduleViewModel scheduleModel = new ScheduleViewModel();
-                scheduleModel.ScheduleId = schedule.ScheduleId;
-                scheduleModel.FlightNumber = schedule.FlightNumber;
-                scheduleModel.RouteId = schedule.RouteId;
-                scheduleModel.AircraftId = schedule.AircraftId;
-                scheduleModel.DepartureDateTime = schedule.DepartureDateTime;
-                scheduleModel.ArrivalDateTime = schedule.ArrivalDateTime;
-                scheduleModel.EconomyClassPrice = schedule.EconomyClassPrice;
-                scheduleModel.BusinessClassPrice = schedule.BusinessClassPrice;
-                scheduleModel.Status = schedule.Status;
-                scheduleModel.Route = adminContext.getSpecificRoute(schedule.RouteId);
+                scheduleModel.RouteId = route.RouteId;
+                scheduleModel.DepartureCity = route.DepartureCity;
+                scheduleModel.DepartureCountry = route.DepartureCountry;
+                scheduleModel.ArrivalCity = route.ArrivalCity;
+                scheduleModel.ArrivalCountry = route.ArrivalCountry;
+                scheduleModel.FlightDuration = route.FlightDuration;
+                scheduleModel.scheduleList = adminContext.getSpecificScheduleList(route.RouteId);
                 scheduleModelList.Add(scheduleModel);
             }
-
             return scheduleModelList;
         }
 
@@ -502,6 +500,243 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 TempData["alert"] = "An error occurred. Sending User back to List...";
                 return View(schedule);
             }
+        }
+
+        private List<String> RouteList()
+        {
+            List<String> routeIdList = new List<String>();
+            List<FlightRoute> flightRouteList = new List<FlightRoute>();
+            flightRouteList = adminContext.getAllFlightRoute();
+            foreach(FlightRoute route in flightRouteList)
+            {
+                routeIdList.Add(Convert.ToString(route.RouteId));
+            }
+            return routeIdList;
+        }
+
+        private List<String> AircraftList()
+        {
+            List<String> aircraftIdList = new List<String>();
+            List<Aircraft> aircraftList = new List<Aircraft>();
+            aircraftList = adminContext.getAllAircraft();
+            foreach(Aircraft aircraft in aircraftList)
+            {
+                aircraftIdList.Add(Convert.ToString(aircraft.AircraftId));
+            }
+            return aircraftIdList;
+        }
+
+        public ActionResult CreateFlightSchedule()
+        {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
+            //Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewData["RouteIdList"] = RouteList();
+
+            ViewData["AircraftIdList"] = AircraftList();
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFlightSchedule(FlightSchedule flightSchedule)
+        {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
+            //Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (flightSchedule == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            if (ModelState.IsValid)
+            {
+                FlightRoute route = adminContext.getSpecificRoute(flightSchedule.RouteId);
+                if (route.FlightDuration == null)
+                {
+                    TempData["alert"] = "Flight Duration is null, unable to calculate Arrival Date...";
+                    return View(flightSchedule);
+                }
+                else
+                {
+                    flightSchedule.ArrivalDateTime = flightSchedule.DepartureDateTime.AddHours(Convert.ToDouble(route.FlightDuration));
+                    adminContext.CreateFlightSchedule(flightSchedule);
+                    return RedirectToAction("Index", "Admin");
+                }
+            }
+            else
+            {
+                //Input validation fails, return to the Create view
+                //to display error message
+                return View(flightSchedule);
+            }
+        }
+
+        public ActionResult AssignPersonnel()
+        {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
+            //Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewData["ScheduleList"] = getUnassignedScheduleList();
+            ViewData["ScheduleStaff"] = getUnassignedScheduleStaffList();
+
+            return View();
+        }
+
+        private List<SelectListItem> getUnassignedScheduleList()
+        {
+            List<FlightSchedule> idList = adminContext.getAllUnassignedSchedule();
+            List<SelectListItem> scheduleList = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Value = "",
+                    Text = "Please select ..."
+                }
+            };
+
+            foreach (FlightSchedule schedule in idList)
+            {
+
+                scheduleList.Add(new SelectListItem
+                {
+                    Value = schedule.ScheduleId.ToString(),
+                    Text = schedule.ScheduleId.ToString() + " (Flight number:" + schedule.FlightNumber.ToString() + ")"
+                });
+            }
+           
+            return scheduleList;
+        }
+
+        private List<AssignPersonnelViewModel> getUnassignedScheduleStaffList()
+        {
+            List<AssignPersonnelViewModel> fsList = new List<AssignPersonnelViewModel>();
+            List<FlightSchedule> scheduleList = adminContext.getAllUnassignedSchedule();
+            List<PersonnelViewModel> personnelViewModels = mapPersonneltoSchedule();
+
+            foreach (FlightSchedule schedule in scheduleList)
+            {
+                List<Staff> availableStaffList = new List<Staff>();
+                foreach (PersonnelViewModel personnel in personnelViewModels)
+                {
+                    bool isAvailable = true;
+                    if (personnel.Status == "Inactive")
+                    {
+                        isAvailable = false;
+                    }
+                    foreach (FlightSchedule flightSchedule in personnel.flightScheduleList)
+                    {
+                        if (flightSchedule.DepartureDateTime.Date == schedule.DepartureDateTime.Date)
+                        {
+                            isAvailable = false;
+                        }
+                    }
+
+                    if (isAvailable)
+                    {
+                        Staff staff = adminContext.GetSpecificStaffByID(personnel.StaffId);
+                        availableStaffList.Add(staff);
+                    }
+                }
+                AssignPersonnelViewModel model = new AssignPersonnelViewModel
+                {
+                    flightSchedule = schedule,
+                    personnelList = availableStaffList
+                };
+                fsList.Add(model);
+            }
+
+
+            return fsList;
+        }
+
+        [HttpPost]
+        public ActionResult AssignPersonnel(SchedulePersonnel schedulePersonnel)
+        {
+            if (HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index");
+            }
+
+            //Stop accessing the action if not logged in
+            // or account not in the "Staff" role
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (ModelState.IsValid && !IsStaffRepeated(schedulePersonnel))
+            {
+                if (schedulePersonnel != null && schedulePersonnel.StaffIDList.Count == 6)
+                {
+                    Console.WriteLine(schedulePersonnel.ScheduleID);
+                    foreach (int staff in schedulePersonnel.StaffIDList)
+                    {
+                        Console.WriteLine(staff);
+                    }
+                    adminContext.AssignFlightCrewsToSchedule(schedulePersonnel);
+
+                    return RedirectToAction("Index", "Admin");
+                }
+                
+            }
+                
+            ViewData["ScheduleList"] = getUnassignedScheduleList();
+            ViewData["ScheduleStaff"] = getUnassignedScheduleStaffList();
+            TempData["Alert"] = "There are duplicate personnels in the schedule!";
+
+            return RedirectToAction("AssignPersonnel","Admin");
+            
+        }
+
+        public bool IsStaffRepeated(SchedulePersonnel schedulePersonnel)
+        {
+            bool isStaffRepeated = false;
+
+            HashSet<int> set = new HashSet<int>();
+
+            foreach (int id in schedulePersonnel.StaffIDList)
+            {
+                if (set.Contains(id))
+                {
+                    return true;
+                }
+                set.Add(id);
+            }
+
+            return isStaffRepeated;
         }
     }
 }

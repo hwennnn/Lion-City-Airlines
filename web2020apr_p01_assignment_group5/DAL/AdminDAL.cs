@@ -153,6 +153,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     schedule.ScheduleId = reader.GetInt32(0);
                     schedule.FlightNumber = reader.GetString(1);
                     schedule.RouteId = reader.GetInt32(2);
+                    schedule.AircraftId = reader.GetInt32(3);
                     schedule.DepartureDateTime = reader.GetDateTime(4);
                     schedule.ArrivalDateTime = reader.GetDateTime(5);
                     schedule.Status = reader.GetString(8);
@@ -203,6 +204,48 @@ namespace web2020apr_p01_assignment_group5.DAL
 
             return scheduleList;
         }
+
+        public List<FlightSchedule> getSpecificScheduleList(int id)
+        {
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify SELECT Statement
+            cmd.CommandText = @"SELECT * FROM FlightSchedule WHERE RouteID = @routeId ORDER BY ScheduleID";
+            //Add parameters for RouteID
+            cmd.Parameters.AddWithValue("@routeId", id);
+            //Open Database Connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    scheduleList.Add(
+                    new FlightSchedule
+                    {
+                        ScheduleId = reader.GetInt32(0),
+                        FlightNumber = reader.GetString(1),
+                        RouteId = reader.GetInt32(2),
+                        AircraftId = reader.GetInt32(3),
+                        DepartureDateTime = reader.GetDateTime(4),
+                        ArrivalDateTime = reader.GetDateTime(5),
+                        EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
+                        BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
+                        Status = reader.GetString(8),
+
+                    });
+                }
+            }
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
+            return scheduleList;
+        }
+
         public FlightRoute getSpecificRoute (int routeID)
         {
             FlightRoute route = new FlightRoute();
@@ -573,6 +616,29 @@ namespace web2020apr_p01_assignment_group5.DAL
                     route.ArrivalCountry = reader.GetString(4);
                     route.FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null;
                 }
+        public List<Aircraft> getAllAircraft()
+        {
+            List<Aircraft> aircraftList = new List<Aircraft>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL Statement
+            cmd.CommandText = @"SELECT * FROM Aircraft ORDER BY AircraftID";
+            //Open database Connection
+            conn.Open();
+            //Start the reader to retrieve data
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                aircraftList.Add(
+                new Aircraft
+                {
+                    AircraftId = reader.GetInt32(0),
+                    MakeModel = reader.GetString(1),
+                    NumEconomySeat = reader.GetInt32(2),
+                    NumBusinessSeat = reader.GetInt32(3),
+                    DateLastMaintenance = reader.GetDateTime(4),
+                    Status = reader.GetString(5),
+                });
             }
 
             //Close DataReader
@@ -610,11 +676,154 @@ namespace web2020apr_p01_assignment_group5.DAL
                     Status = reader.GetString(8),
                 });
             }
+            return aircraftList;
+
+        }
+
+        public void CreateFlightSchedule(FlightSchedule flightSchedule)
+        {
+            //Create SqlCommand from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an INSERT SQL statement which will
+            //return the auto-generated FlightRoute ID after insertion
+            cmd.CommandText = @"INSERT INTO FlightSchedule (FlightNumber, RouteID, AircraftID,
+                                DepartureDateTime, ArrivalDateTime, EconomyClassPrice, BusinessClassPrice, Status)
+                                OUTPUT INSERTED.ScheduleID
+                                VALUES(@FlightNumber, @RouteID,
+                                @AircraftID, @DepartureDateTime, @ArrivalDateTime, @EconomyClassPrice, @BusinessClassPrice,
+                                @Status)";
+            //Defining parameters to be inserted
+            cmd.Parameters.AddWithValue("@FlightNumber", flightSchedule.FlightNumber);
+            cmd.Parameters.AddWithValue("@RouteID", flightSchedule.RouteId);
+            cmd.Parameters.AddWithValue("@AircraftID", flightSchedule.AircraftId);
+            cmd.Parameters.AddWithValue("@DepartureDateTime", flightSchedule.DepartureDateTime);
+            cmd.Parameters.AddWithValue("@ArrivalDateTime", flightSchedule.ArrivalDateTime);
+            cmd.Parameters.AddWithValue("@EconomyClassPrice", flightSchedule.EconomyClassPrice);
+            cmd.Parameters.AddWithValue("@BusinessClassPrice", flightSchedule.BusinessClassPrice);
+            cmd.Parameters.AddWithValue("@Status", "Opened");
+            //Opening connection to database
+            conn.Open();
+            //Execute Scalar to retrieve inserted Route ID
+            flightSchedule.ScheduleId = (int)cmd.ExecuteScalar();
+            //Close the connection
+            conn.Close();
+        }
+
+        public List<int> getAllAssignedScheduleID()
+        {
+            List<int> idList = new List<int>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL Statement
+            cmd.CommandText = @"SELECT DISTINCT(ScheduleID) from FlightCrew";
+            //Open database Connection
+            conn.Open();
+            //Start the reader to retrieve data
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                idList.Add(reader.GetInt32(0));
+            }
+
             //Close DataReader
             reader.Close();
             //Close the database connection
             conn.Close();
+
+            return idList;
+        }
+
+        public List<FlightSchedule> getAllUnassignedSchedule()
+        {
+            List<int> assignedScheduleIDList = getAllAssignedScheduleID();
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL Statement
+            cmd.CommandText = @"SELECT * from FlightSchedule WHERE NOT [Status] = 'Cancelled'";
+            //Open database Connection
+            conn.Open();
+            //Start the reader to retrieve data
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                DateTime departureDateTime = reader.GetDateTime(4);
+              
+                if (!assignedScheduleIDList.Contains(id) && departureDateTime > DateTime.Today && departureDateTime!= null)
+                {
+                    FlightSchedule schedule = new FlightSchedule();
+                    schedule.ScheduleId = id;
+                    schedule.FlightNumber = reader.GetString(1);
+                    schedule.RouteId = reader.GetInt32(2);
+                    schedule.AircraftId = reader.GetInt32(3);
+                    schedule.DepartureDateTime = departureDateTime;
+                    schedule.ArrivalDateTime = reader.GetDateTime(5);
+                    schedule.Status = reader.GetString(8);
+
+                    scheduleList.Add(schedule);
+                }
+                
+            }
+
+            //Close DataReader
+            reader.Close();
+            //Close the database connection
+            conn.Close();
+
             return scheduleList;
         }
+
+        public void AssignFlightCrewsToSchedule(SchedulePersonnel schedulePersonnel)
+        {
+            //Create a SqlCommand object from connection object
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify an INSERT SQL statement which will
+            //return the auto-generated StaffID after insertion
+            cmd.CommandText = @"INSERT INTO FlightCrew(ScheduleID,StaffID,Role)
+                                VALUES(@ScheduleID, @StaffID, @Role)";
+            //Define the parameters used in SQL statement, value for each parameter
+            //is retrieved from respective class's property
+
+            cmd.Parameters.AddWithValue("ScheduleID", schedulePersonnel.ScheduleID);
+            //A connection to database must be opened before any operations made.
+            conn.Open();
+
+            List<int> staffIDList = schedulePersonnel.StaffIDList;
+            List<string> staffRoleList = GetPersonnelRoleList();
+            cmd.Parameters.AddWithValue("@StaffID", staffIDList[0]);
+            cmd.Parameters.AddWithValue("@Role", staffRoleList[0]);
+            cmd.ExecuteScalar();
+
+            for (int i = 1; i < 6; i++)
+            {
+                cmd.Parameters["@StaffID"].Value = staffIDList[i];
+                cmd.Parameters["@Role"].Value = staffRoleList[i];
+                cmd.ExecuteScalar();
+            }
+            
+            //ExecuteScalar is used to retrieve the auto-generated
+            //StaffID after executing the INSERT SQL statement
+            //A connection should be closed after operations.
+            conn.Close();
+        }
+
+        public List<string> GetPersonnelRoleList()
+        {
+            List<string> staffRoleList = new List<string>
+        {
+            "Flight Captain",
+            "Second Pilot",
+            "Cabin Crew Leader",
+            "Flight Attendant",
+            "Flight Attendant",
+            "Flight Attendant"
+        };
+
+            return staffRoleList;
+        }
     }
+
+    
 }

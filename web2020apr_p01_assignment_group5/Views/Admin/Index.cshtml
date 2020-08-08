@@ -62,7 +62,7 @@
                         <p></p>
                         <p><a href="~/Admin/ViewFlightSchedules" style="color:black">View Flight Route & Schedule</a></p>
                         <p></p>
-                        <p><a href="#" style="color:black">Create Flight Schedule</a></p>
+                        <p><a href="~/Admin/CreateFlightSchedule" style="color:black">Create Flight Schedule</a></p>
                         <p></p>
                     </div>
 
@@ -73,7 +73,7 @@
                         <p></p>
                         <p><a href="~/Admin/ViewPersonnels" style="color:black">View All Flight Personnels</a></p>
                         <p></p>
-                        <p><a href="#" style="color:black">Assign Flight Schedule to Personnel</a></p>
+                        <p><a href="~/Admin/AssignPersonnel" style="color:black">Assign Personnels to Flight Schedule</a></p>
                         <p></p>
                     </div>
 
@@ -93,24 +93,27 @@
                 <div class="row content" style="overflow-x:auto; margin-top:20px;">
                     @{ if (Model.flightScheduleList.Count > 0)
                         {
-                            <table>
-
-                                <tr>
-                                    <th>ScheduleID</th>
-                                    <th>FlightNumber</th>
-                                    <th>RouteID</th>
-                                    <th>DepartureDateTime</th>
-                                    <th>ArrivalDateTime</th>
-                                    <th>Status</th>
-                                    <th>Role</th>
-                                </tr>
-
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>ScheduleID</th>
+                                        <th>FlightNumber</th>
+                                        <th>RouteID</th>
+                                        <th>AircraftID</th>
+                                        <th>DepartureDateTime</th>
+                                        <th>ArrivalDateTime</th>
+                                        <th>Status</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                    
                                 @foreach (var schedule in Model.flightScheduleList)
                                 {
                                     <tr>
                                         <td>@schedule.ScheduleId</td>
                                         <td>@schedule.FlightNumber</td>
                                         <td>@schedule.RouteId</td>
+                                        <td>@schedule.AircraftId</td>
                                         <td>@schedule.DepartureDateTime</td>
                                         <td>@schedule.ArrivalDateTime</td>
                                         <td>@schedule.Status</td>
