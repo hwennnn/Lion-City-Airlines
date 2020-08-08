@@ -59,7 +59,7 @@
                             }
                         </tbody>
                     </table>
-                </div>            
+                </div>
             </div>
         </div>
     }
@@ -80,6 +80,12 @@
             "use strict";
         })(jQuery);
     </script>
+    <script>
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
 
+        if (message) {
+            alert(message);
+        }
+    </script>
 </body>
 </html>

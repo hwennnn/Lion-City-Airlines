@@ -706,19 +706,23 @@ namespace web2020apr_p01_assignment_group5.DAL
 
             while (reader.Read())
             {
-                scheduleList.Add(
-                new FlightSchedule
+                DateTime time = reader.GetDateTime(4);
+                if (time > DateTime.Today)
                 {
-                    ScheduleId = reader.GetInt32(0),
-                    FlightNumber = reader.GetString(1),
-                    RouteId = reader.GetInt32(2),
-                    AircraftId = reader.GetInt32(3),
-                    DepartureDateTime = reader.GetDateTime(4),
-                    ArrivalDateTime = reader.GetDateTime(5),
-                    EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
-                    BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
-                    Status = reader.GetString(8),
-                });
+                    scheduleList.Add(
+                    new FlightSchedule
+                    {
+                        ScheduleId = reader.GetInt32(0),
+                        FlightNumber = reader.GetString(1),
+                        RouteId = reader.GetInt32(2),
+                        AircraftId = reader.GetInt32(3),
+                        DepartureDateTime = time,
+                        ArrivalDateTime = reader.GetDateTime(5),
+                        EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
+                        BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
+                        Status = reader.GetString(8),
+                    });
+                }
             }
             reader.Close();
             conn.Close();

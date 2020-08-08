@@ -297,5 +297,33 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
             return booking.BookingId;
         }
+
+        public bool checkpassportnumber(int id, string passportnum) 
+        {
+            bool check = false;
+            //Create a SqlCommand object and specify the SQL statement 
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM Booking 
+                                WHERE ScheduleID=@ScheduleId AND PassportNumber=@passportNumber";
+            cmd.Parameters.AddWithValue("@ScheduleId", id);
+            cmd.Parameters.AddWithValue("@passportNumber", passportnum);
+            //Open a database connection and excute the SQL statement 
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    check = true;
+                }
+            }
+            else
+            { //No record 
+                check = false; 
+            }
+            reader.Close();
+            conn.Close();
+            return check;
+        }
     }      
 }

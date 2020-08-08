@@ -192,27 +192,41 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BookAirTicketsPersonalDetails(Booking booking)
         {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Customer"))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
-                booking.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("CustomerID"));
-                //Add booking record to database
-                customerContext.BookTickets(booking);
-                if (booking.IsNextPassenger)
+                if (customerContext.checkpassportnumber(booking.ScheduleId, booking.PassportNumber))
                 {
-                    return RedirectToAction("BookAirTicketsPersonalDetails", "Customers", booking.ScheduleId);
+                    TempData["alert"] = "You have already made this booking. You are not allow to book this booking again!";
+                    return RedirectToAction("ViewAvailableFlight", "Customers");
                 }
                 else
                 {
-                    return RedirectToAction("ViewAirTicketsBooked", "Customers");
-                }
-               
+                    TempData["alert"] = "Your Booking for " + booking.PassengerName + " is Successful. Thank You!";
+                    booking.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("CustomerID"));
+                    //Add booking record to database
+                    customerContext.BookTickets(booking);
+                }       
             }
             else
             {
+                TempData["alert"] = "Your Booking is Unsuccessful, Please Try Again!";
                 //Input validation fails, return to the BookAirTicketsPersonalDetails.cshtml view
                 //to display error message
                 return View(booking);
             }
+            if (booking.IsNextPassenger)
+            {
+                return RedirectToAction("BookAirTicketsPersonalDetails", "Customers", booking.ScheduleId);
+            }
+            else
+            {
+                return RedirectToAction("ViewAirTicketsBooked", "Customers");
+            }   
         }
         public ActionResult SelectedFlightSchedule(int id)
         {

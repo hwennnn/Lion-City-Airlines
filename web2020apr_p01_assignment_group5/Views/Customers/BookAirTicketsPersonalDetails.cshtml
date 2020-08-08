@@ -54,37 +54,37 @@
                 </div>
 
                 @*<div class="form-group row">
-            <label asp-for="DepartureCity"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="DepartureCity" readonly
-                       class="form-control-plaintext" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="DepartureCountry"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="DepartureCountry" readonly
-                       class="form-control-plaintext" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="ArrivalCity"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="ArrivalCity" readonly
-                       class="form-control-plaintext" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="ArrivalCountry"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="ArrivalCountry" readonly
-                       class="form-control-plaintext" />
-            </div>
-        </div>*@
+                        <label asp-for="DepartureCity"
+                               class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 col-md-5">
+                            <input asp-for="DepartureCity" readonly
+                                   class="form-control-plaintext" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="DepartureCountry"
+                               class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 col-md-5">
+                            <input asp-for="DepartureCountry" readonly
+                                   class="form-control-plaintext" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="ArrivalCity"
+                               class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 col-md-5">
+                            <input asp-for="ArrivalCity" readonly
+                                   class="form-control-plaintext" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="ArrivalCountry"
+                               class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 col-md-5">
+                            <input asp-for="ArrivalCountry" readonly
+                                   class="form-control-plaintext" />
+                        </div>
+                    </div>*@
 
                 <label class="label-input100" for="Passenger-Name">Passenger Name *</label>
                 <div class="wrap-input100 validate-input">
@@ -127,7 +127,7 @@
 
                 <label class="label-input100" for="isNextPassenger">Book for next passenger</label>
                 <input asp-for="IsNextPassenger" value="false" type="checkbox" />
-
+                <br><br>
                 <div class="container-contact100-form-btn">
                     <button class="contact100-form-btn">
                         <span>
@@ -182,6 +182,12 @@
 
 
     </script>
+    <script>
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
 
+        if (message) {
+            alert(message);
+        }
+    </script>
 </body>
 </html>
