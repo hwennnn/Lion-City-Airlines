@@ -1,0 +1,147 @@
+﻿@{
+    Layout = "_CustomerMenu";
+    ViewData["Title"] = "Book Air Tickets Personal Details";
+}
+
+@model web2020apr_p01_assignment_group5.Models.Booking
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Passenger Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/css/bookairticketspersonaldetails.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+    <div class="container-contact100">
+        <div class="wrap-contact100">
+            <form asp-action="BookAirTicketsPersonalDetails" class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Passenger Details
+                </span>
+
+                <label asp-for="CustomerId" class="label-input100"></label>
+                <div class="input100">
+                    @(Context.Session.GetInt32("CustomerID"))
+                </div>
+                <br><br>
+                <label asp-for="ScheduleId" class="label-input100"></label>
+                <div class="input100">
+                    <input asp-for="ScheduleId" readonly
+                           class="form-control-plaintext" />
+                </div>
+
+                @*<div class="form-group row">
+            <label asp-for="DepartureCity"
+                   class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="DepartureCity" readonly
+                       class="form-control-plaintext" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="DepartureCountry"
+                   class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="DepartureCountry" readonly
+                       class="form-control-plaintext" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ArrivalCity"
+                   class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="ArrivalCity" readonly
+                       class="form-control-plaintext" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ArrivalCountry"
+                   class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9 col-md-5">
+                <input asp-for="ArrivalCountry" readonly
+                       class="form-control-plaintext" />
+            </div>
+        </div>*@
+
+                <label class="label-input100" for="Passenger-Name">Passenger Name *</label>
+                <div class="wrap-input100 validate-input">
+                    <input id="Passenger-Name" class="input100" asp-for="PassengerName" placeholder="Name as printed on passport">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <label class="label-input100" for="Passport-Number">Passport Number *</label>
+                <div class="wrap-input100 validate-input">
+                    <input id="Passport-Number" class="input100" asp-for="PassportNumber" placeholder="Eg. E1234567A">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <label class="label-input100" for="Nationality">Nationality *</label>
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" asp-for="Nationality" placeholder="Enter Your Nationality">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <label class="label-input100" for="SeatClass">Seat Class *</label>
+                <input asp-for="SeatClass" type="radio" name="SeatClass" value="Economy" checked>Economy
+                <input asp-for="SeatClass" type="radio" name="SeatClass" value="Business">Business
+                <br><br>
+
+                <label class="label-input100" for="Remarks">Remarks</label>
+                <div class="wrap-input100">
+                    <textarea id="Remarks" class="input100" asp-for="Remarks" placeholder="Please enter your remarks..."></textarea>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="container-contact100-form-btn">
+                    <button class="contact100-form-btn">
+                        <span>
+                            Submit
+                            <i class="zmdi zmdi-arrow-right m-l-8"></i>
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--===============================================================================================-->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/js/bookairticketspersonaldetails.js"></script>
+
+</body>
+</html> 

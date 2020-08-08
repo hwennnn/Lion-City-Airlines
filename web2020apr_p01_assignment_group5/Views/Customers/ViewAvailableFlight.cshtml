@@ -1,8 +1,8 @@
 ﻿@{
     Layout = "_CustomerMenu";
-    ViewData["Title"] = "FlightSchedule";
+    ViewData["Title"] = "FlightRoute";
 }
-@model IEnumerable<web2020apr_p01_assignment_group5.Models.FlightSchedule>
+@model IEnumerable<web2020apr_p01_assignment_group5.Models.FlightRoute>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,49 +34,38 @@
                     <table>
                         <thead>
                             <tr class="table100-head">
-                                <th class="column1">Schedule ID</th>
-                                <th class="column2">Flight Number</th>
-                                <th class="column3">Route ID</th>
-                                <th class="column4">Aircraft ID</th>
-                                <th class="column5">Departure DateTime</th>
-                                <th class="column6">Arrival DateTime</th>
-                                <th class="column7">Economy ClassPrice</th>
-                                <th class="column8">Business ClassPrice</th>
-                                <th class="column9">Status</th>
-                                <th class="column10"></th>
+                                <th class="column1">Route ID</th>
+                                <th class="column2">Departure City</th>
+                                <th class="column3">Departure Country</th>
+                                <th class="column4">Arrival City</th>
+                                <th class="column5">Arrival Country</th>
+                                <th class="column6"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                @if (item.Status == "Opened")
-                                {
-                                    <tr>
-                                        <td class="column1">@item.ScheduleId.ToString()</td>
-                                        <td class="column2">@item.FlightNumber</td>
-                                        <td class="column3">@item.RouteId.ToString()</td>
-                                        <td class="column4">@item.AircraftId.ToString()</td>
-                                        <td class="column5">@item.DepartureDateTime</td>
-                                        <td class="column6">@item.ArrivalDateTime</td>
-                                        <td class="column7">@item.EconomyClassPrice</td>
-                                        <td class="column8">@item.BusinessClassPrice</td>
-                                        <td class="column9">@item.Status</td>
-                                        <td class="column10">
-                                            <a asp-action="BookAirTicketsPersonalDetails" asp-controller="Customers"
-                                               asp-route-id="@item.ScheduleId">Book</a>
-                                        </td>
-                                    </tr>
-                                }
+                                <tr>
+                                    <td class="column1">@item.RouteId</td>
+                                    <td class="column2">@item.DepartureCity</td>
+                                    <td class="column3">@item.DepartureCountry</td>
+                                    <td class="column4">@item.ArrivalCity</td>
+                                    <td class="column5">@item.ArrivalCountry</td>
+                                    <td class="column6">
+                                        <a asp-action="SelectedFlightSchedule" asp-controller="Customers"
+                                           asp-route-id="@item.RouteId">View Schedule</a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
-                </div>
+                </div>            
             </div>
         </div>
     }
     else
     {
-        <span style="color:red"><h2>No record found!</h2></span>
+        <span style="color:red"><h2>No Available Flight Schedule Found!</h2></span>
     }
     <!--===============================================================================================-->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>

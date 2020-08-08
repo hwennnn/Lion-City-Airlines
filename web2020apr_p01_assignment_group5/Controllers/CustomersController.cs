@@ -156,5 +156,63 @@ namespace web2020apr_p01_assignment_group5.Controllers
             viewAirTicketsBooked.ArrivalDateTime = flightSchedule.ArrivalDateTime;
             return viewAirTicketsBooked;
         }
+        public ActionResult BookAirTickets(string? departure, string? arrival)
+        {
+            if (departure == null && arrival == null)
+            {
+                if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Customer"))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                List<FlightSchedule> flightSchedules = new List<FlightSchedule>();
+                flightSchedules = adminContext.getAllFlightSchedule();
+                return View(flightSchedules);
+            }
+            else
+            {
+                FlightRoute flightRoute = adminContext.searchcountry(departure, arrival);
+                List<FlightSchedule> flightSchedules = new List<FlightSchedule>();
+                flightSchedules = adminContext.getschedulefromRouteID(flightRoute.RouteId);
+                return View(flightSchedules);
+            }
+        }
+
+        public ActionResult BookAirTicketsPersonalDetails(int id)
+        {
+            Booking booking = new Booking();
+            booking.ScheduleId = id;
+            return View(booking);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BookAirTicketsPersonalDetails(Booking booking)
+        {
+            if (ModelState.IsValid)
+            {
+                booking.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("CustomerID"));
+                //Add booking record to database
+                customerContext.BookTickets(booking);
+                //Redirect user to Home/Index view
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                //Input validation fails, return to the BookAirTicketsPersonalDetails.cshtml view
+                //to display error message
+                return View(booking);
+            }
+        }
+        public ActionResult SelectedFlightSchedule(int id)
+        {
+            List<FlightSchedule> selectedflightschedule = new List<FlightSchedule>();
+            selectedflightschedule = adminContext.getschedulefromRouteID(id);
+            return View(selectedflightschedule);
+        }
+        public ActionResult ViewAvailableFlight()
+        {
+            List<FlightRoute> ViewFlight = adminContext.getAllFlightRoute();
+            return View(ViewFlight);
+        }
     }
 }

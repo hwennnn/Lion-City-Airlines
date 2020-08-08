@@ -3,6 +3,11 @@
     ViewData["Title"] = "FlightSchedule";
 }
 @model IEnumerable<web2020apr_p01_assignment_group5.Models.FlightSchedule>
+@{ 
+    DateTime now = DateTime.Now;
+    now = now.AddDays(1);
+    DateTime datetime = new DateTime(now.Year,now.Month,now.Day);
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,34 +39,28 @@
                     <table>
                         <thead>
                             <tr class="table100-head">
-                                <th class="column1">Schedule ID</th>
-                                <th class="column2">Flight Number</th>
-                                <th class="column3">Route ID</th>
-                                <th class="column4">Aircraft ID</th>
-                                <th class="column5">Departure DateTime</th>
-                                <th class="column6">Arrival DateTime</th>
-                                <th class="column7">Economy ClassPrice</th>
-                                <th class="column8">Business ClassPrice</th>
-                                <th class="column9">Status</th>
-                                <th class="column10"></th>
+                                <th class="column1">Flight Number</th>
+                                <th class="column2">Departure DateTime</th>
+                                <th class="column3">Arrival DateTime</th>
+                                <th class="column4">Economy ClassPrice</th>
+                                <th class="column5">Business ClassPrice</th>
+                                <th class="column6">Status</th>
+                                <th class="column7"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                @if (item.Status == "Opened")
+                                @if (item.Status == "Opened" && item.DepartureDateTime >= datetime)
                                 {
                                     <tr>
-                                        <td class="column1">@item.ScheduleId.ToString()</td>
-                                        <td class="column2">@item.FlightNumber</td>
-                                        <td class="column3">@item.RouteId.ToString()</td>
-                                        <td class="column4">@item.AircraftId.ToString()</td>
-                                        <td class="column5">@item.DepartureDateTime</td>
-                                        <td class="column6">@item.ArrivalDateTime</td>
-                                        <td class="column7">@item.EconomyClassPrice</td>
-                                        <td class="column8">@item.BusinessClassPrice</td>
-                                        <td class="column9">@item.Status</td>
-                                        <td class="column10">
+                                        <td class="column1">@item.FlightNumber</td>
+                                        <td class="column2">@item.DepartureDateTime</td>
+                                        <td class="column3">@item.ArrivalDateTime</td>
+                                        <td class="column4">@item.EconomyClassPrice</td>
+                                        <td class="column5">@item.BusinessClassPrice</td>
+                                        <td class="column6">@item.Status</td>
+                                        <td class="column7">
                                             <a asp-action="BookAirTicketsPersonalDetails" asp-controller="Customers"
                                                asp-route-id="@item.ScheduleId">Book</a>
                                         </td>
@@ -76,7 +75,7 @@
     }
     else
     {
-        <span style="color:red"><h2>No record found!</h2></span>
+        <span style="color:red"><h2>No Available Flight Schedule Found!</h2></span>
     }
     <!--===============================================================================================-->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
