@@ -105,8 +105,13 @@
                 </div>
 
                 <label class="label-input100" for="SeatClass">Seat Class *</label>
-                <input asp-for="SeatClass" type="radio" name="SeatClass" value="Economy" checked>Economy
-                <input asp-for="SeatClass" type="radio" name="SeatClass" value="Business">Business
+                <input id="economyClass" asp-for="SeatClass" type="radio" name="SeatClass" value="Economy" checked onchange="displayAmount()">Economy
+                <input id="businessClass" asp-for="SeatClass" type="radio" name="SeatClass" value="Business" onchange="displayAmount()">Business
+                <br><br>
+
+                <label asp-for="AmtPayable" class="label-input100"></label>
+                <div class="input100" id="amount"></div>
+
                 <br><br>
 
                 <label class="label-input100" for="Remarks">Remarks</label>
@@ -143,5 +148,24 @@
     <!--===============================================================================================-->
     <script src="~/js/bookairticketspersonaldetails.js"></script>
 
+    <script type="text/javascript">
+
+        var schedule = @Json.Serialize(@ViewData["Schedule"]);
+        var economy = document.getElementById("economyClass");
+        var business = document.getElementById("businessClass");
+        var amount = document.getElementById("amount");
+        amount.innerHTML = "$" + schedule.economyClassPrice;
+
+        function displayAmount() {
+            if (economy.checked) {
+                amount.innerHTML = "$" + schedule.economyClassPrice;
+            } else {
+                amount.innerHTML = "$" + schedule.businessClassPrice;
+            }
+        }
+        
+
+    </script>
+
 </body>
-</html> 
+</html>

@@ -182,6 +182,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
         {
             Booking booking = new Booking();
             booking.ScheduleId = id;
+            ViewData["Schedule"] = adminContext.getSpecificSchedule(id);
             return View(booking);
         }
         [HttpPost]

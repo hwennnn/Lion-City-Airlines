@@ -156,6 +156,8 @@ namespace web2020apr_p01_assignment_group5.DAL
                     schedule.AircraftId = reader.GetInt32(3);
                     schedule.DepartureDateTime = reader.GetDateTime(4);
                     schedule.ArrivalDateTime = reader.GetDateTime(5);
+                    schedule.EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6));
+                    schedule.BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7));
                     schedule.Status = reader.GetString(8);
                 }
             }
