@@ -684,6 +684,45 @@ namespace web2020apr_p01_assignment_group5.DAL
                     Status = reader.GetString(8),
                 });
             }
+            reader.Close();
+            conn.Close();
+
+            return scheduleList;
+
+        }
+
+        public List<FlightSchedule> getOpenedSchedulefromRouteID(int routeid)
+        {
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM FlightSchedule WHERE RouteID = @routeID AND Status = @status";
+            cmd.Parameters.AddWithValue("@routeID", routeid);
+            cmd.Parameters.AddWithValue("@status", "Opened");
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                scheduleList.Add(
+                new FlightSchedule
+                {
+                    ScheduleId = reader.GetInt32(0),
+                    FlightNumber = reader.GetString(1),
+                    RouteId = reader.GetInt32(2),
+                    AircraftId = reader.GetInt32(3),
+                    DepartureDateTime = reader.GetDateTime(4),
+                    ArrivalDateTime = reader.GetDateTime(5),
+                    EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
+                    BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
+                    Status = reader.GetString(8),
+                });
+            }
+            reader.Close();
+            conn.Close();
+
             return scheduleList;
 
         }

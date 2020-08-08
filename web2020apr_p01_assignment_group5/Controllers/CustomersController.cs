@@ -209,8 +209,8 @@ namespace web2020apr_p01_assignment_group5.Controllers
         }
         public ActionResult SelectedFlightSchedule(int id)
         {
-            List<FlightSchedule> selectedflightschedule = new List<FlightSchedule>();
-            selectedflightschedule = adminContext.getschedulefromRouteID(id);
+            List<FlightSchedule> selectedflightschedule = adminContext.getOpenedSchedulefromRouteID(id);
+            
             return View(selectedflightschedule);
         }
         public ActionResult ViewAvailableFlight()
