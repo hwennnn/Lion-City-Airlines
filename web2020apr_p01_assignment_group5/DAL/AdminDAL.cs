@@ -598,8 +598,8 @@ namespace web2020apr_p01_assignment_group5.DAL
             SqlCommand cmd = conn.CreateCommand();
             //Specify the SELECT SQL statement
             cmd.CommandText = @"SELECT * FROM FlightRoute WHERE DepartureCountry = @departureCountry AND ArrivalCountry = @arrivalCountry";
-            cmd.Parameters.AddWithValue("@departureCountry",departure);
-            cmd.Parameters.AddWithValue("@arrivalCountry",arrival);
+            cmd.Parameters.AddWithValue("@departureCountry", departure);
+            cmd.Parameters.AddWithValue("@arrivalCountry", arrival);
             //Open a database connection
             conn.Open();
             //Execute the SELECT SQL through a DataReader
@@ -616,6 +616,12 @@ namespace web2020apr_p01_assignment_group5.DAL
                     route.ArrivalCountry = reader.GetString(4);
                     route.FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null;
                 }
+
+            }
+
+            return route;
+        }
+
         public List<Aircraft> getAllAircraft()
         {
             List<Aircraft> aircraftList = new List<Aircraft>();
@@ -646,7 +652,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             //Close the database connection
             conn.Close();
 
-            return route;
+            return aircraftList;
         }
         public List<FlightSchedule> getschedulefromRouteID(int routeid)
         {
@@ -676,7 +682,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     Status = reader.GetString(8),
                 });
             }
-            return aircraftList;
+            return scheduleList;
 
         }
 
