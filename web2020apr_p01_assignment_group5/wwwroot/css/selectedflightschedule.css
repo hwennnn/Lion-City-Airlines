@@ -1,4 +1,4 @@
-﻿.PageTitle{
+﻿.PageTitle {
     margin-bottom: 4px;
     margin-top: 4px;
 }
@@ -181,12 +181,12 @@ tbody tr {
     }
 
 .column1 {
-    width: 260px;
+    width: 240px;
     text-align: center;
 }
 
 .column2 {
-    width: 150px;
+    width: 280px;
     text-align: center;
 }
 
@@ -196,36 +196,16 @@ tbody tr {
 }
 
 .column4 {
-    width: 170px;
+    width: 270px;
     text-align: center;
 }
 
 .column5 {
-    width: 180px;
+    width: 290px;
     text-align: center;
 }
 
 .column6 {
-    width: 180px;
-    text-align: center;
-}
-
-.column7 {
-    width: 222px;
-    text-align: center;
-}
-
-.column8 {
-    width: 222px;
-    text-align: center;
-}
-
-.column9 {
-    width: 222px;
-    text-align: center;
-}
-
-.column10 {
-    width: 222px;
+    width: 165px;
     text-align: center;
 }

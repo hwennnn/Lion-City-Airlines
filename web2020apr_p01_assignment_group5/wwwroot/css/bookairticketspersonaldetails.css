@@ -263,7 +263,15 @@ iframe {
     font-size: 18px;
     color: #333333;
     line-height: 1.2;
-    padding: 0 25px;
+    padding: 0 28px;
+    padding-bottom: 11px;
+}
+
+.details-input100 {
+    font-size: 19px;
+    width: 100%;
+    padding-bottom: 11px;
+    margin-left: 60px;
 }
 
 input.input100 {

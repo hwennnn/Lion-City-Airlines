@@ -707,7 +707,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             while (reader.Read())
             {
                 DateTime time = reader.GetDateTime(4);
-                if (time > DateTime.Today)
+                if (time.Date > DateTime.Today.Date)
                 {
                     scheduleList.Add(
                     new FlightSchedule
