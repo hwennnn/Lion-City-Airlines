@@ -125,7 +125,6 @@ namespace web2020apr_p01_assignment_group5.DAL
             cmd.CommandText = @"SELECT * FROM Customer 
                                 WHERE EmailAddr = @selectedCustomerID";
             //Define the parameter used in SQL statement, value for the 
-            //parameter is retrieved from the method parameter “customerID”. 
             cmd.Parameters.AddWithValue("@selectedCustomerID", EmailAddr);
 
             //Open a database connection 
@@ -137,10 +136,8 @@ namespace web2020apr_p01_assignment_group5.DAL
                 //Read the record from database 
                 while (reader.Read())
                 {
-                    // Fill staff object with values from the data reader 
                     customer.CustomerId = reader.GetInt32(0);
                     customer.CustomerName = reader.GetString(1);
-                    // (char) 0 - ASCII Code 0 - null value 
                     customer.Nationality = !reader.IsDBNull(2) ?
                                     reader.GetString(2) : null;
                     customer.BirthDate = !reader.IsDBNull(3) ?
