@@ -3,7 +3,7 @@
     ViewData["Title"] = "Create Flight Schedule Record";
 }
 
-@model web2020apr_p01_assignment_group5.Models.FlightSchedule
+@model web2020apr_p01_assignment_group5.Models.ScheduleViewModel
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,11 +60,19 @@
                     <div class="dropDownSelect2"></div>
                 </div>
 
-                <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Valid Departure Date & Time">
-                    <span class="label-input100">Departure Date</span>
-                    <input class="input100" asp-for="DepartureDateTime" placeholder="Enter Departure Date & Time">
-                </div>
-
+                @if (Model.DepartureDateTime.HasValue)
+                {
+                    <div class="wrap-input100 bg1">
+                        <span class="input100">Unable to Select Due to Empty FlightDuration</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Valid Departure Date & Time">
+                        <span class="label-input100">Departure Date</span>
+                        <input class="input100" asp-for="DepartureDateTime" placeholder="Enter Departure Date & Time">
+                    </div>
+                }
                 <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Economy Price">
                     <span class="label-input100">Economy Class Price</span>
                     <input class="input100" asp-for="EconomyClassPrice" placeholder="Enter Economy Price">

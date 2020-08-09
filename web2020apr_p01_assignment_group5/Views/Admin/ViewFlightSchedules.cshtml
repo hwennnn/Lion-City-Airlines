@@ -2,7 +2,7 @@
     Layout = "_AdminMenu";
     ViewData["Title"] = "View Flight Routes and Flight Schedules";
 }
-@model IEnumerable<web2020apr_p01_assignment_group5.Models.ScheduleViewModel>
+@model IEnumerable<web2020apr_p01_assignment_group5.Models.RouteScheduleViewModel>
 
 <link rel="stylesheet" href="~/css/viewschedules.css">
 <link rel="stylesheet" href="~/css/switch.css">
@@ -56,26 +56,29 @@
 
                         @foreach (var schedule in item.scheduleList)
                         {
-                        <tr>
-                            <td>@schedule.ScheduleId</td>
-                            <td>@schedule.FlightNumber</td>
-                            <td>@schedule.RouteId</td>
-                            <td>@schedule.DepartureDateTime</td>
-                            <td>@schedule.ArrivalDateTime</td>
-                            <td>@item.FlightDuration</td>
-                            <td>@schedule.EconomyClassPrice</td>
-                            <td>@schedule.BusinessClassPrice</td>
-                            @if (schedule.Status == "Opened")
-                            {
-                                <td><a style="color:black" asp-action="UpdateFlightScheduleStatus" asp-controller="Admin"
-                                    asp-route-id="@schedule.ScheduleId">
-                                    <span>@schedule.Status</span></a></td>
-                            }
-                            else
-                            {
-                                <td>@schedule.Status</td>
-                            }
-                        </tr>
+                            <tr>
+                                <td>@schedule.ScheduleId</td>
+                                <td>@schedule.FlightNumber</td>
+                                <td>@schedule.RouteId</td>
+                                <td>@schedule.DepartureDateTime</td>
+                                <td>@schedule.ArrivalDateTime</td>
+                                <td>@item.FlightDuration</td>
+                                <td>@schedule.EconomyClassPrice</td>
+                                <td>@schedule.BusinessClassPrice</td>
+                                @if (schedule.Status == "Opened")
+                                {
+                                    <td>
+                                        <a style="color:black" asp-action="UpdateFlightScheduleStatus" asp-controller="Admin"
+                                           asp-route-id="@schedule.ScheduleId">
+                                            <span>@schedule.Status</span>
+                                        </a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@schedule.Status</td>
+                                }
+                            </tr>
                         }
                     </table>
                     <a style="color:black" asp-action="CreateFlightSchedule" asp-controller="Admin"
@@ -85,6 +88,8 @@
                 else
                 {
                     <p>No FlightSchedule record found!</p>
+                    <a style="color:black" asp-action="CreateFlightSchedule" asp-controller="Admin"
+                       asp-route-id="@item.RouteId"><button>Create Flight Schedule</button></a>
                 }
                 <br />
             </div>

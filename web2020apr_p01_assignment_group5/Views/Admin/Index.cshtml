@@ -134,7 +134,12 @@
         }
         }
 
+    <script type="text/javascript">
+        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
 
-
+        if (message) {
+            alert(message);
+        }
+    </script>
 
 </body>

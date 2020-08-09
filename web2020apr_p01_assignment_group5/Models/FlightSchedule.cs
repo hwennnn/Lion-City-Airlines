@@ -11,10 +11,10 @@ namespace web2020apr_p01_assignment_group5.Models
         public string FlightNumber { get; set; }
 
         public int RouteId { get; set; }
-        public string AircraftId { get; set; }
+        public int? AircraftId { get; set; }
         public DateTime? DepartureDateTime { get; set; }
 
-        public DateTime ArrivalDateTime { get; set; }
+        public DateTime? ArrivalDateTime { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:#,##0.00}")]
         public double EconomyClassPrice { get; set; }

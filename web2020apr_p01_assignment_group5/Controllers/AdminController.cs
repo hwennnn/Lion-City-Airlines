@@ -69,7 +69,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            List<ScheduleViewModel> flightSchedule = mapScheduletoRoute();
+            List<RouteScheduleViewModel> flightSchedule = mapScheduletoRoute();
             return View(flightSchedule);
         }
 
@@ -146,14 +146,14 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return personnelsModel;
         }
 
-        public List<ScheduleViewModel> mapScheduletoRoute()
+        public List<RouteScheduleViewModel> mapScheduletoRoute()
         {
-            List<ScheduleViewModel> scheduleModelList = new List<ScheduleViewModel>();
+            List<RouteScheduleViewModel> scheduleModelList = new List<RouteScheduleViewModel>();
             List<FlightRoute> routeList = adminContext.getAllFlightRoute();
 
             foreach (FlightRoute route in routeList)
             {
-                ScheduleViewModel scheduleModel = new ScheduleViewModel();
+                RouteScheduleViewModel scheduleModel = new RouteScheduleViewModel();
                 scheduleModel.RouteId = route.RouteId;
                 scheduleModel.DepartureCity = route.DepartureCity;
                 scheduleModel.DepartureCountry = route.DepartureCountry;
@@ -541,40 +541,39 @@ namespace web2020apr_p01_assignment_group5.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
             if (id == null)
             {
                 ViewData["RouteIdList"] = RouteList();
 
                 ViewData["AircraftIdList"] = AircraftList();
 
-                FlightSchedule schedule = new FlightSchedule();
-
-                return View(schedule);
+                ScheduleViewModel scheduleViewModel = new ScheduleViewModel();
+                return View(scheduleViewModel);
             }
             else
             {
                 ViewData["AircraftIdList"] = AircraftList();
 
-                FlightSchedule schedule = new FlightSchedule();
+                ScheduleViewModel scheduleViewModel = new ScheduleViewModel();
                 int rid = id.Value;
-                schedule.RouteId = rid;
+                scheduleViewModel.RouteId = rid;
+                scheduleViewModel.Route = adminContext.getSpecificRoute(rid);
                 if (adminContext.IsFlightDurationNull(rid))
                 {
-                    schedule.DepartureDateTime = null;
-                    return View(schedule);
+                    scheduleViewModel.DepartureDateTime = DateTime.Today;
+                    return View(scheduleViewModel);
                 }
                 else
                 {
-                    return View(schedule);
+                    return View(scheduleViewModel);
                 }
-                    
+
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateFlightSchedule(FlightSchedule flightSchedule)
+        public ActionResult CreateFlightSchedule(ScheduleViewModel scheduleViewModel)
         {
             if (HttpContext.Session.GetString("Role") == "Staff")
             {
@@ -589,21 +588,32 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            if (flightSchedule == null)
+            if (scheduleViewModel == null)
             {
                 return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
             {
-                FlightRoute route = adminContext.getSpecificRoute(flightSchedule.RouteId);
-                if (route.FlightDuration == null)
+                if (scheduleViewModel.AircraftId == "Select an Aircraft ID")
                 {
-                    TempData["alert"] = "Flight Duration is null, unable to calculate Arrival Date...";
-                    return View(flightSchedule);
+                    scheduleViewModel.AircraftId = null;
+                }
+                if (scheduleViewModel.DepartureDateTime == DateTime.Today)
+                {
+                    scheduleViewModel.DepartureDateTime = null;
+                }
+                FlightSchedule flightSchedule = mapViewModeltoSchedule(scheduleViewModel);
+                if (adminContext.IsFlightDurationNull(flightSchedule.RouteId))
+                {
+                    flightSchedule.DepartureDateTime = null;
+                    TempData["Alert"] = "FlightSchedule has been created with no DepartureDateTime as FlightDuration is NULL";
+                    adminContext.CreateFlightSchedule(flightSchedule);
+                    return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
+                    FlightRoute route = adminContext.getSpecificRoute(flightSchedule.RouteId);
                     flightSchedule.ArrivalDateTime = Convert.ToDateTime(flightSchedule.DepartureDateTime).AddHours(Convert.ToDouble(route.FlightDuration));
                     adminContext.CreateFlightSchedule(flightSchedule);
                     return RedirectToAction("Index", "Admin");
@@ -613,8 +623,28 @@ namespace web2020apr_p01_assignment_group5.Controllers
             {
                 //Input validation fails, return to the Create view
                 //to display error message
-                return View(flightSchedule);
+                return View(scheduleViewModel);
             }
+        }
+
+        public FlightSchedule mapViewModeltoSchedule(ScheduleViewModel viewModel)
+        {
+            FlightSchedule schedule = new FlightSchedule();
+            schedule.FlightNumber = viewModel.FlightNumber;
+            schedule.RouteId = viewModel.RouteId;
+            if (viewModel.AircraftId == null)
+            {
+                schedule.AircraftId = null;
+            }
+            else
+            {
+                schedule.AircraftId = Convert.ToInt32(viewModel.AircraftId);
+            }
+            schedule.DepartureDateTime = viewModel.DepartureDateTime;
+            schedule.EconomyClassPrice = viewModel.EconomyClassPrice;
+            schedule.BusinessClassPrice = viewModel.BusinessClassPrice;
+            schedule.Status = viewModel.Status;
+            return schedule;
         }
 
         public ActionResult AssignPersonnel()

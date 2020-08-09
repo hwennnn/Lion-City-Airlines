@@ -153,9 +153,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                     schedule.ScheduleId = reader.GetInt32(0);
                     schedule.FlightNumber = reader.GetString(1);
                     schedule.RouteId = reader.GetInt32(2);
-                    schedule.AircraftId = Convert.ToString(reader.GetInt32(3));
-                    schedule.DepartureDateTime = reader.GetDateTime(4);
-                    schedule.ArrivalDateTime = reader.GetDateTime(5);
+                    schedule.AircraftId = !reader.IsDBNull(3) ? reader.GetInt32(3) : (int?)null;
+                    schedule.DepartureDateTime = !reader.IsDBNull(4) ? reader.GetDateTime(4) : (DateTime?)null;
+                    schedule.ArrivalDateTime = !reader.IsDBNull(5) ? reader.GetDateTime(5) : (DateTime?)null;
                     schedule.EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6));
                     schedule.BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7));
                     schedule.Status = reader.GetString(8);
@@ -189,9 +189,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                     ScheduleId = reader.GetInt32(0),
                     FlightNumber = reader.GetString(1),
                     RouteId = reader.GetInt32(2),
-                    AircraftId = Convert.ToString(reader.GetInt32(3)),
-                    DepartureDateTime = reader.GetDateTime(4),
-                    ArrivalDateTime = reader.GetDateTime(5),
+                    AircraftId = !reader.IsDBNull(3) ? reader.GetInt32(3) : (int?)null,
+                    DepartureDateTime = !reader.IsDBNull(4) ? reader.GetDateTime(4) : (DateTime?)null,
+                    ArrivalDateTime = !reader.IsDBNull(5) ? reader.GetDateTime(5) : (DateTime?)null,
                     EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
                     BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
                     Status = reader.GetString(8),
@@ -230,9 +230,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                         ScheduleId = reader.GetInt32(0),
                         FlightNumber = reader.GetString(1),
                         RouteId = reader.GetInt32(2),
-                        AircraftId = Convert.ToString(reader.GetInt32(3)),
-                        DepartureDateTime = reader.GetDateTime(4),
-                        ArrivalDateTime = reader.GetDateTime(5),
+                        AircraftId = !reader.IsDBNull(3) ? reader.GetInt32(3) : (int?)null,
+                        DepartureDateTime = !reader.IsDBNull(4) ? reader.GetDateTime(4) : (DateTime?)null,
+                        ArrivalDateTime = !reader.IsDBNull(5) ? reader.GetDateTime(5) : (DateTime?)null,
                         EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
                         BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
                         Status = reader.GetString(8),
@@ -676,9 +676,9 @@ namespace web2020apr_p01_assignment_group5.DAL
                     ScheduleId = reader.GetInt32(0),
                     FlightNumber = reader.GetString(1),
                     RouteId = reader.GetInt32(2),
-                    AircraftId = Convert.ToString(reader.GetInt32(3)),
-                    DepartureDateTime = reader.GetDateTime(4),
-                    ArrivalDateTime = reader.GetDateTime(5),
+                    AircraftId = !reader.IsDBNull(3) ? reader.GetInt32(3) : (int?)null,
+                    DepartureDateTime = !reader.IsDBNull(4) ? reader.GetDateTime(4) : (DateTime?)null,
+                    ArrivalDateTime = !reader.IsDBNull(5) ? reader.GetDateTime(5) : (DateTime?)null,
                     EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
                     BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
                     Status = reader.GetString(8),
@@ -706,8 +706,8 @@ namespace web2020apr_p01_assignment_group5.DAL
 
             while (reader.Read())
             {
-                DateTime time = reader.GetDateTime(4);
-                if (time > DateTime.Today)
+                DateTime? time = !reader.IsDBNull(4) ? reader.GetDateTime(4) : (DateTime?)null;
+                if (time != null && time > DateTime.Today)
                 {
                     scheduleList.Add(
                     new FlightSchedule
@@ -715,7 +715,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                         ScheduleId = reader.GetInt32(0),
                         FlightNumber = reader.GetString(1),
                         RouteId = reader.GetInt32(2),
-                        AircraftId = Convert.ToString(reader.GetInt32(3)),
+                        AircraftId = !reader.IsDBNull(3) ? reader.GetInt32(3) : (int?)null,
                         DepartureDateTime = time,
                         ArrivalDateTime = reader.GetDateTime(5),
                         EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
@@ -746,9 +746,30 @@ namespace web2020apr_p01_assignment_group5.DAL
             //Defining parameters to be inserted
             cmd.Parameters.AddWithValue("@FlightNumber", flightSchedule.FlightNumber);
             cmd.Parameters.AddWithValue("@RouteID", flightSchedule.RouteId);
-            cmd.Parameters.AddWithValue("@AircraftID", flightSchedule.AircraftId);
-            cmd.Parameters.AddWithValue("@DepartureDateTime", flightSchedule.DepartureDateTime);
-            cmd.Parameters.AddWithValue("@ArrivalDateTime", flightSchedule.ArrivalDateTime);
+            if (!flightSchedule.AircraftId.HasValue)
+            {
+                cmd.Parameters.AddWithValue("@AircraftID", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@AircraftID", flightSchedule.AircraftId.Value);
+            }
+            if (!flightSchedule.DepartureDateTime.HasValue)
+            {
+                cmd.Parameters.AddWithValue("@DepartureDateTime", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("DepartureDateTime", flightSchedule.DepartureDateTime);
+            }
+            if (!flightSchedule.ArrivalDateTime.HasValue)
+            {
+                cmd.Parameters.AddWithValue("@ArrivalDateTime", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@ArrivalDateTime", flightSchedule.ArrivalDateTime);
+            }
             cmd.Parameters.AddWithValue("@EconomyClassPrice", flightSchedule.EconomyClassPrice);
             cmd.Parameters.AddWithValue("@BusinessClassPrice", flightSchedule.BusinessClassPrice);
             cmd.Parameters.AddWithValue("@Status", "Opened");
@@ -800,22 +821,23 @@ namespace web2020apr_p01_assignment_group5.DAL
             while (reader.Read())
             {
                 int id = reader.GetInt32(0);
-                DateTime departureDateTime = reader.GetDateTime(4);
-
-                if (!assignedScheduleIDList.Contains(id) && departureDateTime > DateTime.Today && departureDateTime != null)
+                DateTime? departureDateTime = !reader.IsDBNull(4) ? reader.GetDateTime(4) : (DateTime?)null;
+                if (departureDateTime != null)
                 {
-                    FlightSchedule schedule = new FlightSchedule();
-                    schedule.ScheduleId = id;
-                    schedule.FlightNumber = reader.GetString(1);
-                    schedule.RouteId = reader.GetInt32(2);
-                    schedule.AircraftId = Convert.ToString(reader.GetInt32(3));
-                    schedule.DepartureDateTime = departureDateTime;
-                    schedule.ArrivalDateTime = reader.GetDateTime(5);
-                    schedule.Status = reader.GetString(8);
+                    if (!assignedScheduleIDList.Contains(id) && departureDateTime > DateTime.Today && departureDateTime != null)
+                    {
+                        FlightSchedule schedule = new FlightSchedule();
+                        schedule.ScheduleId = id;
+                        schedule.FlightNumber = reader.GetString(1);
+                        schedule.RouteId = reader.GetInt32(2);
+                        schedule.AircraftId = !reader.IsDBNull(3) ? reader.GetInt32(3) : (int?)null;
+                        schedule.DepartureDateTime = departureDateTime;
+                        schedule.ArrivalDateTime = reader.GetDateTime(5);
+                        schedule.Status = reader.GetString(8);
 
-                    scheduleList.Add(schedule);
+                        scheduleList.Add(schedule);
+                    }
                 }
-
             }
 
             //Close DataReader
@@ -879,27 +901,28 @@ namespace web2020apr_p01_assignment_group5.DAL
         {
             //Assign a boolean for return if FlightDuration is/is not null
             bool duration = false;
+            FlightRoute route = new FlightRoute();
 
             //Create sql command
             SqlCommand cmd = conn.CreateCommand();
             //Set SQL Command Text
-            cmd.CommandText = @"SELECT * FROM FlightRoute WHERE RouteID = @selectedRouteID AND FlightDuration = NULL";
+            cmd.CommandText = @"SELECT * FROM FlightRoute WHERE RouteID = @selectedRouteID";
             //Set parameter for SQL Command
             cmd.Parameters.AddWithValue("@selectedRouteID", rid);
             //Open connection to DB
             conn.Open();
             //Read SQL data using command text
             SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.HasRows)
-            {//If record exists
-                while (reader.Read())
-                {
-                    duration = true;
-                }
+            while (reader.Read())
+            {
+                route.FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null;
+            }
+            if (route.FlightDuration == null)
+            {//If duration is null
+                duration = true;
             }
             else
-            {//If record does not exist
+            {//If duration has a value
                 duration = false;
             }
             reader.Close();

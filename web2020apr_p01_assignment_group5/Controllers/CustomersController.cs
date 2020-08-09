@@ -106,7 +106,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 viewAirTickets.DepartureDateTime = Convert.ToDateTime(schedule.DepartureDateTime);
                 viewAirTickets.ArrivalCity = flightRoutes.ArrivalCity;
                 viewAirTickets.ArrivalCountry = flightRoutes.ArrivalCountry;
-                viewAirTickets.ArrivalDateTime = schedule.ArrivalDateTime;
+                viewAirTickets.ArrivalDateTime = Convert.ToDateTime(schedule.ArrivalDateTime);
                 BookingModelList.Add(viewAirTickets);
             }
             return BookingModelList;
@@ -153,7 +153,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             viewAirTicketsBooked.DepartureDateTime = Convert.ToDateTime(flightSchedule.DepartureDateTime);
             viewAirTicketsBooked.ArrivalCity = flightRoute.ArrivalCity;
             viewAirTicketsBooked.ArrivalCountry = flightRoute.ArrivalCountry;
-            viewAirTicketsBooked.ArrivalDateTime = flightSchedule.ArrivalDateTime;
+            viewAirTicketsBooked.ArrivalDateTime = Convert.ToDateTime(flightSchedule.ArrivalDateTime);
             return viewAirTicketsBooked;
         }
         public ActionResult BookAirTickets(string? departure, string? arrival)
