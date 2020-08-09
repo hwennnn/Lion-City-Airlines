@@ -2,7 +2,9 @@
     text-align: left;
     padding-top: 20px;
     color: white;
+    font-family: 'Montserrat', sans-serif;
 }
+
 
 /* @extend display-flex; */
 display-flex, .header, .form-group {

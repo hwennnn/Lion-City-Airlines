@@ -22,6 +22,15 @@ namespace web2020apr_p01_assignment_group5.Controllers
         // GET: Customer/CreateCustomerProfile
         public ActionResult CreateCustomerProfile()
         {
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (HttpContext.Session.GetString("Role") == "Customer")
+            {
+                return RedirectToAction("Index", "Customer");
+            }
+
             return View();
         }
 
@@ -30,6 +39,15 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateCustomerProfile(Customer customer)
         {
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (HttpContext.Session.GetString("Role") == "Customer")
+            {
+                return RedirectToAction("Index", "Customer");
+            }
+
             //in case of the need to return to CreateCustomerProfile.cshtml view
             if (ModelState.IsValid)
             {
@@ -51,6 +69,16 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [HttpGet]
         public ActionResult ChangePassword()
         {
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (HttpContext.Session.GetString("Role") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
             return View();
         }
 
@@ -156,31 +184,25 @@ namespace web2020apr_p01_assignment_group5.Controllers
             viewAirTicketsBooked.ArrivalDateTime = flightSchedule.ArrivalDateTime;
             return viewAirTicketsBooked;
         }
-        public ActionResult BookAirTickets(string? departure, string? arrival)
-        {
-            if (departure == null && arrival == null)
-            {
-                if ((HttpContext.Session.GetString("Role") == null) ||
-                (HttpContext.Session.GetString("Role") != "Customer"))
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                List<FlightSchedule> flightSchedules = new List<FlightSchedule>();
-                flightSchedules = adminContext.getAllFlightSchedule();
-                return View(flightSchedules);
-            }
-            else
-            {
-                FlightRoute flightRoute = adminContext.searchcountry(departure, arrival);
-                List<FlightSchedule> flightSchedules = new List<FlightSchedule>();
-                flightSchedules = adminContext.getschedulefromRouteID(flightRoute.RouteId);
-                return View(flightSchedules);
-            }
-        }
 
         public ActionResult BookAirTicketsPersonalDetails(int id)
         {
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (HttpContext.Session.GetString("Role") != "Customer")
+            {
+                TempData["alert"] = "You need to sign in as a customer first!";
+                return RedirectToAction("Login", "Home");
+            }
+
             FlightSchedule schedule = adminContext.getSpecificSchedule(id);
+            if (schedule.ScheduleId == 0)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             FlightRoute route = adminContext.getSpecificRoute(schedule.RouteId);
             Booking booking = new Booking();
             booking.ScheduleId = id;
@@ -194,11 +216,17 @@ namespace web2020apr_p01_assignment_group5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BookAirTicketsPersonalDetails(Booking booking)
         {
-            if ((HttpContext.Session.GetString("Role") == null) ||
-            (HttpContext.Session.GetString("Role") != "Customer"))
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (HttpContext.Session.GetString("Role") != "Customer")
+            {
+                TempData["alert"] = "You need to sign in as a customer first!";
                 return RedirectToAction("Login", "Home");
             }
+
             if (ModelState.IsValid)
             {
                 if (customerContext.checkpassportnumber(booking.ScheduleId, booking.PassportNumber))
@@ -232,12 +260,27 @@ namespace web2020apr_p01_assignment_group5.Controllers
         }
         public ActionResult SelectedFlightSchedule(int id)
         {
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (id == 0)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             List<FlightSchedule> selectedflightschedule = adminContext.getOpenedSchedulefromRouteID(id);
             
             return View(selectedflightschedule);
         }
         public ActionResult ViewAvailableFlight()
         {
+            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             List<FlightRoute> ViewFlight = adminContext.getAllFlightRoute();
             return View(ViewFlight);
         }
