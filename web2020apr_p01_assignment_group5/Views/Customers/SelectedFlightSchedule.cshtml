@@ -1,8 +1,13 @@
 ﻿@{
     Layout = "_CustomerMenu";
-    ViewData["Title"] = "ViewAirTicketsBooked";
+    ViewData["Title"] = "FlightSchedule";
 }
-@model IEnumerable<web2020apr_p01_assignment_group5.Models.ViewAirTicketsBooked>
+@model IEnumerable<web2020apr_p01_assignment_group5.Models.FlightSchedule>
+@{ 
+    DateTime now = DateTime.Now;
+    now = now.AddDays(1);
+    DateTime datetime = new DateTime(now.Year,now.Month,now.Day);
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +26,7 @@
     <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/css/util.css">
-    <link rel="stylesheet" type="text/css" href="~/css/viewairticketsbooked.css">
+    <link rel="stylesheet" type="text/css" href="~/css/bookairticket.css">
     <!--===============================================================================================-->
 </head>
 <body>
@@ -29,31 +34,38 @@
     {
         <div class="container-table100">
             <div class="wrap-table100">
-                <h3 class="PageTitle" style="text-align:center"><b>View Air Tickets Booked</b></h3>
+                <h3 class="PageTitle" style="text-align:center"><b>Available Flight Schedule</b></h3>
                 <div class="table100">
                     <table>
                         <thead>
                             <tr class="table100-head">
-                                <th class="column1">Date Time Created</th>
-                                <th class="column2">Booking ID</th>
-                                <th class="column3">Passenger Name</th>
-                                <th class="column4">Amount Payable</th>
-                                <th class="column5"></th>
+                                <th class="column1">Flight Number</th>
+                                <th class="column2">Departure DateTime</th>
+                                <th class="column3">Arrival DateTime</th>
+                                <th class="column4">Economy ClassPrice</th>
+                                <th class="column5">Business ClassPrice</th>
+                                <th class="column6">Status</th>
+                                <th class="column7"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td class="column1">@item.DateTimeCreated</td>
-                                    <td class="column2">@item.BookingId.ToString()</td>
-                                    <td class="column3">@item.PassengerName</td>
-                                    <td class="column4">@item.AmtPayable</td>
-                                    <td class="column5">
-                                        <a asp-action="ViewAirTicketsBookedDetails" asp-controller="Customers"
-                                           asp-route-id="@item.BookingId">View Details</a>
-                                    </td>
-                                </tr>
+                                @if (item.Status == "Opened" && item.DepartureDateTime >= datetime)
+                                {
+                                    <tr>
+                                        <td class="column1">@item.FlightNumber</td>
+                                        <td class="column2">@item.DepartureDateTime</td>
+                                        <td class="column3">@item.ArrivalDateTime</td>
+                                        <td class="column4">@item.EconomyClassPrice</td>
+                                        <td class="column5">@item.BusinessClassPrice</td>
+                                        <td class="column6">@item.Status</td>
+                                        <td class="column7">
+                                            <a asp-action="BookAirTicketsPersonalDetails" asp-controller="Customers"
+                                               asp-route-id="@item.ScheduleId">Book</a>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
@@ -63,7 +75,7 @@
     }
     else
     {
-        <span style="color:red"><h2>No record found!</h2></span>
+        <span style="color:red"><h2>No Available Flight Schedule Found!</h2></span>
     }
     <!--===============================================================================================-->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -78,12 +90,6 @@
             "use strict";
         })(jQuery);
     </script>
-    <script>
-        var message = @Html.Raw(Json.Serialize(TempData["alert"]));
 
-        if (message) {
-            alert(message);
-        }
-    </script>
 </body>
 </html>

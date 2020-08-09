@@ -4,6 +4,7 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using web2020apr_p01_assignment_group5.Models;
+using Microsoft.AspNetCore.Routing;
 
 namespace web2020apr_p01_assignment_group5.DAL
 {
@@ -155,6 +156,8 @@ namespace web2020apr_p01_assignment_group5.DAL
                     schedule.AircraftId = reader.GetInt32(3);
                     schedule.DepartureDateTime = reader.GetDateTime(4);
                     schedule.ArrivalDateTime = reader.GetDateTime(5);
+                    schedule.EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6));
+                    schedule.BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7));
                     schedule.Status = reader.GetString(8);
                 }
             }
@@ -300,7 +303,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     ArrivalCity = reader.GetString(3),
                     ArrivalCountry = reader.GetString(4),
                     FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null,
-            });
+                });
             }
 
             //Close DataReader
@@ -591,6 +594,36 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
         }
 
+        public FlightRoute searchcountry(string departure, string arrival)
+        {
+            FlightRoute route = new FlightRoute();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM FlightRoute WHERE DepartureCountry = @departureCountry AND ArrivalCountry = @arrivalCountry";
+            cmd.Parameters.AddWithValue("@departureCountry", departure);
+            cmd.Parameters.AddWithValue("@arrivalCountry", arrival);
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    route.RouteId = reader.GetInt32(0);
+                    route.DepartureCity = reader.GetString(1);
+                    route.DepartureCountry = reader.GetString(2);
+                    route.ArrivalCity = reader.GetString(3);
+                    route.ArrivalCountry = reader.GetString(4);
+                    route.FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null;
+                }
+
+            }
+
+            return route;
+        }
+
         public List<Aircraft> getAllAircraft()
         {
             List<Aircraft> aircraftList = new List<Aircraft>();
@@ -622,6 +655,79 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
 
             return aircraftList;
+        }
+        public List<FlightSchedule> getschedulefromRouteID(int routeid)
+        {
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM FlightSchedule WHERE RouteID = @routeID";
+            cmd.Parameters.AddWithValue("@routeID", routeid);
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                scheduleList.Add(
+                new FlightSchedule
+                {
+                    ScheduleId = reader.GetInt32(0),
+                    FlightNumber = reader.GetString(1),
+                    RouteId = reader.GetInt32(2),
+                    AircraftId = reader.GetInt32(3),
+                    DepartureDateTime = reader.GetDateTime(4),
+                    ArrivalDateTime = reader.GetDateTime(5),
+                    EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
+                    BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
+                    Status = reader.GetString(8),
+                });
+            }
+            reader.Close();
+            conn.Close();
+
+            return scheduleList;
+
+        }
+
+        public List<FlightSchedule> getOpenedSchedulefromRouteID(int routeid)
+        {
+            List<FlightSchedule> scheduleList = new List<FlightSchedule>();
+            SqlCommand cmd = conn.CreateCommand();
+            //Specify the SELECT SQL statement
+            cmd.CommandText = @"SELECT * FROM FlightSchedule WHERE RouteID = @routeID AND Status = @status";
+            cmd.Parameters.AddWithValue("@routeID", routeid);
+            cmd.Parameters.AddWithValue("@status", "Opened");
+            //Open a database connection
+            conn.Open();
+            //Execute the SELECT SQL through a DataReader
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                DateTime time = reader.GetDateTime(4);
+                if (time > DateTime.Today)
+                {
+                    scheduleList.Add(
+                    new FlightSchedule
+                    {
+                        ScheduleId = reader.GetInt32(0),
+                        FlightNumber = reader.GetString(1),
+                        RouteId = reader.GetInt32(2),
+                        AircraftId = reader.GetInt32(3),
+                        DepartureDateTime = time,
+                        ArrivalDateTime = reader.GetDateTime(5),
+                        EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
+                        BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
+                        Status = reader.GetString(8),
+                    });
+                }
+            }
+            reader.Close();
+            conn.Close();
+
+            return scheduleList;
 
         }
 

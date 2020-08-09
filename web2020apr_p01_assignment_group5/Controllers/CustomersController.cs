@@ -156,5 +156,88 @@ namespace web2020apr_p01_assignment_group5.Controllers
             viewAirTicketsBooked.ArrivalDateTime = flightSchedule.ArrivalDateTime;
             return viewAirTicketsBooked;
         }
+        public ActionResult BookAirTickets(string? departure, string? arrival)
+        {
+            if (departure == null && arrival == null)
+            {
+                if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Customer"))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                List<FlightSchedule> flightSchedules = new List<FlightSchedule>();
+                flightSchedules = adminContext.getAllFlightSchedule();
+                return View(flightSchedules);
+            }
+            else
+            {
+                FlightRoute flightRoute = adminContext.searchcountry(departure, arrival);
+                List<FlightSchedule> flightSchedules = new List<FlightSchedule>();
+                flightSchedules = adminContext.getschedulefromRouteID(flightRoute.RouteId);
+                return View(flightSchedules);
+            }
+        }
+
+        public ActionResult BookAirTicketsPersonalDetails(int id)
+        {
+            FlightSchedule schedule = adminContext.getSpecificSchedule(id);
+            Booking booking = new Booking();
+            booking.ScheduleId = id;
+            booking.AmtPayable = schedule.EconomyClassPrice;
+
+            ViewData["Schedule"] = schedule;
+            return View(booking);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BookAirTicketsPersonalDetails(Booking booking)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Customer"))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (ModelState.IsValid)
+            {
+                if (customerContext.checkpassportnumber(booking.ScheduleId, booking.PassportNumber))
+                {
+                    TempData["alert"] = "You have already made this booking. You are not allow to book this booking again!";
+                    return RedirectToAction("ViewAvailableFlight", "Customers");
+                }
+                else
+                {
+                    TempData["alert"] = "Your Booking for " + booking.PassengerName + " is Successful. Thank You!";
+                    booking.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("CustomerID"));
+                    //Add booking record to database
+                    customerContext.BookTickets(booking);
+                }       
+            }
+            else
+            {
+                TempData["alert"] = "Your Booking is Unsuccessful, Please Try Again!";
+                //Input validation fails, return to the BookAirTicketsPersonalDetails.cshtml view
+                //to display error message
+                return View(booking);
+            }
+            if (booking.IsNextPassenger)
+            {
+                return RedirectToAction("BookAirTicketsPersonalDetails", "Customers", booking.ScheduleId);
+            }
+            else
+            {
+                return RedirectToAction("ViewAirTicketsBooked", "Customers");
+            }   
+        }
+        public ActionResult SelectedFlightSchedule(int id)
+        {
+            List<FlightSchedule> selectedflightschedule = adminContext.getOpenedSchedulefromRouteID(id);
+            
+            return View(selectedflightschedule);
+        }
+        public ActionResult ViewAvailableFlight()
+        {
+            List<FlightRoute> ViewFlight = adminContext.getAllFlightRoute();
+            return View(ViewFlight);
+        }
     }
 }

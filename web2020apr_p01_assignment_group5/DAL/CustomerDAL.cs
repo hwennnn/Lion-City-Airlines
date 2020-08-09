@@ -11,6 +11,7 @@ namespace web2020apr_p01_assignment_group5.DAL
     {
         private IConfiguration Configuration { get; }
         private SqlConnection conn;
+        private AdminDAL adminContext = new AdminDAL();
         //Constructor 
         public CustomerDAL()
         {
@@ -254,6 +255,75 @@ namespace web2020apr_p01_assignment_group5.DAL
             //Close database connection
             conn.Close();
             return ViewDetails;
+        }
+
+        public int BookTickets(Booking booking)
+        {
+            DateTime datetimecreated = DateTime.Now;
+            //Create a SqlCommand object from connection object 
+            SqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"INSERT INTO Booking (CustomerID, ScheduleID, PassengerName, PassportNumber, Nationality, SeatClass, AmtPayable, Remarks, DateTimeCreated) 
+                                OUTPUT INSERTED.BookingID 
+                                VALUES(@customerID, @scheduleID, @passengerName, @passportNumber, @nationality, @seatclass, @amtPayable, 
+                                @remarks, @dateTimeCreated)";
+            //Define the parameters used in SQL statement, value for each parameter 
+            cmd.Parameters.AddWithValue("@customerID", booking.CustomerId);
+            cmd.Parameters.AddWithValue("@scheduleID", booking.ScheduleId);
+            cmd.Parameters.AddWithValue("@passengerName", booking.PassengerName);
+            cmd.Parameters.AddWithValue("@passportNumber", booking.PassportNumber);
+            cmd.Parameters.AddWithValue("@nationality", booking.Nationality);
+            cmd.Parameters.AddWithValue("@seatclass", booking.SeatClass);
+            FlightSchedule schedule = adminContext.getSpecificSchedule(booking.ScheduleId);
+            double amt = (booking.SeatClass == "Economy") ? schedule.EconomyClassPrice : schedule.BusinessClassPrice;
+
+            cmd.Parameters.AddWithValue("@amtPayable", amt);
+            if (string.IsNullOrEmpty(booking.Remarks))
+            {
+                cmd.Parameters.AddWithValue("@remarks", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@remarks", booking.Remarks);
+            }
+            cmd.Parameters.AddWithValue("@dateTimeCreated", datetimecreated);
+            //A connection to database must be opened before any operations made. 
+            conn.Open();
+
+            //ExecuteScalar is used to retrieve the auto-generated 
+            booking.BookingId = (int)cmd.ExecuteScalar();
+
+            //A connection should be closed after operations. 
+            conn.Close();
+            return booking.BookingId;
+        }
+
+        public bool checkpassportnumber(int id, string passportnum) 
+        {
+            bool check = false;
+            //Create a SqlCommand object and specify the SQL statement 
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM Booking 
+                                WHERE ScheduleID=@ScheduleId AND PassportNumber=@passportNumber";
+            cmd.Parameters.AddWithValue("@ScheduleId", id);
+            cmd.Parameters.AddWithValue("@passportNumber", passportnum);
+            //Open a database connection and excute the SQL statement 
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            { //Records found
+                while (reader.Read())
+                {
+                    check = true;
+                }
+            }
+            else
+            { //No record 
+                check = false; 
+            }
+            reader.Close();
+            conn.Close();
+            return check;
         }
     }      
 }

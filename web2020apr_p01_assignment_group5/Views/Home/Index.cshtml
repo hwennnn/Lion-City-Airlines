@@ -27,7 +27,7 @@
 
 <body>
     <div class="container text-center">
-        <form id="booking-form" class="booking-form" method="POST">
+        <form asp-action="BookAirTickets" asp-controller="Customers" id="booking-form" class="booking-form" method="POST">
             <h2 id="welcome_title">Hi, Where would you like to go?</h2>
             <br />
             <div class="form-group">
@@ -46,7 +46,7 @@
                     </select>
                 </div>
 
-                <div class="form-date-from form-icon">
+                @*<div class="form-date-from form-icon">
                     <label>Departure Date</label>
                     <input type="date" id="date_from" class="date_from" placeholder="Pick a date" />
                 </div>
@@ -54,7 +54,7 @@
                 <div class="form-date-to form-icon">
                     <label>Arrival Date</label>
                     <input type="date" id="date_to" class="date_to" placeholder="Pick a date" />
-                </div>
+                </div>*@
                 <br />
 
             </div>
