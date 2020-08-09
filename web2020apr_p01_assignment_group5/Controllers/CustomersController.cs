@@ -103,7 +103,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 viewAirTickets.FlightNumber = schedule.FlightNumber;
                 viewAirTickets.DepartureCity = flightRoutes.DepartureCity;
                 viewAirTickets.DepartureCountry = flightRoutes.DepartureCountry;
-                viewAirTickets.DepartureDateTime = schedule.DepartureDateTime;
+                viewAirTickets.DepartureDateTime = Convert.ToDateTime(schedule.DepartureDateTime);
                 viewAirTickets.ArrivalCity = flightRoutes.ArrivalCity;
                 viewAirTickets.ArrivalCountry = flightRoutes.ArrivalCountry;
                 viewAirTickets.ArrivalDateTime = schedule.ArrivalDateTime;
@@ -150,7 +150,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             viewAirTicketsBooked.FlightNumber = flightSchedule.FlightNumber;
             viewAirTicketsBooked.DepartureCity = flightRoute.DepartureCity;
             viewAirTicketsBooked.DepartureCountry = flightRoute.DepartureCountry;
-            viewAirTicketsBooked.DepartureDateTime = flightSchedule.DepartureDateTime;
+            viewAirTicketsBooked.DepartureDateTime = Convert.ToDateTime(flightSchedule.DepartureDateTime);
             viewAirTicketsBooked.ArrivalCity = flightRoute.ArrivalCity;
             viewAirTicketsBooked.ArrivalCountry = flightRoute.ArrivalCountry;
             viewAirTicketsBooked.ArrivalDateTime = flightSchedule.ArrivalDateTime;

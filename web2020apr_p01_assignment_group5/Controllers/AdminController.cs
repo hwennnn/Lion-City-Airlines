@@ -332,7 +332,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                     adminContext.CreateFlightRoute(flightRoute);
                     //Return user to admin home page
                     return RedirectToAction("Index", "Admin");
-                }
+                }   
             }
             else
             {
@@ -401,7 +401,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             PersonnelViewModel personnelModel = mapSpecificPersonneltoSchedule(staff);
             foreach (FlightSchedule schedule in personnelModel.flightScheduleList)
             {
-                if (schedule.DepartureDateTime.Date >= DateTime.Today)
+                if (Convert.ToDateTime(schedule.DepartureDateTime).Date >= DateTime.Today)
                 {
                     isUpdateValid = false;
                 }
@@ -517,6 +517,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
         private List<String> AircraftList()
         {
             List<String> aircraftIdList = new List<String>();
+            aircraftIdList.Add("Select an Aircraft ID");
             List<Aircraft> aircraftList = new List<Aircraft>();
             aircraftList = adminContext.getAllAircraft();
             foreach(Aircraft aircraft in aircraftList)
@@ -547,18 +548,27 @@ namespace web2020apr_p01_assignment_group5.Controllers
 
                 ViewData["AircraftIdList"] = AircraftList();
 
-                return View();
+                FlightSchedule schedule = new FlightSchedule();
+
+                return View(schedule);
             }
             else
             {
-                ViewData["RouteIdList"] = RouteList();
-
                 ViewData["AircraftIdList"] = AircraftList();
 
                 FlightSchedule schedule = new FlightSchedule();
-                int peepeepoopoo = id.Value;
-                schedule.RouteId = peepeepoopoo;
-                return View(schedule);
+                int rid = id.Value;
+                schedule.RouteId = rid;
+                if (adminContext.IsFlightDurationNull(rid))
+                {
+                    schedule.DepartureDateTime = null;
+                    return View(schedule);
+                }
+                else
+                {
+                    return View(schedule);
+                }
+                    
             }
         }
 
@@ -594,7 +604,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 }
                 else
                 {
-                    flightSchedule.ArrivalDateTime = flightSchedule.DepartureDateTime.AddHours(Convert.ToDouble(route.FlightDuration));
+                    flightSchedule.ArrivalDateTime = Convert.ToDateTime(flightSchedule.DepartureDateTime).AddHours(Convert.ToDouble(route.FlightDuration));
                     adminContext.CreateFlightSchedule(flightSchedule);
                     return RedirectToAction("Index", "Admin");
                 }
@@ -671,7 +681,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                     }
                     foreach (FlightSchedule flightSchedule in personnel.flightScheduleList)
                     {
-                        if (flightSchedule.DepartureDateTime.Date == schedule.DepartureDateTime.Date)
+                        if (Convert.ToDateTime(flightSchedule.DepartureDateTime).Date == Convert.ToDateTime(schedule.DepartureDateTime).Date)
                         {
                             isAvailable = false;
                         }

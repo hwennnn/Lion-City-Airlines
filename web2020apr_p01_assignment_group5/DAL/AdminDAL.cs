@@ -123,7 +123,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     Email = reader.GetString(5),
                     Status = reader.GetString(7)
 
-            });
+                });
             }
 
             //Close DataReader
@@ -153,7 +153,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     schedule.ScheduleId = reader.GetInt32(0);
                     schedule.FlightNumber = reader.GetString(1);
                     schedule.RouteId = reader.GetInt32(2);
-                    schedule.AircraftId = reader.GetInt32(3);
+                    schedule.AircraftId = Convert.ToString(reader.GetInt32(3));
                     schedule.DepartureDateTime = reader.GetDateTime(4);
                     schedule.ArrivalDateTime = reader.GetDateTime(5);
                     schedule.EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6));
@@ -161,7 +161,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     schedule.Status = reader.GetString(8);
                 }
             }
-         
+
             //Close DataReader
             reader.Close();
             //Close the database connection
@@ -189,14 +189,14 @@ namespace web2020apr_p01_assignment_group5.DAL
                     ScheduleId = reader.GetInt32(0),
                     FlightNumber = reader.GetString(1),
                     RouteId = reader.GetInt32(2),
-                    AircraftId = reader.GetInt32(3),
+                    AircraftId = Convert.ToString(reader.GetInt32(3)),
                     DepartureDateTime = reader.GetDateTime(4),
                     ArrivalDateTime = reader.GetDateTime(5),
                     EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
                     BusinessClassPrice = Convert.ToDouble(reader.GetDecimal(7)),
                     Status = reader.GetString(8),
 
-            });
+                });
             }
 
             //Close DataReader
@@ -230,7 +230,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                         ScheduleId = reader.GetInt32(0),
                         FlightNumber = reader.GetString(1),
                         RouteId = reader.GetInt32(2),
-                        AircraftId = reader.GetInt32(3),
+                        AircraftId = Convert.ToString(reader.GetInt32(3)),
                         DepartureDateTime = reader.GetDateTime(4),
                         ArrivalDateTime = reader.GetDateTime(5),
                         EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
@@ -248,7 +248,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             return scheduleList;
         }
 
-        public FlightRoute getSpecificRoute (int routeID)
+        public FlightRoute getSpecificRoute(int routeID)
         {
             FlightRoute route = new FlightRoute();
             SqlCommand cmd = conn.CreateCommand();
@@ -268,7 +268,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     route.DepartureCity = reader.GetString(1);
                     route.DepartureCountry = reader.GetString(2);
                     route.ArrivalCity = reader.GetString(3);
-                    route.ArrivalCountry = reader.GetString(4); 
+                    route.ArrivalCountry = reader.GetString(4);
                     route.FlightDuration = !reader.IsDBNull(5) ? reader.GetInt32(5) : (int?)null;
                 }
             }
@@ -407,7 +407,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                 new FlightCrew
                 {
                     ScheduleID = reader.GetInt32(0),
-                    StaffID = reader.GetInt32(1), 
+                    StaffID = reader.GetInt32(1),
                     Role = reader.GetString(2)
 
                 });
@@ -464,7 +464,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                 cmd.Parameters.AddWithValue("@vocation", staff.Vocation);
             }
 
-            
+
             cmd.Parameters.AddWithValue("@email", staff.Email);
             cmd.Parameters.AddWithValue("@password", "p@55Staff");
             cmd.Parameters.AddWithValue("@status", "Active");
@@ -509,7 +509,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             conn.Close();
             return emailFound;
         }
-        
+
         public void CreateFlightRoute(FlightRoute flightRoute)
         {
             //Create SqlCommand from connection object
@@ -540,7 +540,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             flightRoute.RouteId = (int)cmd.ExecuteScalar();
             //Close the connection
             conn.Close();
-       
+
         }
 
         public void updatePersonnelStatus(Staff staff)
@@ -676,7 +676,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                     ScheduleId = reader.GetInt32(0),
                     FlightNumber = reader.GetString(1),
                     RouteId = reader.GetInt32(2),
-                    AircraftId = reader.GetInt32(3),
+                    AircraftId = Convert.ToString(reader.GetInt32(3)),
                     DepartureDateTime = reader.GetDateTime(4),
                     ArrivalDateTime = reader.GetDateTime(5),
                     EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
@@ -715,7 +715,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                         ScheduleId = reader.GetInt32(0),
                         FlightNumber = reader.GetString(1),
                         RouteId = reader.GetInt32(2),
-                        AircraftId = reader.GetInt32(3),
+                        AircraftId = Convert.ToString(reader.GetInt32(3)),
                         DepartureDateTime = time,
                         ArrivalDateTime = reader.GetDateTime(5),
                         EconomyClassPrice = Convert.ToDouble(reader.GetDecimal(6)),
@@ -801,21 +801,21 @@ namespace web2020apr_p01_assignment_group5.DAL
             {
                 int id = reader.GetInt32(0);
                 DateTime departureDateTime = reader.GetDateTime(4);
-              
-                if (!assignedScheduleIDList.Contains(id) && departureDateTime > DateTime.Today && departureDateTime!= null)
+
+                if (!assignedScheduleIDList.Contains(id) && departureDateTime > DateTime.Today && departureDateTime != null)
                 {
                     FlightSchedule schedule = new FlightSchedule();
                     schedule.ScheduleId = id;
                     schedule.FlightNumber = reader.GetString(1);
                     schedule.RouteId = reader.GetInt32(2);
-                    schedule.AircraftId = reader.GetInt32(3);
+                    schedule.AircraftId = Convert.ToString(reader.GetInt32(3));
                     schedule.DepartureDateTime = departureDateTime;
                     schedule.ArrivalDateTime = reader.GetDateTime(5);
                     schedule.Status = reader.GetString(8);
 
                     scheduleList.Add(schedule);
                 }
-                
+
             }
 
             //Close DataReader
@@ -853,7 +853,7 @@ namespace web2020apr_p01_assignment_group5.DAL
                 cmd.Parameters["@Role"].Value = staffRoleList[i];
                 cmd.ExecuteScalar();
             }
-            
+
             //ExecuteScalar is used to retrieve the auto-generated
             //StaffID after executing the INSERT SQL statement
             //A connection should be closed after operations.
@@ -863,18 +863,49 @@ namespace web2020apr_p01_assignment_group5.DAL
         public List<string> GetPersonnelRoleList()
         {
             List<string> staffRoleList = new List<string>
-        {
-            "Flight Captain",
-            "Second Pilot",
-            "Cabin Crew Leader",
-            "Flight Attendant",
-            "Flight Attendant",
-            "Flight Attendant"
-        };
+            {
+                "Flight Captain",
+                "Second Pilot",
+                "Cabin Crew Leader",
+                "Flight Attendant",
+                "Flight Attendant",
+                "Flight Attendant"
+            };
 
             return staffRoleList;
         }
-    }
 
-    
+        public bool IsFlightDurationNull(int rid)
+        {
+            //Assign a boolean for return if FlightDuration is/is not null
+            bool duration = false;
+
+            //Create sql command
+            SqlCommand cmd = conn.CreateCommand();
+            //Set SQL Command Text
+            cmd.CommandText = @"SELECT * FROM FlightRoute WHERE RouteID = @selectedRouteID AND FlightDuration = NULL";
+            //Set parameter for SQL Command
+            cmd.Parameters.AddWithValue("@selectedRouteID", rid);
+            //Open connection to DB
+            conn.Open();
+            //Read SQL data using command text
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {//If record exists
+                while (reader.Read())
+                {
+                    duration = true;
+                }
+            }
+            else
+            {//If record does not exist
+                duration = false;
+            }
+            reader.Close();
+            conn.Close();
+            return duration;
+        }
+
+    }
 }

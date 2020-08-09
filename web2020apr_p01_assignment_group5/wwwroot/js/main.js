@@ -45,7 +45,6 @@
     function validate(input) {
         var today = new Date();
         var time = today.getTime();
-        var flightnumbval = new RegExp("lc");
         if ($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
             if ($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
                 return false;
@@ -59,13 +58,19 @@
                 return false;
             }
         }
-        else if ($(input).attr('name') == "FlightNumber") {
-            if (!flightnumbval.test($(input).val().toLowerCase().trim())) {
+        else if ($(input).attr('name') == "EconomyClassPrice") {
+            if (!$.isNumeric($(input).val())) {
+                return false;
+            }
+            if ($(input).val() > 5000) {
                 return false;
             }
         }
-        else if ($(input).attr('name') == "EconomyClassPrice" || $(input).attr('name') == "BusinessClassPrice") {
+        else if ($(input).attr('name') == "BusinessClassPrice") {
             if (!$.isNumeric($(input).val())) {
+                return false;
+            }
+            if ($(input).val() > 10000) {
                 return false;
             }
         }
