@@ -526,7 +526,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return aircraftIdList;
         }
 
-        public ActionResult CreateFlightSchedule()
+        public ActionResult CreateFlightSchedule(int? id)
         {
             if (HttpContext.Session.GetString("Role") == "Staff")
             {
@@ -541,11 +541,25 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewData["RouteIdList"] = RouteList();
+            if (id == null)
+            {
+                ViewData["RouteIdList"] = RouteList();
 
-            ViewData["AircraftIdList"] = AircraftList();
+                ViewData["AircraftIdList"] = AircraftList();
 
-            return View();
+                return View();
+            }
+            else
+            {
+                ViewData["RouteIdList"] = RouteList();
+
+                ViewData["AircraftIdList"] = AircraftList();
+
+                FlightSchedule schedule = new FlightSchedule();
+                int peepeepoopoo = id.Value;
+                schedule.RouteId = peepeepoopoo;
+                return View(schedule);
+            }
         }
 
         [HttpPost]

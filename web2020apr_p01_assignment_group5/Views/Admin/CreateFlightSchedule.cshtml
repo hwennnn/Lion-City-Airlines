@@ -43,8 +43,15 @@
 
                 <div class="wrap-input100 validate-input bg1" data-validate="Please Select Route ID">
                     <span class="label-input100">RouteID</span>
-                    <select class="js-select2" asp-for="RouteId" asp-items="@(new SelectList(@ViewData["RouteIdList"] as List<String>, "RouteID"))"></select>
-                    <div class="dropDownSelect2"></div>
+                    @if (Model.RouteId == null)
+                    {
+                        <select class="js-select2" asp-for="RouteId" asp-items="@(new SelectList(@ViewData["RouteIdList"] as List<String>, "RouteID"))"></select>
+                        <div class="dropDownSelect2"></div>
+                    }
+                    else
+                    {
+                        <input class="input100" asp-for="RouteId" readonly />
+                    }
                 </div>
 
                 <div class="wrap-input100 validate-input bg1" data-validate="Please Select Aircraft ID">
