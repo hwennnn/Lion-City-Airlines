@@ -1,6 +1,7 @@
 ﻿@model web2020apr_p01_assignment_group5.Models.BookingModel
 @{
     var role = Context.Session.GetString("Role");
+    var name = Context.Session.GetString("CustomerName");
     if (role == "Customer")
     {
         Layout = "_CustomerMenu";
@@ -28,7 +29,7 @@
 <body>
     <div class="container text-center">
         <form asp-action="ViewAvailableFlight" asp-controller="Customers" id="booking-form" class="booking-form" method="GET">
-            <h2 id="welcome_title">Hi, Welcome to Lion City Airlines!</h2>
+            <h2 id="welcome_title">Hi<span style="color:black;"> @name</span>, Welcome to Lion City Airlines!</h2>
             <br />
            
             <div class="form-submit">

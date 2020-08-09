@@ -1,5 +1,13 @@
 ﻿@{
-    Layout = "_CustomerMenu";
+    var role = Context.Session.GetString("Role");
+    if (role == "Customer")
+    {
+        Layout = "_CustomerMenu";
+    }
+    else if (role == null)
+    {
+        Layout = "_CommonMenu";
+    }
     ViewData["Title"] = "FlightRoute";
 }
 @model IEnumerable<web2020apr_p01_assignment_group5.Models.FlightRoute>
