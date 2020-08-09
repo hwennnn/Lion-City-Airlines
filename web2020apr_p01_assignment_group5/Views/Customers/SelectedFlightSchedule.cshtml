@@ -42,7 +42,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                @if (item.Status == "Opened" && item.DepartureDateTime >= datetime)
+                                @if (item.Status == "Opened" && item.DepartureDateTime > datetime)
                                 {
                                     <tr>
                                         <td class="column1">@item.FlightNumber</td>

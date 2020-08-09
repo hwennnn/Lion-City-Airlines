@@ -27,40 +27,12 @@
 
 <body>
     <div class="container text-center">
-        <form asp-action="BookAirTickets" asp-controller="Customers" id="booking-form" class="booking-form" method="POST">
-            <h2 id="welcome_title">Hi, Where would you like to go?</h2>
+        <form asp-action="ViewAvailableFlight" asp-controller="Customers" id="booking-form" class="booking-form" method="GET">
+            <h2 id="welcome_title">Hi, Welcome to Lion City Airlines!</h2>
             <br />
-            <div class="form-group">
-
-                <div class="form-destination">
-                    <label>Departure</label>
-                    <select 
-                            asp-items="@ViewData["DepartureList"] as List<SelectListItem>">
-                    </select>
-                </div>
-
-                <div class="form-destination">
-                    <label>Arrival</label>
-                    <select
-                            asp-items="@ViewData["ArrivalList"] as List<SelectListItem>">
-                    </select>
-                </div>
-
-                @*<div class="form-date-from form-icon">
-                    <label>Departure Date</label>
-                    <input type="date" id="date_from" class="date_from" placeholder="Pick a date" />
-                </div>
-
-                <div class="form-date-to form-icon">
-                    <label>Arrival Date</label>
-                    <input type="date" id="date_to" class="date_to" placeholder="Pick a date" />
-                </div>*@
-                <br />
-
-            </div>
-
+           
             <div class="form-submit">
-                <input type="submit" id="submit" class="submit" value="Search" />
+                <input type="submit" id="submit" class="submit" value="View Flights" />
             </div>
         </form>
     </div>
