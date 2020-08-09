@@ -133,12 +133,14 @@ select, input {
     color: #999; }
 
 .submit {
-  background: black;
-  color: #fff;
-  font-size: 14px;
-  margin-top: 23px;
-  padding: 15px 20px;
-  cursor: pointer; }
+    background: black;
+    color: #fff;
+    font-size: 14px;
+    margin-top: 23px;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+}
 
 .submit:hover {
 background-color: lightblue; }

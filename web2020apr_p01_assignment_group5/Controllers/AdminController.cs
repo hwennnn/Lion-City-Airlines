@@ -614,7 +614,15 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 else
                 {
                     FlightRoute route = adminContext.getSpecificRoute(flightSchedule.RouteId);
-                    flightSchedule.ArrivalDateTime = Convert.ToDateTime(flightSchedule.DepartureDateTime).AddHours(Convert.ToDouble(route.FlightDuration));
+                    if (flightSchedule.DepartureDateTime.HasValue)
+                    {
+                        flightSchedule.ArrivalDateTime = Convert.ToDateTime(flightSchedule.DepartureDateTime).AddHours(Convert.ToDouble(route.FlightDuration));
+                    }
+                    else
+                    {
+                        flightSchedule.ArrivalDateTime = null;
+                    }
+                    
                     adminContext.CreateFlightSchedule(flightSchedule);
                     return RedirectToAction("Index", "Admin");
                 }

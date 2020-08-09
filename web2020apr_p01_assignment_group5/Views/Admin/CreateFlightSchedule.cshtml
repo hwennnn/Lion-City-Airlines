@@ -68,7 +68,7 @@
                 }
                 else
                 {
-                    <div class="wrap-input100 validate-input bg1" data-validate="Please Enter Valid Departure Date & Time">
+                    <div class="wrap-input100 bg1" data-validate="Please Enter Valid Departure Date & Time">
                         <span class="label-input100">Departure Date</span>
                         <input class="input100" asp-for="DepartureDateTime" placeholder="Enter Departure Date & Time">
                     </div>
@@ -103,8 +103,7 @@
     <script src="~/vendor/animsition/js/animsition.min.js"></script>
     <!--===============================================================================================-->
     <script src="~/vendor/select2/select2.min.js"></script>
-    <script>
-        $(".js-select2").each(function () {
+    <script>$(".js-select2").each(function () {
             $(this).select2({
                 minimumResultsForSearch: 20,
                 dropdownParent: $(this).next('.dropDownSelect2')
@@ -124,12 +123,17 @@
         })</script>
     <!--===============================================================================================-->
     <script src="~/js/main.js"></script>
-    <script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
         var message = @Html.Raw(Json.Serialize(TempData["alert"]));
 
         if (message) {
             alert(message);
         }
+
+        $("#EconomyClassPrice").val("");
+        $("#BusinessClassPrice").val("");
+
     </script>
 
 

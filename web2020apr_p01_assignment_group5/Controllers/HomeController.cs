@@ -60,7 +60,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             }
             else if (HttpContext.Session.GetString("Role") == "Customer")
             {
-                return RedirectToAction("Index", "Customer");
+                return RedirectToAction("Index", "Home");
             }
 
             return View();
@@ -150,16 +150,6 @@ namespace web2020apr_p01_assignment_group5.Controllers
         }
 
         public ActionResult AboutUs()
-        {
-            if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
-            {
-                return RedirectToAction("Index", "Admin");
-            }
-
-            return View();
-        }
-
-        public ActionResult OurCrew()
         {
             if (HttpContext.Session.GetString("Role") == "Admin" || HttpContext.Session.GetString("Role") == "Staff")
             {
