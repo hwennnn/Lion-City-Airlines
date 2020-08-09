@@ -208,7 +208,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 }
                 else
                 {
-                    TempData["alert"] = "Your Booking for " + booking.PassengerName + " is Successful and Your Booking ID is " + booking.BookingId + ". Thank You!";
+                    TempData["alert"] = "Your Booking for " + booking.PassengerName + " is Successful. Thank You for visting Lion City Airlines!";
                     booking.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("CustomerID"));
                     //Add booking record to database
                     customerContext.BookTickets(booking);

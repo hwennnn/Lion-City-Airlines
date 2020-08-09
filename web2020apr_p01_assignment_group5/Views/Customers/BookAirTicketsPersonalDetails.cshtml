@@ -31,51 +31,51 @@
                 </span>
 
                 <div class="row">
-                    <div class="col-sm-6 text-center">
+                    <div class="col-sm-6">
                         <label asp-for="CustomerId" class="label-input100"></label>
                         <div class="input100">
-                            <input class="details-input100" value="@(Context.Session.GetInt32("CustomerID"))" />
+                            <input class="form-control-plaintext" value="@(Context.Session.GetInt32("CustomerID"))" />
                         </div>
                     </div>
-                    <div class="col-sm-6 text-center">
+                    <div class="col-sm-6">
                         <label asp-for="ScheduleId" class="label-input100"></label>
                         <div class="input100">
                             <input asp-for="ScheduleId" readonly
-                                   class="details-input100" />
+                                   class="form-control-plaintext" />
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6 text-center">
+                    <div class="col-sm-6">
                         <label class="label-input100">Departure City</label>
                         <div class="input100">
                             <input id="DepartureCity" readonly
-                                   class="details-input100" />
+                                   class="form-control-plaintext" />
                         </div>
                     </div>
-                    <div class="col-sm-6 text-center">
+                    <div class="col-sm-6">
                         <label class="label-input100">Departure Country</label>
                         <div class="input100">
                             <input id="DepartureCountry" readonly
-                                   class="details-input100" />
+                                   class="form-control-plaintext" />
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6 text-center">
+                    <div class="col-sm-6">
                         <label class="label-input100">Arrival City</label>
                         <div class="input100">
                             <input id="ArrivalCity" readonly
-                                   class="details-input100" />
+                                   class="form-control-plaintext" />
                         </div>
                     </div>
-                    <div class="col-sm-6 text-center">
+                    <div class="col-sm-6">
                         <label class="label-input100">Arrival Country</label>
                         <div class="input100">
                             <input id="ArrivalCountry" readonly
-                                   class="details-input100" />
+                                   class="form-control-plaintext" />
                         </div>
                     </div>
                 </div>
