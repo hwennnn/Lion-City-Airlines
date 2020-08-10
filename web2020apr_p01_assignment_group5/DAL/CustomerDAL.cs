@@ -65,7 +65,7 @@ namespace web2020apr_p01_assignment_group5.DAL
             }
             else
             {
-                cmd.Parameters.AddWithValue("@telNo", "+65"+customer.TelNo);
+                cmd.Parameters.AddWithValue("@telNo", customer.TelNo);
             }
             cmd.Parameters.AddWithValue("@emailAddr", customer.EmailAddr);
             //A connection to database must be opened before any operations made. 
