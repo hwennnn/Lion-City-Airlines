@@ -50,24 +50,24 @@
                 return false;
             }
         }
-        else if ($(input).attr('name') == "DepartureCity" || $(input).attr('name') == "ArrivalCity") {
+        else if ($(input).attr('name') == "DepartureCountry" || $(input).attr('name') == "ArrivalCountry") {
             if ($.isNumeric($(input).val())) {
                 return false;
             }
         }
-        else if ($(input).attr('name') == "DepartureCountry") {
+        else if ($(input).attr('name') == "DepartureCity") {
             if ($.isNumeric($(input).val())) {
                 return false;
             }
-            if ($(input).val() == $("#arrivalCountry").val()) {
+            if ($(input).val() == $("#arrivalCity").val()) {
                 return false;
             }
         }
-        else if ($(input).attr('name') == "ArrivalCountry") {
+        else if ($(input).attr('name') == "ArrivalCity") {
             if ($.isNumeric($(input).val())) {
                 return false;
             }
-            if ($(input).val() == $("#departureCountry").val()) {
+            if ($(input).val() == $("#departureCity").val()) {
                 return false;
             }
         }
