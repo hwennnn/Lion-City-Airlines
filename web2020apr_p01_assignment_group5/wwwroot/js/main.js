@@ -75,10 +75,7 @@
             }
         }
         else if ($(input).attr('name') == "DepartureDateTime") {
-            if ($(input).val().trim() == ''){
-                return false;
-            }
-            else if (time >= Date.parse($(input).val())) {
+            if ($(input).val().trim() != '' && time >= Date.parse($(input).val())){
                 return false;
             }
         }
