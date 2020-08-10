@@ -51,6 +51,9 @@
             }
         }
         else if ($(input).attr('name') == "DepartureCountry" || $(input).attr('name') == "ArrivalCountry") {
+            if ($(input).val() == '') {
+                return false;
+            }
             if ($.isNumeric($(input).val())) {
                 return false;
             }
