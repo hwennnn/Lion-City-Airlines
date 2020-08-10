@@ -71,8 +71,9 @@
                 <div class="wrap-input100 bg1">
                     <span class="label-input100">Date Employed</span>
                     <input class="input100" asp-for="DateEmployed" placeholder="Select Date Employed">
+                    <span asp-validation-for="DateEmployed"
+                          class="text-danger"></span>
                 </div>
-
 
                 <div class="container-contact100-form-btn">
                     <button class="contact100-form-btn" type="submit">

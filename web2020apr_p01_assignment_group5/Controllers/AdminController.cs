@@ -213,6 +213,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             //in case of the need to return to Create.cshtml view
             ViewData["VocationList"] = GetVocation();
             ViewData["GenderList"] = GetGender();
+
             if (ModelState.IsValid)
             {
                 //Add staff record to database
