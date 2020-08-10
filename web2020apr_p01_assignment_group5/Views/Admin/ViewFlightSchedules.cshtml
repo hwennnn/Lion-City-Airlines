@@ -25,6 +25,9 @@
         </div>
 
         <div class="result">
+            @{
+               var myArray = (int[])ViewData["scheduleList"];
+            }
             @{int i = 1;}
             @foreach (var item in Model)
             {
@@ -51,6 +54,7 @@
                                 <th>EconomyClassPrice</th>
                                 <th>BusinessClassPrice</th>
                                 <th>Status</th>
+                                <th>Assign Personnel</th>
                             </tr>
                         </thead>
 
@@ -77,6 +81,19 @@
                                 else
                                 {
                                     <td>@schedule.Status</td>
+                                }
+                                @if (myArray.Contains(schedule.ScheduleId))
+                                {
+                                     <td>
+                                        <a style="color:black" asp-action="AssignPersonnel" asp-controller="Admin"
+                                           asp-route-id="@schedule.ScheduleId">
+                                            <span>Assign</span>
+                                        </a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>Not available</td>
                                 }
                             </tr>
                         }

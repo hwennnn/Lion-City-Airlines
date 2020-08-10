@@ -69,6 +69,8 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            ViewData["ScheduleList"] = getUnassignedScheduleIDList();
+
             List<RouteScheduleViewModel> flightSchedule = mapScheduletoRoute();
             return View(flightSchedule);
         }
@@ -656,7 +658,7 @@ namespace web2020apr_p01_assignment_group5.Controllers
             return schedule;
         }
 
-        public ActionResult AssignPersonnel()
+        public ActionResult AssignPersonnel(int? id)
         {
             if (HttpContext.Session.GetString("Role") == "Staff")
             {
@@ -671,10 +673,27 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewData["ScheduleList"] = getUnassignedScheduleList();
-            ViewData["ScheduleStaff"] = getUnassignedScheduleStaffList();
+            if (id != null)
+            {
+                if (IsScheduleAvailable(id))
+                {
+                    ViewData["ScheduleList"] = getUnassignedSchedule(id);
+                    ViewData["ScheduleStaff"] = getUnassignedScheduleStaff(id);
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ViewData["ScheduleList"] = getUnassignedScheduleList();
+                ViewData["ScheduleStaff"] = getUnassignedScheduleStaffList();
 
-            return View();
+                return View();
+            }
+
         }
 
         private List<SelectListItem> getUnassignedScheduleList()
@@ -699,6 +718,59 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 });
             }
            
+            return scheduleList;
+        }
+
+        private int[] getUnassignedScheduleIDList()
+        {
+            List<FlightSchedule> idList = adminContext.getAllUnassignedSchedule();
+            int[] temp = new int[idList.Count];
+
+            int i = 0;
+            foreach (FlightSchedule schedule in idList)
+            {
+                temp[i] = schedule.ScheduleId;
+                i++;
+            }
+
+            return temp;
+        }
+
+        private bool IsScheduleAvailable(int? id)
+        {
+            List<FlightSchedule> idList = adminContext.getAllUnassignedSchedule();
+
+
+            foreach (FlightSchedule schedule in idList)
+            {
+
+                if (schedule.ScheduleId == id)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private List<SelectListItem> getUnassignedSchedule(int? scheduleID)
+        {
+            List<FlightSchedule> idList = adminContext.getAllUnassignedSchedule();
+            List<SelectListItem> scheduleList = new List<SelectListItem>();
+         
+            foreach (FlightSchedule schedule in idList)
+            {
+                if (schedule.ScheduleId == scheduleID)
+                {
+                    scheduleList.Add(new SelectListItem
+                    {
+                        Value = schedule.ScheduleId.ToString(),
+                        Text = schedule.ScheduleId.ToString() + " (Flight number:" + schedule.FlightNumber.ToString() + ")"
+                    });
+                }
+               
+            }
+
             return scheduleList;
         }
 
@@ -740,6 +812,50 @@ namespace web2020apr_p01_assignment_group5.Controllers
                 fsList.Add(model);
             }
 
+
+            return fsList;
+        }
+
+        private List<AssignPersonnelViewModel> getUnassignedScheduleStaff(int? id)
+        {
+            List<AssignPersonnelViewModel> fsList = new List<AssignPersonnelViewModel>();
+            List<FlightSchedule> scheduleList = adminContext.getAllUnassignedSchedule();
+            List<PersonnelViewModel> personnelViewModels = mapPersonneltoSchedule();
+
+            foreach (FlightSchedule schedule in scheduleList)
+            {
+                if (schedule.ScheduleId == id)
+                {
+                    List<Staff> availableStaffList = new List<Staff>();
+                    foreach (PersonnelViewModel personnel in personnelViewModels)
+                    {
+                        bool isAvailable = true;
+                        if (personnel.Status == "Inactive")
+                        {
+                            isAvailable = false;
+                        }
+                        foreach (FlightSchedule flightSchedule in personnel.flightScheduleList)
+                        {
+                            if (Convert.ToDateTime(flightSchedule.DepartureDateTime).Date == Convert.ToDateTime(schedule.DepartureDateTime).Date)
+                            {
+                                isAvailable = false;
+                            }
+                        }
+
+                        if (isAvailable)
+                        {
+                            Staff staff = adminContext.GetSpecificStaffByID(personnel.StaffId);
+                            availableStaffList.Add(staff);
+                        }
+                    }
+                    AssignPersonnelViewModel model = new AssignPersonnelViewModel
+                    {
+                        flightSchedule = schedule,
+                        personnelList = availableStaffList
+                    };
+                    fsList.Add(model);
+                }
+            }
 
             return fsList;
         }

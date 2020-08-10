@@ -156,8 +156,29 @@
         {
             @:arr.push(@Json.Serialize(@item.personnelList));
         }
+
         console.log(scheduleArr)
         console.log(arr);
+
+        if (scheduleArr.length == 1 && arr.length == 1) {
+            initOptionList();
+            for (var i = 0; i < arr[0].length; i++) {
+                var staff = arr[0][i];
+                var opt = `${staff.staffName} (StaffID:${staff.staffId})`;
+                var val = staff.staffId;
+
+                if (staff.vocation == "Pilot") {
+                    $('#selectPilot1').append(new Option(opt, val));
+                    $('#selectPilot2').append(new Option(opt, val));
+                } else if (staff.vocation == "Flight Attendant") {
+                    $('#selectStaff1').append(new Option(opt, val));
+                    $('#selectStaff2').append(new Option(opt, val));
+                    $('#selectStaff3').append(new Option(opt, val));
+                    $('#selectStaff4').append(new Option(opt, val));
+                }
+            }
+        }
+       
 
         function showList(id) {
             clearOptionList();
