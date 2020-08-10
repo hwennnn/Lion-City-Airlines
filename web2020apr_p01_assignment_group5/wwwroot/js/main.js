@@ -50,6 +50,27 @@
                 return false;
             }
         }
+        else if ($(input).attr('name') == "DepartureCountry" || $(input).attr('name') == "ArrivalCountry") {
+            if ($.isNumeric($(input).val())) {
+                return false;
+            }
+        }
+        else if ($(input).attr('name') == "DepartureCity") {
+            if ($.isNumeric($(input).val())) {
+                return false;
+            }
+            if ($(input).val() == $("#arrivalCity").val()) {
+                return false;
+            }
+        }
+        else if ($(input).attr('name') == "ArrivalCity") {
+            if ($.isNumeric($(input).val())) {
+                return false;
+            }
+            if ($(input).val() == $("#departureCity").val()) {
+                return false;
+            }
+        }
         else if ($(input).attr('name') == "DepartureDateTime") {
             if ($(input).val().trim() == ''){
                 return false;
@@ -62,7 +83,7 @@
             if (!$.isNumeric($(input).val())) {
                 return false;
             }
-            if ($(input).val() > 5000) {
+            if ($(input).val() > 5000 || $(input).val() < 0) {
                 return false;
             }
         }
@@ -70,7 +91,7 @@
             if (!$.isNumeric($(input).val())) {
                 return false;
             }
-            if ($(input).val() > 10000) {
+            if ($(input).val() > 10000 || $(input).val() < 0) {
                 return false;
             }
         }
